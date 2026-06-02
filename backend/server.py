@@ -97,7 +97,14 @@ async def completed_level_ids(did: str, done: Optional[set] = None) -> set:
     return out
 
 
+UNLOCK_ALL = os.environ.get("UNLOCK_ALL", "false").strip().lower() in ("1", "true", "yes")
+
+
 def is_unlocked(level_id: str, completed_levels: set) -> bool:
+    # TEST MODE: when UNLOCK_ALL is set, everything is open for full-access QA.
+    # On deploy, set UNLOCK_ALL=false to restore per-world progressive unlock.
+    if UNLOCK_ALL:
+        return True
     # Every world's first level is open; later levels unlock when the previous
     # level in the SAME world is completed. Worlds are freely explorable.
     if level_id in engine.first_in_world:
