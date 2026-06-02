@@ -1,0 +1,134 @@
+{
+  "theme": "dark",
+  "archetype": "Archetype 4 (Swiss & High-Contrast) + Archetype 5 (Luxury) for a Clean Minimal Arcane-Tech blend",
+  "design_philosophy": "ADHD-friendly, calm focus, low clutter, high contrast. One clear focal action per screen. Futuristic RPG meets minimalist IDE. No shame-based feedback, small wins.",
+  "typography": {
+    "headings": {
+      "family": "'Outfit', sans-serif",
+      "description": "Clean, geometric, futuristic without being cheesy. High legibility."
+    },
+    "body": {
+      "family": "'IBM Plex Sans', sans-serif",
+      "description": "Tech-leaning, highly legible, calm."
+    },
+    "mono": {
+      "family": "'JetBrains Mono', monospace",
+      "description": "For AI lab console, JSON output, and debugging puzzles."
+    },
+    "display": {
+      "family": "'Unbounded', sans-serif",
+      "description": "Used sparingly for Boss Battles and Level Up screens for that arcane-tech punch."
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl tracking-tight leading-none",
+      "h2": "text-2xl sm:text-3xl tracking-tight",
+      "h3": "text-xl sm:text-2xl",
+      "body": "text-base sm:text-lg leading-relaxed",
+      "small": "text-sm uppercase tracking-[0.2em]"
+    }
+  },
+  "colors": {
+    "css_variables": {
+      "--bg-base": "#0A0A0C",
+      "--bg-surface": "#121316",
+      "--bg-elevated": "#1A1C23",
+      "--text-primary": "#F8FAFC",
+      "--text-secondary": "#94A3B8",
+      "--text-muted": "#64748B",
+      "--accent-arcane": "#F59E0B",
+      "--accent-plasma": "#2EC4B6",
+      "--border-subtle": "rgba(255, 255, 255, 0.08)",
+      "--border-focus": "rgba(245, 158, 11, 0.4)",
+      "--success": "#10B981",
+      "--error": "#EF4444"
+    },
+    "usage": {
+      "backgrounds": "Use --bg-base for main app background, --bg-surface for cards. Avoid pure black.",
+      "text": "Never use pure white. Use --text-primary for headings, --text-secondary for body.",
+      "accents": "Use --accent-arcane (Amber) for primary actions (Play, Next, Run Agent). Use --accent-plasma (Cyan) for secondary tech indicators (Memory, Tools)."
+    }
+  },
+  "layout_and_spacing": {
+    "mobile_first": true,
+    "bottom_nav": {
+      "height": "h-20",
+      "padding_bottom": "pb-safe or pb-6",
+      "style": "fixed bottom-0 w-full backdrop-blur-xl bg-[#0A0A0C]/80 border-t border-white/10 z-50",
+      "items": 5
+    },
+    "spacing_scale": {
+      "container_padding": "p-4 sm:p-6",
+      "section_gap": "gap-8 sm:gap-12",
+      "element_gap": "gap-4 sm:gap-6"
+    },
+    "safe_zones": {
+      "main_content": "pt-4 pb-28",
+      "header": "pt-safe"
+    }
+  },
+  "depth_and_visuals": {
+    "glassmorphism": "Use backdrop-blur-xl with bg-white/5 for overlays, modals, and sticky headers. Must include 1px border-white/10.",
+    "grain_texture": "Apply a subtle SVG noise filter (opacity 15-20%) over the main background to reduce digital harshness.",
+    "glows": "Use sparingly. Drop-shadow with accent color only on active buttons or current level node (e.g., drop-shadow-[0_0_12px_rgba(245,158,11,0.4)]).",
+    "borders": "1px solid border-white/5 or border-white/10 for cards. No heavy borders."
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#F59E0B] text-[#0A0A0C] font-semibold rounded-lg py-4 px-6 active:scale-95 transition-transform shadow-[0_0_15px_rgba(245,158,11,0.2)]",
+      "secondary": "bg-transparent border border-white/20 text-white rounded-lg py-4 px-6 active:bg-white/5",
+      "touch_target": "min-h-[48px] min-w-[48px]"
+    },
+    "cards": {
+      "mission_card": "bg-[#121316] border border-white/10 rounded-xl p-6 flex flex-col gap-4 relative overflow-hidden",
+      "flip_card": "relative w-full h-64 perspective-1000 (implement via framer-motion 3D flip)",
+      "lab_console": "bg-black rounded-lg border border-[#2EC4B6]/20 p-4 font-mono text-sm overflow-auto text-slate-300"
+    },
+    "campaign_map": {
+      "style": "Vertical scrolling list or grid of nodes connected by glowing SVG lines.",
+      "node_locked": "w-16 h-16 rounded-full border-2 border-white/10 bg-[#121316] flex items-center justify-center opacity-50",
+      "node_active": "w-20 h-20 rounded-full border-2 border-[#F59E0B] bg-[#1A1C23] flex items-center justify-center shadow-[0_0_20px_rgba(245,158,11,0.4)] relative",
+      "node_completed": "w-16 h-16 rounded-full border-2 border-[#2EC4B6] bg-[#121316] flex items-center justify-center"
+    },
+    "skill_tree": {
+      "style": "Bento grid layout for branches. Hexagonal or diamond-shaped nodes for tech/arcane feel.",
+      "progress_rings": "SVG circular progress indicators with stroke-[#2EC4B6] for tech skills, stroke-[#F59E0B] for arcane/prompting skills."
+    },
+    "hud_elements": {
+      "xp_bar": "h-2 w-full bg-white/10 rounded-full overflow-hidden. Inner bar: bg-gradient-to-r from-[#F59E0B] to-yellow-300",
+      "streak_badge": "Flex row, flame icon (amber), bold text, subtle bg-[#F59E0B]/10 rounded-full px-3 py-1"
+    }
+  },
+  "motion": {
+    "default": {
+      "page_transition": "framer-motion opacity-0 y-4 to opacity-100 y-0 duration-300 ease-out",
+      "list_stagger": "staggerChildren: 0.1",
+      "micro_interactions": "scale down to 0.95 on tap for buttons and cards"
+    },
+    "reduced_motion": {
+      "page_transition": "opacity only, no y-axis translation",
+      "micro_interactions": "disable scaling, use background color change for active state"
+    }
+  },
+  "accessibility": {
+    "adhd_focus": "One primary CTA per screen. Dim out or blur background elements when a task is active. Use 'Focus Mode' (hides nav and XP bar during lab sessions).",
+    "contrast": "Ensure all text passes WCAG AA against dark backgrounds. Avoid gray-on-gray for essential info.",
+    "testing": "All interactive elements MUST include data-testid attribute (e.g., data-testid='start-mission-btn')."
+  },
+  "media": {
+    "backgrounds": {
+      "campaign_map": {
+        "url": "https://images.pexels.com/photos/14757507/pexels-photo-14757507.jpeg",
+        "description": "Minimalist starry night map for the campaign background. Dark overlay required (bg-black/80)."
+      },
+      "boss_battle": {
+        "url": "https://images.pexels.com/photos/12920871/pexels-photo-12920871.jpeg",
+        "description": "Dark geometric polyhedron for the boss arena background. Use with heavy vignette."
+      },
+      "lab_texture": {
+        "url": "https://images.pexels.com/photos/28586307/pexels-photo-28586307.jpeg",
+        "description": "Abstract dark geometry for the AI Engineering Lab backdrop. Keep opacity at 10%."
+      }
+    },
+    "icons_strategy": "Use Phosphor Icons (Duotone) or Lucide-React. Keep stroke width consistent."
+  }
+}
