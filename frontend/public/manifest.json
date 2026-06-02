@@ -1,0 +1,16 @@
+{
+  "short_name": "AgentForge",
+  "name": "AgentForge Quest",
+  "description": "Learn AI engineering by playing. ADHD-friendly missions, labs and boss battles.",
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any maskable" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any maskable" }
+  ],
+  "id": "/",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0A0A0C",
+  "background_color": "#0A0A0C"
+}
