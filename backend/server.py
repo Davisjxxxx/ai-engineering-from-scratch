@@ -98,7 +98,11 @@ async def completed_level_ids(did: str, done: Optional[set] = None) -> set:
 
 
 def is_unlocked(level_id: str, completed_levels: set) -> bool:
-    prev = engine.prev_level_id(level_id)
+    # Every world's first level is open; later levels unlock when the previous
+    # level in the SAME world is completed. Worlds are freely explorable.
+    if level_id in engine.first_in_world:
+        return True
+    prev = engine.prev_in_world.get(level_id)
     return prev is None or prev in completed_levels
 
 

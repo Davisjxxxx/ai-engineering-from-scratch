@@ -50,12 +50,22 @@ class ContentEngine:
         self.levels_by_id: Dict[str, dict] = {}
         self.level_order: List[str] = []  # global progression order
         self.world_term_pool: Dict[int, List[dict]] = {}
+        # Per-world progression: first level of each world is always open;
+        # later levels unlock when the previous level IN THE SAME WORLD is done.
+        self.first_in_world: set = set()
+        self.prev_in_world: Dict[str, Optional[str]] = {}
         for w in self.worlds:
             pool = []
-            for lv in w["levels"]:
+            ordered = sorted(w["levels"], key=lambda x: x["order"])
+            for i, lv in enumerate(ordered):
                 self.levels_by_id[lv["id"]] = lv
                 self.level_order.append(lv["id"])
                 pool.extend(lv.get("key_terms", []))
+                if i == 0:
+                    self.first_in_world.add(lv["id"])
+                    self.prev_in_world[lv["id"]] = None
+                else:
+                    self.prev_in_world[lv["id"]] = ordered[i - 1]["id"]
             self.world_term_pool[w["id"]] = pool
 
     # ---------- campaign ----------
