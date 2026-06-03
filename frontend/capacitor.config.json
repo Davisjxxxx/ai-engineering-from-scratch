@@ -1,0 +1,13 @@
+{
+  "appId": "com.agentforge.quest",
+  "appName": "AgentForge Quest",
+  "webDir": "build",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
