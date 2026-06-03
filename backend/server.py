@@ -12,6 +12,7 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from challenges import (BADGES, BADGE_MAP, CHALLENGES, LAB_SCENARIOS,
@@ -25,11 +26,27 @@ from models import (AgentBuildPayload, BrainDumpCreate, ChallengeAttempt,
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-client = AsyncIOMotorClient(os.environ["MONGO_URL"])
-db = client[os.environ["DB_NAME"]]
+client = None
+db = None
+
+
+def _init_db():
+    global client, db
+    if client is not None:
+        return
+    mongo_url = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+    db_name = os.environ.get("DB_NAME", "agentforge")
+    client = AsyncIOMotorClient(mongo_url)
+    db = client[db_name]
+
 
 app = FastAPI(title="AgentForge Quest API")
 api = app  # routes use /api prefix explicitly
+
+
+@app.on_event("startup")
+async def _startup_db():
+    _init_db()
 
 app.add_middleware(
     CORSMiddleware,
@@ -827,3 +844,18 @@ async def startup():
     await db.mission_progress.create_index([("device_id", 1), ("mission_id", 1)], unique=True)
     await db.review_state.create_index([("device_id", 1), ("card_id", 1)], unique=True)
     await db.profiles.create_index("device_id", unique=True)
+
+
+# Serve the React SPA from the static/ directory (populated by Docker build).
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    """Serve static files; fall back to index.html for SPA client-side routing."""
+    if not STATIC_DIR.exists():
+        raise HTTPException(status_code=404, detail="Frontend not built")
+    file_path = STATIC_DIR / full_path
+    if file_path.is_file():
+        return FileResponse(file_path)
+    return FileResponse(STATIC_DIR / "index.html")
