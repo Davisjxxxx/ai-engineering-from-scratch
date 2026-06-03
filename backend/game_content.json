@@ -2373,19 +2373,19 @@
               "term": "Vector",
               "myth": "An arrow",
               "reality": "A list of numbers representing a point or direction in n-dimensional space",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "An arrow with a length and a direction. Your position on a map is a vector: \"3 miles east, 4 miles north\" = the arrow (3,4). In ML, a data point with 100 features is a vector in 100-dimensional space — same idea, more coordinates.",
               "scenario": "You're building an AI system and Vector keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "A list of numbers representing a point or direction in n-dimensional space",
+              "example": "The word \"king\" as a vector: [0.8, 0.3, -0.1, ...]. The word \"queen\" as a vector: [0.7, 0.4, -0.1, ...]. \"king - man + woman ≈ queen\" works because these are arrows pointing in specific directions in meaning-space.",
               "why_matters": "Understanding Vector is essential for Every AI model is just matrix math wearing a fancy hat..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "Draw a 2D grid. Plot the vector (3,4). Measure its length (should be 5 — 3-4-5 triangle!). Now plot (6,8). Notice it points the same direction, just twice as long."
             },
             {
               "term": "Matrix",
               "myth": "A table of numbers",
               "reality": "A transformation that maps vectors from one space to another",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A grid of numbers that transforms vectors. Like a factory machine: feed in raw material (input vector), turn the crank (multiply by matrix), get finished product (output vector). Every layer of a neural network is a matrix multiplication.",
               "scenario": "You're building an AI system and Matrix keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "A transformation that maps vectors from one space to another",
               "why_matters": "Understanding Matrix is essential for Every AI model is just matrix math wearing a fancy hat..",
@@ -3135,19 +3135,19 @@
               "term": "Derivative",
               "myth": "The slope",
               "reality": "The rate of change of a function at a point. Tells you how much the output changes per unit change in input.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for any function. Your position changes at a certain speed — that's the derivative of position. The loss function changes at a certain rate when you tweak a weight — that's the gradient. Speedometers everywhere, telling you which way and how fast things change.",
               "scenario": "You're building an AI system and Derivative keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "The rate of change of a function at a point. Tells you how much the output changes per unit change in input.",
+              "example": "f(x) = x². At x=3, derivative = 6. This means if you nudge x by 0.001, f(x) changes by about 0.006. In ML: loss = f(weight). Gradient tells you how much loss changes per weight change — so you know which direction reduces loss.",
               "why_matters": "Understanding Derivative is essential for Derivatives tell you which way is downhill. That is all a neural network needs to learn..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "Calculate the derivative of f(x)=3x² at x=2. Answer: 12. If you increase x by 0.1, f(x) increases by about 1.2."
             },
             {
               "term": "Partial derivative",
               "myth": "Derivative of one variable",
               "reality": "The derivative with respect to one variable while all others are held constant.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Partial derivative keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "The derivative with respect to one variable while all others are held constant.",
               "why_matters": "Understanding Partial derivative is essential for Derivatives tell you which way is downhill. That is all a neural network needs to learn..",
@@ -3159,7 +3159,7 @@
               "term": "Gradient",
               "myth": "Direction of steepest ascent",
               "reality": "A vector of all partial derivatives. Points in the direction that increases the function fastest.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Gradient keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "A vector of all partial derivatives. Points in the direction that increases the function fastest.",
               "why_matters": "Understanding Gradient is essential for Derivatives tell you which way is downhill. That is all a neural network needs to learn..",
@@ -3171,7 +3171,7 @@
               "term": "Gradient descent",
               "myth": "Go downhill",
               "reality": "Subtract the gradient (times a learning rate) from the parameters to reduce the loss. The core of neural network training.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Gradient descent keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "Subtract the gradient (times a learning rate) from the parameters to reduce the loss. The core of neural network training.",
               "why_matters": "Understanding Gradient descent is essential for Derivatives tell you which way is downhill. That is all a neural network needs to learn..",
@@ -3219,7 +3219,7 @@
               "term": "Numerical derivative",
               "myth": "Finite differences",
               "reality": "Approximating a derivative by evaluating the function at two nearby points and computing the slope between them.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Numerical derivative keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "Approximating a derivative by evaluating the function at two nearby points and computing the slope between them.",
               "why_matters": "Understanding Numerical derivative is essential for Derivatives tell you which way is downhill. That is all a neural network needs to learn..",
@@ -3422,13 +3422,13 @@
               "term": "Chain rule",
               "myth": "Multiply the derivatives",
               "reality": "The derivative of composed functions equals the product of each function's local derivative, evaluated at the right point",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A domino chain of speedometers. If A affects B, and B affects C, the chain rule tells you how A affects C through B. Like: your foot on gas pedal → engine RPM → car speed. The chain rule connects the speedometers: d(speed)/d(pedal) = d(speed)/d(RPM) × d(RPM)/d(pedal).",
               "scenario": "You're building an AI system and Chain rule keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "The derivative of composed functions equals the product of each function's local derivative, evaluated at the right point",
+              "example": "Neural net: input → hidden → output → loss. To know how changing a hidden weight affects loss: chain rule connects d(loss)/d(weight) = d(loss)/d(output) × d(output)/d(hidden) × d(hidden)/d(weight). Autodiff automates this for millions of weights.",
               "why_matters": "Understanding Chain rule is essential for The chain rule is the engine behind every neural network that learns..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "If A=2x, B=3A, C=B², find dC/dx at x=1. Chain: dC/dx = dC/dB × dB/dA × dA/dx = 2B × 3 × 2. At x=1: A=2, B=6, so dC/dx = 72."
             },
             {
               "term": "Computational graph",
@@ -3506,7 +3506,7 @@
               "term": "Gradient accumulation",
               "myth": "Add, don't replace",
               "reality": "When a value feeds into multiple operations, its gradient is the sum of all incoming gradient contributions",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Gradient accumulation keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "When a value feeds into multiple operations, its gradient is the sum of all incoming gradient contributions",
               "why_matters": "Understanding Gradient accumulation is essential for The chain rule is the engine behind every neural network that learns..",
@@ -3530,7 +3530,7 @@
               "term": "Gradient checking",
               "myth": "Numerical verification",
               "reality": "Comparing autodiff gradients against numerical finite-difference gradients to verify correctness. Essential for debugging.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A speedometer for change. Your car's speed tells you how fast your position changes. The gradient tells you how fast the loss changes when you tweak a weight — it points uphill, so you move the opposite way to minimize loss.",
               "scenario": "You're building an AI system and Gradient checking keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "Comparing autodiff gradients against numerical finite-difference gradients to verify correctness. Essential for debugging.",
               "why_matters": "Understanding Gradient checking is essential for The chain rule is the engine behind every neural network that learns..",
@@ -3745,7 +3745,7 @@
               "term": "Conditional probability",
               "myth": "Probability given something",
               "reality": "P(A\\",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Conditional probability keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "P(A\\",
               "why_matters": "Understanding Conditional probability is essential for Probability is the language AI uses to express uncertainty..",
@@ -3793,7 +3793,7 @@
               "term": "Normal distribution",
               "myth": "The bell curve",
               "reality": "f(x) = (1/sqrt(2pisigma^2))  exp(-(x-mu)^2/(2sigma^2)). Appears everywhere due to the CLT",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Normal distribution keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "f(x) = (1/sqrt(2pisigma^2))  exp(-(x-mu)^2/(2sigma^2)). Appears everywhere due to the CLT",
               "why_matters": "Understanding Normal distribution is essential for Probability is the language AI uses to express uncertainty..",
@@ -3817,7 +3817,7 @@
               "term": "Joint distribution",
               "myth": "Two variables together",
               "reality": "P(X, Y) describes the probability of every combination of X and Y outcomes",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Joint distribution keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "P(X, Y) describes the probability of every combination of X and Y outcomes",
               "why_matters": "Understanding Joint distribution is essential for Probability is the language AI uses to express uncertainty..",
@@ -3829,7 +3829,7 @@
               "term": "Marginal distribution",
               "myth": "Sum out the other variable",
               "reality": "P(X) = sum_y P(X, Y). Recovers one variable's distribution from the joint",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Marginal distribution keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "P(X) = sum_y P(X, Y). Recovers one variable's distribution from the joint",
               "why_matters": "Understanding Marginal distribution is essential for Probability is the language AI uses to express uncertainty..",
@@ -3841,7 +3841,7 @@
               "term": "Log probability",
               "myth": "Log of the probability",
               "reality": "log P(x). Turns products into sums, preventing numerical underflow in long sequences",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Log probability keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "log P(x). Turns products into sums, preventing numerical underflow in long sequences",
               "why_matters": "Understanding Log probability is essential for Probability is the language AI uses to express uncertainty..",
@@ -4140,7 +4140,7 @@
               "term": "Log-probability",
               "myth": "Work in log space",
               "reality": "Using log(P) instead of P to avoid floating-point underflow when multiplying many small numbers.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Log-probability keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "Using log(P) instead of P to avoid floating-point underflow when multiplying many small numbers.",
               "why_matters": "Understanding Log-probability is essential for Probability is about what you expect. Bayes' theorem is about what you learn..",
@@ -4307,13 +4307,13 @@
               "term": "Gradient descent",
               "myth": "Go downhill",
               "reality": "Update weights by subtracting the gradient scaled by the learning rate. The most basic optimizer.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "Finding the bottom of a valley in thick fog. You can't see the bottom, but you can feel the ground slope under your feet. Take a step downhill, re-check the slope, repeat. Step size (learning rate) matters: too big and you jump over the valley, too small and you take forever.",
               "scenario": "You're building an AI system and Gradient descent keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "Update weights by subtracting the gradient scaled by the learning rate. The most basic optimizer.",
+              "example": "Loss function J(w) = (w-3)². Start at w=0. Gradient = 2(w-3) = -6. Update: w = 0 - 0.1×(-6) = 0.6. Repeat: gradient at 0.6 = -4.8, w = 0.6 + 0.48 = 1.08. After ~30 steps, w ≈ 3 (the minimum). This is gradient descent on the simplest possible function.",
               "why_matters": "Understanding Gradient descent is essential for Training a neural network is nothing more than finding the bottom of a valley..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "Start at w=10, learning rate 0.5. Run 3 steps of gradient descent on J(w)=(w-2)². Where do you end up? (You should be very close to w=2.)"
             },
             {
               "term": "Learning rate",
@@ -4427,7 +4427,7 @@
               "term": "Loss landscape",
               "myth": "The terrain",
               "reality": "The loss function plotted over weight space. Visualized by slicing along two random directions.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A scorekeeper that tells you how wrong your model is. Lower score = better model. Like golf: par is the target, every stroke over par is loss. Gradient descent tries to minimize your strokes by adjusting your swing (weights).",
               "scenario": "You're building an AI system and Loss landscape keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "The loss function plotted over weight space. Visualized by slicing along two random directions.",
               "why_matters": "Understanding Loss landscape is essential for Training a neural network is nothing more than finding the bottom of a valley..",
@@ -4606,13 +4606,13 @@
               "term": "Entropy",
               "myth": "Randomness",
               "reality": "The average surprise across all outcomes of a distribution. Measures irreducible uncertainty.",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A measure of surprise. A fair coin flip has 1 bit of entropy — you're maximally uncertain. A double-headed coin has 0 bits — no surprise at all. In ML, cross-entropy measures how surprised your model is by the true answer. Lower cross-entropy = less surprised = better model.",
               "scenario": "You're building an AI system and Entropy keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "The average surprise across all outcomes of a distribution. Measures irreducible uncertainty.",
+              "example": "True distribution: [1.0, 0.0] (definitely a cat). Model A predicts [0.9, 0.1] — cross-entropy = -log(0.9) ≈ 0.105 (not very surprised). Model B predicts [0.3, 0.7] — cross-entropy = -log(0.3) ≈ 1.204 (very surprised!). Model A wins.",
               "why_matters": "Understanding Entropy is essential for Information theory measures surprise. Loss functions are built on it..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "You're 100% sure of an outcome and you're right. Cross-entropy = -log(1.0) = 0. You're 100% sure and wrong. Cross-entropy = -log(0.0) = infinity. That's why models should never output 0.0 or 1.0 — infinite penalty for being confidently wrong!"
             },
             {
               "term": "Cross-entropy",
@@ -6326,19 +6326,31 @@
           "key_terms": [
             {
               "term": "Statistical significance",
-              "reality": "A measure of whether an observed difference is likely real or just random noise. In ML, it tells you whether Model A's 1% accuracy improvement over Model B is meaningful or just luck.",
-              "myth": "If Model A beats Model B on one test run, it's better.",
-              "analogy": "Flipping a coin 10 times and getting 7 heads doesn't mean the coin is biased. Run 1000 trials and if you still get 700 heads, that's significant. One ML eval run is like 10 coin flips — not enough data.",
-              "scenario": "You run two models. Model A scores 85.2%, Model B scores 84.9%. Is A definitely better?",
-              "common_trap": "Trusting single-run results. Always run multiple seeds and check variance before claiming one model is better."
+              "reality": "A measure of whether an observed difference is likely real or just random noise. In ML, it tells you whether Model A's 1% accuracy improvement over Model B is meaningful — or just luck from one random seed.",
+              "myth": "If Model A beats Model B on one test run, A is definitely better.",
+              "analogy": "Flipping a coin 10 times and getting 7 heads doesn't prove the coin is rigged. Run 1000 trials, and if you get 700 heads, that's significant. One ML eval run is like 10 coin flips — not enough data to conclude anything.",
+              "scenario": "You train Model A and Model B. A scores 85.2%, B scores 84.9%. Your boss asks 'Is A better?' What do you need before you can answer?",
+              "example": "Run each model with 5 different random seeds. Model A: 85.2 ± 1.1%. Model B: 84.9 ± 1.3%. The error bars overlap heavily — the difference is NOT statistically significant. Don't ship A yet.",
+              "why_matters": "Without significance testing, you'll chase noise. Every 0.3% 'improvement' looks real until you check variance. Statistical significance is the BS detector of ML.",
+              "common_trap": "Reporting single-run accuracy numbers as if they're exact facts. Always report mean ± std over multiple seeds."
             },
             {
               "term": "Confidence interval",
-              "reality": "A range around a measurement that likely contains the true value. 'Accuracy: 85% ± 2%' means the true accuracy is probably between 83% and 87%.",
-              "myth": "The model's accuracy is exactly 85% — that's the number, end of story.",
-              "analogy": "Weather forecasts say '70°F ± 3°'. The true temperature is probably between 67 and 73. ML metrics are the same — they're estimates with uncertainty, not exact facts.",
-              "scenario": "Your boss asks 'Is the new model better?' The old model scored 82% ± 3%. The new model scored 84% ± 3%. The intervals overlap. Is the new model definitely better?",
-              "common_trap": "Reporting single accuracy numbers without confidence intervals. Without them, you can't tell if improvements are real or noise."
+              "reality": "A range around a measurement that likely contains the true value. 'Accuracy: 85% ± 2% (95% CI)' means if you repeated the experiment 100 times, the true accuracy would fall in [83%, 87%] about 95 times.",
+              "myth": "The model's accuracy is exactly 85.0% — that's the number, end of story.",
+              "analogy": "Weather forecast: 'High of 72°F ± 3°'. It won't be exactly 72 — it'll be somewhere around 69-75. ML metrics are weather forecasts, not thermometers. They're estimates with uncertainty.",
+              "scenario": "Your A/B test shows Model B has +1.5% accuracy over Model A, with a 95% CI of ±2.0%. Should you ship B?",
+              "example": "Old model: 82% ± 3%. New model: 84% ± 3%. The intervals [79-85] and [81-87] overlap heavily. The 2% difference could easily be noise. Collect more data or accept that there's no proven improvement.",
+              "common_trap": "Comparing models by their point estimates without looking at confidence intervals. Overlapping CIs = not a proven difference."
+            },
+            {
+              "term": "P-value",
+              "reality": "The probability of seeing a result at least this extreme if nothing was actually happening (the null hypothesis is true). A p-value of 0.03 means there's a 3% chance you'd see this difference from pure noise. p < 0.05 is the common threshold for 'statistically significant.'",
+              "myth": "p < 0.05 means the result is definitely real and important.",
+              "analogy": "A smoke alarm. If it goes off, there might be a fire (real effect) or you might have burnt toast (false positive). The p-value is the alarm's sensitivity setting. p < 0.05 means 'the alarm goes off if there's even a 5% chance of burnt toast.' Lower p-values mean fewer false alarms.",
+              "scenario": "You run 20 A/B tests on different model variants. One shows p = 0.04 — 'significant!' Should you celebrate?",
+              "example": "If you flip a fair coin 20 times, you have about a 64% chance of getting at least one run of 5 heads in a row somewhere. That's p-hacking: run enough tests and something will appear 'significant' by pure chance. Correct for multiple comparisons (Bonferroni: divide threshold by number of tests).",
+              "common_trap": "p-hacking: running many tests and only reporting the one with p < 0.05. Always correct for multiple comparisons, or better, pre-register your hypothesis."
             }
           ],
           "source_path": "phases/01-math-foundations/15-statistics-for-ml/docs/en.md",
@@ -7131,19 +7143,30 @@
           "key_terms": [
             {
               "term": "Convex function",
-              "reality": "A function shaped like a bowl — it has exactly one minimum, no local traps. Gradient descent is guaranteed to find the global minimum on a convex function. Non-convex functions (like neural network loss landscapes) have many local minima.",
-              "myth": "All optimization problems in ML are convex — gradient descent always finds the best solution.",
-              "analogy": "A convex function is a smooth bowl — roll a marble from anywhere and it ends up at the bottom. A non-convex function is a mountain range — the marble might get stuck in a valley that isn't the lowest point.",
-              "scenario": "You're optimizing a linear regression model. No matter what initial weights you start with, gradient descent always converges to the same solution. Why?",
-              "common_trap": "Assuming neural network loss landscapes are convex. They're not — that's why initialization, learning rate schedules, and optimizers like Adam matter so much."
+              "reality": "A function shaped like a bowl — exactly one minimum, no local traps. Gradient descent on a convex function always finds the global minimum. Real neural network loss functions are non-convex (mountain ranges with many valleys), which is why optimization is hard.",
+              "myth": "All optimization in ML is straightforward — gradient descent always finds the best solution.",
+              "analogy": "A convex function is a smooth salad bowl. Drop a marble anywhere — it always rolls to the exact bottom. A non-convex function (neural network loss) is a mountain range. The marble might stop in a shallow valley that's nowhere near the lowest point on the mountain.",
+              "scenario": "You're optimizing linear regression and gradient descent converges to the same solution from any starting point. Your neural network converges to different solutions depending on the random initial weights. Why the difference?",
+              "example": "Linear regression loss = convex (one global min). Neural network loss = wildly non-convex (many local minima, saddle points, flat plateaus). That's why initialization matters, learning rate schedules exist, and Adam is different from SGD.",
+              "common_trap": "Assuming neural network loss landscapes are bowl-shaped. They're closer to Swiss cheese — full of holes, ridges, and flat spots. Optimizers like Adam add momentum to roll through flat spots and saddle points."
             },
             {
               "term": "Gradient descent",
-              "reality": "An iterative algorithm that adjusts parameters in the direction of steepest descent to minimize a loss function. Like walking downhill blindfolded — you feel which way is down and take small steps.",
-              "myth": "Gradient descent always finds the best solution.",
-              "analogy": "You're on a mountain in fog. You can't see the bottom, but you can feel which way is downhill. You take small steps in that direction. Eventually you reach a low point — but is it the lowest? On a convex mountain, yes. On a real mountain (neural network), maybe not.",
-              "scenario": "Your neural network loss plateaus at 0.5 and won't go lower. The gradients are near zero. You're not at the global minimum — you're stuck. What's likely happening?",
-              "common_trap": "Using a learning rate that's too high (overshoots) or too low (gets stuck). Learning rate is the most important hyperparameter to tune."
+              "reality": "An algorithm that adjusts parameters in the direction of steepest descent to minimize loss. Like walking downhill blindfolded — you feel which way is down with your foot and take a step. Repeat until you reach a low point.",
+              "myth": "Gradient descent always finds the absolute best solution — the global minimum.",
+              "analogy": "You're dropped on a mountain in thick fog. You can't see the bottom, but you can feel the slope under your feet. You take small steps downhill. On a simple bowl-shaped mountain (convex), you reach the bottom. On a real mountain range (neural network), you might end up in a small dip halfway up, convinced you've reached the bottom because the ground feels flat locally.",
+              "scenario": "Your training loss drops fast for 10 epochs, then barely moves for 50 epochs. The gradients are close to zero. Are you at the global minimum, or stuck?",
+              "example": "Plateau: loss = 0.5, gradients ≈ 0.0001. You're not at the minimum (loss should be 0.1), you're on a flat spot. Solution: increase learning rate, switch to Adam (adaptive per-parameter rates), or add learning rate warmup.",
+              "common_trap": "Using a learning rate that's too high (bounces around the minimum, never converges) or too low (crawls and gets stuck on plateaus). Learning rate is the single most important hyperparameter."
+            },
+            {
+              "term": "Saddle point",
+              "reality": "A point where the gradient is zero but it's not a minimum — it's a minimum in some directions and a maximum in others. Neural network loss landscapes have exponentially many saddle points. They're a bigger problem than local minima in high dimensions.",
+              "myth": "The main problem in deep learning optimization is getting stuck in bad local minima.",
+              "analogy": "A mountain pass between two peaks. From the pass, you go DOWN into the valley on one side and UP to the peak on the other. At the exact pass, the ground is flat — but you're not at the bottom of anything. Gradient descent gets stuck here because 'flat ground' feels like 'arrived.'",
+              "scenario": "Your training loss stops decreasing and the gradients are exactly zero. You check: it's not a minimum (loss is still high). What kind of point are you stuck at?",
+              "example": "In a 1000-dimensional network, saddle points outnumber true minima by an enormous margin. SGD with momentum helps escape saddle points because momentum carries you through flat spots instead of stopping.",
+              "common_trap": "Assuming zero gradient = reached the minimum. In high dimensions, zero gradient usually means a saddle point. Add momentum or switch to Adam to push through."
             }
           ],
           "source_path": "phases/01-math-foundations/18-convex-optimization/docs/en.md",
@@ -7254,19 +7277,30 @@
           "key_terms": [
             {
               "term": "Complex number",
-              "reality": "A number with a real part and an imaginary part (a + bi). Essential for signal processing, quantum computing, and some neural network operations like Fourier features.",
-              "myth": "Complex numbers are just abstract math with no practical use in ML.",
-              "analogy": "A coordinate on a 2D plane instead of a 1D line. Real numbers live on a number line. Complex numbers live on a plane — they capture both magnitude AND phase (rotation), which makes them perfect for representing waves, frequencies, and rotations.",
-              "scenario": "You're working with audio data (speech recognition). The raw waveform is hard to analyze, but converting it to frequency domain using Fourier transform (which uses complex numbers) reveals clear patterns. Why?",
-              "common_trap": "Ignoring complex numbers because they seem abstract. They're the foundation of signal processing, which powers speech recognition, music generation, and image compression."
+              "reality": "A number with two parts: real (a) and imaginary (bi, where i² = -1). Written as a + bi. They live on a 2D plane, not a 1D line — which makes them perfect for representing rotation, waves, and frequencies.",
+              "myth": "Complex numbers are abstract math with zero practical use in ML.",
+              "analogy": "Real numbers are a 1D line — you can only go left or right. Complex numbers are a 2D map — you can go in any direction. Want to represent a rotating wheel? A real number only tells you the angle. A complex number tells you both angle AND speed of rotation in one compact value.",
+              "scenario": "You're processing audio for speech recognition. The raw waveform is a squiggly line. Converting to frequency domain reveals distinct patterns for each phoneme. What mathematical tool does this conversion?",
+              "example": "Audio signal at 440Hz (concert A): in time domain = wavy squiggle. In frequency domain (via Fourier transform using complex numbers) = single spike at 440Hz. That spike is a complex number encoding both amplitude (loudness) and phase (timing).",
+              "common_trap": "Skipping complex numbers because they 'look scary.' They're the foundation of signal processing (audio, images, radar) and show up in quantum ML and some positional encodings."
             },
             {
               "term": "Fourier Transform",
-              "reality": "Converts a signal from time domain to frequency domain — revealing the frequencies that make up the signal. Essential for audio processing, image compression, and some neural network architectures (FNet).",
-              "myth": "Fourier transforms are just theoretical math — deep learning doesn't need them.",
-              "analogy": "Like separating a smoothie back into its ingredients. The time domain is the blended smoothie. The frequency domain tells you 'this has strawberries at 200Hz, bananas at 100Hz, and ice at 50Hz.'",
-              "scenario": "You're building a speech recognition model. Raw audio waveforms are messy. Applying a Fourier transform reveals clear frequency patterns that make phoneme recognition much easier. What did the transform do?",
-              "common_trap": "Ignoring frequency-domain features for audio/image tasks. CNNs on spectrograms (frequency representations) often outperform raw waveform models."
+              "reality": "A mathematical operation that splits a signal into its component frequencies. Like taking a smoothie and separating it back into strawberries, bananas, and ice — the transform tells you 'how much' of each frequency is present.",
+              "myth": "Fourier transforms are just theoretical — deep learning replaced them.",
+              "analogy": "A prism splitting white light into a rainbow. White light (the signal) looks uniform. The prism (Fourier transform) reveals it's actually a mix of red, orange, yellow, green, blue, violet in specific proportions. Each color is a frequency component.",
+              "scenario": "You're building a music genre classifier. Raw audio waveforms from rock and classical look equally messy. After a Fourier transform, rock shows strong bass (low frequencies) and cymbals (high frequencies); classical shows mid-range dominance. Now classification is easy. What did the transform do?",
+              "example": "FNet (Google, 2021) replaced self-attention with Fourier transforms and got competitive results 7x faster. The Fourier transform mixes token information globally without the O(n²) cost of attention.",
+              "common_trap": "Assuming deep learning makes signal processing obsolete. Spectrograms (Fourier + time) are the standard input for audio ML. Fourier features improve transformer position encoding."
+            },
+            {
+              "term": "Euler's formula",
+              "reality": "e^(iθ) = cos(θ) + i·sin(θ). This single equation connects exponential functions, trigonometry, and complex numbers. It's the reason we can represent rotation and oscillation compactly — used everywhere from signal processing to quantum computing.",
+              "myth": "It's just a beautiful formula with no practical use.",
+              "analogy": "A Swiss Army knife connecting three different toolkits. The exponential (e) handles growth and decay. Sine and cosine handle waves and cycles. i connects them all, letting you represent any rotation or oscillation with one clean expression instead of juggling sin() and cos() separately.",
+              "scenario": "You're implementing rotary position embeddings (RoPE) for a transformer. Instead of computing sin and cos separately for each position, the implementation uses e^(iθ) to encode position as a rotation. Why is this cleaner?",
+              "example": "RoPE (used in Llama, Mistral, Qwen) encodes token position as a rotation in complex space. e^(i·pos·freq) rotates the query/key vectors by an angle proportional to their position. This preserves relative position information naturally — no learned position embeddings needed.",
+              "common_trap": "Memorizing Euler's formula without understanding it represents rotation. e^(iθ) = a point on the unit circle at angle θ. e^(iπ) = halfway around = -1. That's all of it."
             }
           ],
           "source_path": "phases/01-math-foundations/19-complex-numbers/docs/en.md",
@@ -7388,28 +7422,31 @@
           ],
           "key_terms": [
             {
-              "term": "Power spectrum",
-              "myth": "\\",
-              "reality": "X[k]\\",
-              "analogy": "Like organizing a library — if every book is randomly shelved, you can't find anything. Data management puts everything where you expect it.",
-              "scenario": "You download 50GB of datasets into random folders. Two weeks later, you can't find the training data for last week's experiment. What should you have done?",
-              "example": "X[k]\\",
-              "why_matters": "Understanding Power spectrum is essential for Every signal is a sum of sine waves. The Fourier transform tells you which ones..",
-              "common_trap": "Downloading datasets to random locations with no naming convention. Create a `data/` folder with dated, described subdirectories.",
-              "when_to_use": "Before downloading any dataset. Structure first, download second.",
-              "mini_challenge": ""
+              "term": "Frequency domain",
+              "reality": "An alternative view of a signal showing which frequencies are present and how strong. The time domain shows 'what happens when.' The frequency domain shows 'what pitches are playing.' Fourier transform converts between them.",
+              "myth": "The time domain is the 'real' view of a signal — frequency is just a mathematical trick.",
+              "analogy": "A musical score vs a recording. The recording (time domain) shows the sound wave moving through time. The score (frequency domain) shows 'a C# quarter note at forte, then an E half note at piano.' Both describe the same music, but the score reveals structure the waveform hides.",
+              "scenario": "You're removing noise from an audio recording. The noise is a 60Hz electrical hum. In the time domain, it's tangled with the speech. In the frequency domain, it's a single spike you can surgically remove. How?",
+              "example": "Noise removal: take FFT → zero out the 60Hz spike → inverse FFT. Clean audio. This is how noise-cancelling headphones work, just in real time.",
+              "common_trap": "Working only in the time domain for audio tasks. Frequency-domain features (MFCCs, spectrograms) are the standard input for speech recognition, music analysis, and audio generation."
             },
             {
-              "term": "Parseval's theorem",
-              "myth": "Total energy is preserved through the Fourier transform. sum \\",
-              "reality": "x[n]\\",
-              "analogy": "Like organizing a library — if every book is randomly shelved, you can't find anything. Data management puts everything where you expect it.",
-              "scenario": "You download 50GB of datasets into random folders. Two weeks later, you can't find the training data for last week's experiment. What should you have done?",
-              "example": "x[n]\\",
-              "why_matters": "Understanding Parseval's theorem is essential for Every signal is a sum of sine waves. The Fourier transform tells you which ones..",
-              "common_trap": "Downloading datasets to random locations with no naming convention. Create a `data/` folder with dated, described subdirectories.",
-              "when_to_use": "Before downloading any dataset. Structure first, download second.",
-              "mini_challenge": ""
+              "term": "Spectrogram",
+              "reality": "A 2D plot of frequency content over time — the standard way to visualize audio. X-axis is time, Y-axis is frequency, color is intensity. It's what you feed into a CNN for audio classification. Think of it as a photograph of sound.",
+              "myth": "Just feed raw audio waveforms into a deep network — it'll figure out the features.",
+              "analogy": "A photograph of a waterfall. A single snapshot (FFT) shows where the water is at one instant. The spectrogram is a long-exposure photo showing how the water flows and changes over time. Speech, music, and environmental sounds all leave distinct visual patterns.",
+              "scenario": "You want to classify 10 seconds of audio as 'dog bark' vs 'car horn.' Raw waveform = 160,000 numbers that look like random squiggles. Spectrogram = a 128x400 image where barks have a distinct visual texture. Which input do you give a CNN?",
+              "example": "Whisper (OpenAI's speech recognition) converts audio → 80-channel log-Mel spectrogram → vision transformer. The model literally 'sees' sound as an image and transcribes it. This works vastly better than raw waveform input.",
+              "common_trap": "Feeding raw audio to a generic model without converting to a spectrogram first. Spectrograms are to audio what tokenized text is to NLP — the standard input representation."
+            },
+            {
+              "term": "Fast Fourier Transform (FFT)",
+              "reality": "An algorithm that computes the Fourier transform in O(n log n) time instead of O(n²). This speedup (from hours to milliseconds) made real-time signal processing possible — without it, digital audio, JPEG images, and speech recognition wouldn't exist.",
+              "myth": "The Fourier transform is too slow to be practical — that's why we don't use it in real systems.",
+              "analogy": "Counting every leaf in a forest: the naive way (DFT) counts each tree one by one, then each branch, then each leaf — O(n²). The FFT counts by recursively splitting the forest into quadrants, counting each quadrant once, then combining — O(n log n). For 1 million data points, that's 1,000,000² vs 20,000,000 operations — a 50,000x speedup.",
+              "scenario": "You're processing 10 seconds of 44.1kHz audio = 441,000 samples. DFT would need ~194 billion operations. FFT does it in ~8 million. That's the difference between 'impossible' and 'runs on your phone in real time.'",
+              "example": "Every JPEG image you've ever seen uses a variant of the FFT (the DCT — Discrete Cosine Transform) to compress images. Every MP3 uses FFT-based compression. Every speech recognition system uses FFT to compute spectrograms. It's arguably the most important algorithm you've never thought about.",
+              "common_trap": "Writing your own DFT from the formula without realizing FFT exists. Always use numpy.fft or torch.fft — they use highly optimized FFT implementations."
             }
           ],
           "source_path": "phases/01-math-foundations/20-fourier-transform/docs/en.md",
@@ -9219,21 +9256,31 @@
           ],
           "key_terms": [
             {
-              "term": "Support Vector Machine",
-              "reality": "A classifier that finds the optimal boundary (hyperplane) between classes by maximizing the margin — the distance from the boundary to the nearest points of each class. Works well on small, clean datasets.",
+              "term": "Support Vector Machine (SVM)",
+              "reality": "A classifier that finds the widest possible boundary between classes. It maximizes the margin — the distance from the decision boundary to the nearest points of each class. Those boundary-defining points are the 'support vectors.' Works brilliantly on small, clean datasets.",
               "myth": "SVMs are obsolete — deep learning replaced them everywhere.",
-              "analogy": "Drawing the widest possible road between two neighborhoods. The road (decision boundary) separates them, and the houses closest to the road (support vectors) define where the road goes. Adding more houses far from the road doesn't change anything.",
-              "scenario": "You have 500 labeled examples and need a classifier. A deep neural net overfits. An SVM with an RBF kernel gets 94% accuracy and trains in seconds. Why does SVM win here?",
-              "common_trap": "Using deep learning for small datasets where SVMs or random forests would be faster, simpler, and more accurate.",
-              "when_to_use": "Small to medium datasets (<10K examples), especially when interpretability matters."
+              "analogy": "You're separating red and blue marbles on a table. An SVM doesn't just draw any line — it finds the WIDEST possible stripe with no marbles inside it. The marbles touching the edges of the stripe are the 'support vectors' — they're the only ones that matter. Move any other marble and the boundary doesn't change.",
+              "scenario": "You have 500 labeled medical images and need a classifier. A ResNet overfits badly. An SVM with RBF kernel trains in 2 seconds, gets 94% accuracy, and the support vectors tell you exactly which training examples are doing the work. Why does SVM win here?",
+              "example": "Text classification with TF-IDF features + linear SVM was the state of the art for 15 years before transformers. For datasets under ~10K examples, SVMs are often faster, simpler, and equally accurate as fine-tuned neural nets.",
+              "common_trap": "Reaching for a neural net before trying an SVM on small tabular or text datasets. If you have <1000 examples, start with SVM or random forest."
             },
             {
               "term": "Kernel trick",
-              "reality": "A mathematical technique that lets SVMs find non-linear decision boundaries without explicitly computing high-dimensional features. The RBF kernel is the most common — it measures similarity as a Gaussian function of distance.",
-              "myth": "SVMs can only draw straight lines — they're useless for complex data.",
-              "analogy": "Imagine separating red and blue marbles on a table. They're mixed in circles — no straight line can separate them. The kernel trick is like lifting the tablecloth, sending some marbles into the air. Now you CAN draw a flat plane that separates them — then you lower the cloth back down and the boundary looks curved.",
-              "scenario": "Your dataset has two classes arranged in concentric circles. A linear SVM gets 50% (chance). An SVM with RBF kernel gets 98%. What made the difference?",
-              "common_trap": "Using the linear kernel for obviously non-linear data. Try RBF first — it's the default for a reason."
+              "reality": "A mathematical technique that lets SVMs find non-linear boundaries without computing high-dimensional features. It implicitly maps data into a higher-dimensional space where a linear separator exists — without ever computing the mapping. The RBF (Gaussian) kernel is the most common.",
+              "myth": "SVMs can only draw straight lines — useless for complex data.",
+              "analogy": "You have red and blue marbles arranged in concentric circles on a table. No straight line can separate them. The kernel trick is like lifting the tablecloth from the center — the marbles rise to different heights based on distance from center. Red marbles (inner circle) rise higher than blue ones (outer circle). In 3D, a flat plane cleanly separates them. Then you lower the cloth back to 2D and the boundary looks curved.",
+              "scenario": "Your binary classification dataset has classes arranged in interleaving spirals. A linear SVM scores 50% (chance). An RBF kernel SVM scores 99%. What did the kernel do?",
+              "example": "RBF kernel: K(x, x') = exp(-γ||x - x'||²). Measures similarity as a Gaussian of distance. Close points = high similarity = same class. Far points = low similarity. This implicitly creates an infinite-dimensional feature space — no explicit computation needed.",
+              "common_trap": "Forgetting to tune gamma in RBF kernels. High gamma = tight fit (overfit risk). Low gamma = loose fit (underfit risk). Cross-validate gamma and C together."
+            },
+            {
+              "term": "Maximum margin classifier",
+              "reality": "The core idea behind SVMs: among all possible decision boundaries, pick the one with the widest margin — the largest distance to the nearest training examples. A wider margin means the classifier generalizes better because small variations in data won't flip the prediction.",
+              "myth": "Any line that separates the training data correctly is equally good.",
+              "analogy": "Building a highway between two neighborhoods. You could pave a narrow one-lane road right next to the houses — but one swerve and you're in someone's living room. The SVM paves the widest possible highway with generous shoulders. The edge of the road is the decision boundary; the width of the shoulder is the margin.",
+              "scenario": "Two classifiers both get 100% training accuracy. Classifier A places the boundary 0.01 units from the nearest training point. Classifier B places it 0.5 units away. Which will generalize better to new data?",
+              "example": "Test point comes in 0.3 units from the boundary. Classifier A misclassifies it (0.3 > 0.01 margin). Classifier B correctly classifies it (0.3 < 0.5 margin). The wider margin absorbed the variation in test data.",
+              "common_trap": "Focusing only on training accuracy without checking the margin. A perfect training score with a razor-thin margin will fail on test data."
             }
           ],
           "source_path": "phases/02-ml-fundamentals/05-support-vector-machines/docs/en.md",
@@ -9355,20 +9402,31 @@
           ],
           "key_terms": [
             {
-              "term": "K-Nearest Neighbors",
-              "reality": "The simplest ML algorithm: to classify a new point, find the K closest training examples and take a majority vote. No training needed — all computation happens at prediction time.",
-              "myth": "KNN is too simple to be useful.",
-              "analogy": "Asking your 5 nearest neighbors what they think. If 4 say 'cat' and 1 says 'dog,' you go with cat. No training needed — you just need to know who your neighbors are. But if your neighborhood is huge, asking everyone takes forever.",
-              "scenario": "You need a quick baseline classifier. KNN with K=5 gives 88% accuracy in 2 lines of code. A neural net takes 30 minutes to train and gets 89%. Is the extra 1% worth 30 minutes?",
-              "common_trap": "Forgetting to normalize features before using KNN. KNN uses distance — if one feature ranges 0-1 and another ranges 0-100000, the second dominates completely."
+              "term": "K-Nearest Neighbors (KNN)",
+              "reality": "The simplest ML algorithm: to classify a new point, find its K nearest neighbors in the training data and take a majority vote. No training needed — you just store the data and compute distances at prediction time. Surprisingly effective as a baseline.",
+              "myth": "KNN is too simple to be useful for real problems.",
+              "analogy": "Moving to a new neighborhood and asking your 5 closest neighbors what the area is like. If 4 say 'quiet and safe' and 1 says 'noisy,' you go with the majority. No research needed — just ask the people closest to you. But if the neighborhood has 10,000 houses, asking everyone would take all day.",
+              "scenario": "You need a quick baseline for a 1000-example classification task. KNN (K=5) scores 88% in 2 seconds. A small neural net scores 89% after 10 minutes of training. When would you pick KNN over the neural net?",
+              "example": "Recommendation systems: 'Users who liked these movies also liked...' is essentially KNN in user-space. Find the K most similar users, recommend what they liked. Spotify, Netflix, and Amazon all use nearest-neighbor variants in production.",
+              "common_trap": "Forgetting to normalize features before KNN. If 'age' ranges 0-100 and 'salary' ranges 0-500000, salary dominates the distance calculation completely. Scale everything to [0,1] or standardize to mean=0, std=1."
             },
             {
               "term": "Distance metric",
-              "reality": "A function that measures how far apart two points are. Euclidean (straight-line), Manhattan (grid), and cosine (angle) are the most common. The choice of metric dramatically changes KNN results.",
-              "myth": "Just use Euclidean distance — it's the default for a reason.",
-              "analogy": "Measuring distance in a city: Euclidean is 'as the crow flies,' Manhattan is 'walking along streets,' cosine is 'are we heading the same direction?' Different situations need different distance measures.",
-              "scenario": "You're building a recommendation system. User A likes action movies. User B likes rom-coms. Their rating vectors are far apart in Euclidean distance but point in similar directions. Which metric captures 'similar taste' better?",
-              "common_trap": "Using Euclidean distance for text/categorical data. Cosine similarity usually works better for high-dimensional sparse data like text."
+              "reality": "A function measuring how far apart two points are. Euclidean (straight line), Manhattan (grid path), and Cosine (angle) are the big three. The choice of metric dramatically changes KNN results — different problems need different notions of 'closeness.'",
+              "myth": "Euclidean distance is fine for everything — it's the default for a reason.",
+              "analogy": "Measuring distance in a city: Euclidean = as the crow flies (straight line through buildings). Manhattan = walking along street grids (can't go through buildings). Cosine = 'are these two people heading the same direction from downtown?' (direction matters, not distance).",
+              "scenario": "You're building a document similarity system. Doc A is 500 words about cats. Doc B is 520 words about cats — nearly identical. But Euclidean distance between their TF-IDF vectors is huge because they're long documents. Cosine similarity correctly scores them as nearly identical. Why?",
+              "example": "Text: use cosine similarity (normalizes for document length). Images: use Euclidean on pixel values. GPS coordinates: use Haversine (accounts for Earth's curvature). Gene expression: use correlation distance. The metric IS the model — pick the wrong one and KNN fails.",
+              "common_trap": "Using Euclidean distance for high-dimensional sparse data (text, genomics). Cosine similarity almost always works better when most features are zero."
+            },
+            {
+              "term": "Curse of dimensionality",
+              "reality": "In high dimensions, ALL points become roughly equally far apart. Distance loses meaning. KNN breaks because 'nearest neighbors' are no more similar than random points. This is why you can't just throw 10,000 features at KNN.",
+              "myth": "More features = more information = better KNN performance.",
+              "analogy": "In a 1D line, your nearest neighbor might be 1 unit away, the next 2 units. In a 100D space, EVERYONE is about 10 units away. It's like being in a stadium where every seat is exactly the same distance from you — 'nearest neighbor' becomes meaningless.",
+              "scenario": "You add 50 more features to your dataset and KNN accuracy drops from 92% to 64%. The data is strictly better (more information), but KNN got worse. What happened?",
+              "example": "In 2D, a unit hypercube has volume 1. In 100D, a unit hypercube has volume 1, but 99.9% of the volume is in a thin shell at the surface. All points live in that shell — they're all roughly equally far from each other. KNN becomes random guessing.",
+              "common_trap": "Feeding raw high-dimensional data to KNN without dimensionality reduction first. Use PCA or feature selection to reduce to manageable dimensions before applying distance-based methods."
             }
           ],
           "source_path": "phases/02-ml-fundamentals/06-knn-and-distances/docs/en.md",
@@ -18006,7 +18064,7 @@
               "term": "Log-probability ratio",
               "myth": "How much the model changed",
               "reality": "log pi(y\\",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "A map of likelihoods. The weather map showing 70% chance of rain, 20% clouds, 10% sun is a probability distribution. Your classifier's output [0.7, 0.2, 0.1] is the same thing — a forecast over possible outcomes.",
               "scenario": "You're building an AI system and Log-probability ratio keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
               "example": "log pi(y\\",
               "why_matters": "Understanding Log-probability ratio is essential for RLHF works. It also requires training three models (SFT, reward model, policy), managing PPO's instability, and tuning a KL penalty. DPO asks: what if you could skip all of that? DPO directly optimizes the language model on preference pairs. No reward model. No PPO. One training loop. Same results..",
@@ -19697,13 +19755,13 @@
               "term": "Embedding",
               "myth": "Text to numbers",
               "reality": "A dense vector where geometric proximity encodes semantic similarity",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "Giving every word a home address in meaning-space. \"Dog\" and \"puppy\" live on the same street. \"Dog\" and \"car\" live in different cities. \"King\" lives at one address, \"Queen\" at the same address but one floor down, \"Man\" at that address on the other side of the building. The coordinates encode meaning.",
               "scenario": "You're building an AI system and Embedding keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "A dense vector where geometric proximity encodes semantic similarity",
+              "example": "Embedding(\"king\") = [0.8, 0.3, -0.1, 0.5, ...]. Embedding(\"queen\") = [0.7, 0.4, -0.1, 0.5, ...]. Embedding(\"man\") = [0.1, 0.9, 0.2, 0.5, ...]. Then embedding(\"king\") - embedding(\"man\") + embedding(\"woman\") ≈ embedding(\"queen\"). Gender travels along one dimension, royalty along another.",
               "why_matters": "Understanding Embedding is essential for Text is discrete. Math is continuous. Every time you ask an LLM to find \"similar\" documents, compare meanings, or search beyond keywords, you're relying on a bridge between these two worlds. That bridge is an embedding. If you don't understand embeddings, you don't understand modern AI. You just use it..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "Think of two words with the same meaning but zero shared letters. Embeddings would recognize them as similar. Keyword search would not. Try: \"happy\" and \"joyful\" — no shared letters, but the vectors should be close together."
             },
             {
               "term": "Word2Vec",
@@ -20692,13 +20750,13 @@
               "term": "LoRA",
               "myth": "Efficient fine-tuning",
               "reality": "Low-Rank Adaptation: freeze base weights, train two small matrices A and B whose product approximates the full weight update",
-              "analogy": "Think of it like a tool in your AI workshop — you don't need to build it from scratch to use it effectively, but understanding how it works makes you 10x better.",
+              "analogy": "Instead of rewriting a whole cookbook to add 3 new recipes, you stick Post-it notes on the relevant pages. The original cookbook (pre-trained model) stays unchanged. The Post-its (LoRA adapters) are tiny and can be swapped out for different cuisines (tasks).",
               "scenario": "You're building an AI system and LoRA keeps coming up in documentation and tutorials. Knowing it means you can debug, optimize, and explain your work.",
-              "example": "Low-Rank Adaptation: freeze base weights, train two small matrices A and B whose product approximates the full weight update",
+              "example": "Fine-tuning Llama 7B fully: update all 7 billion parameters, need ~56GB VRAM. LoRA: train only ~8 million new parameters (0.1% of original), need ~16GB VRAM. Performance is nearly identical. You can have 10 different LoRA adapters for 10 different tasks — all using the same base model.",
               "why_matters": "Understanding LoRA is essential for Full fine-tuning a 7B model requires 56GB of VRAM. You don't have that. Neither do most companies. LoRA lets you fine-tune the same model in 6GB by training less than 1% of the parameters. This isn't a compromise -- it matches full fine-tuning quality on most tasks. The entire open-source fine-tuning ecosystem runs on this one trick..",
               "common_trap": "Skipping the fundamentals because 'the library handles it.' Libraries hide details, but when things break, you need to know what's underneath.",
               "when_to_use": "Whenever you work with the systems or algorithms this concept describes.",
-              "mini_challenge": ""
+              "mini_challenge": "Count: if full fine-tuning updates 7,000,000,000 parameters and LoRA updates 8,000,000, what fraction of the original model is LoRA training? Answer: 0.11% — that's why it's so efficient."
             },
             {
               "term": "QLoRA",
