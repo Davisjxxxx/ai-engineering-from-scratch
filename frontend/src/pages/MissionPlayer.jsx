@@ -135,6 +135,14 @@ function MentalModel({ m, onDone }) {
           <p className="text-sm text-ink/80">{p.mistake}</p>
         </div>
       )}
+      {p.mini_challenge && (
+        <div className="mt-4 rounded-xl bg-plasma/10 border border-plasma/25 p-3">
+          <div className="text-xs font-head font-semibold text-plasma flex items-center gap-1.5 mb-1">
+            <Lucide.Zap size={13} /> Try it now
+          </div>
+          <p className="text-sm text-ink/80">{p.mini_challenge}</p>
+        </div>
+      )}
       <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="mentalmodel-done">
         <Check size={18} /> Lock it in
       </button>
@@ -142,24 +150,33 @@ function MentalModel({ m, onDone }) {
   );
 }
 
-/* ---------------- Pattern Selection Drill ---------------- */
+/* ---------------- Pattern Selection Drill (with hints) ---------------- */
 function DrillMission({ m, onDone }) {
   const rounds = m.payload.rounds;
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState(null);
   const [score, setScore] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+  const [attempts, setAttempts] = useState(0);
   const r = rounds[i];
   const last = i === rounds.length - 1;
+  const maxAttempts = 2;
 
   const pick = (idx) => {
-    if (picked !== null) return;
+    if (picked !== null && r.options[picked].correct) return;
+    if (attempts >= maxAttempts) return;
     setPicked(idx);
+    setAttempts((a) => a + 1);
     if (r.options[idx].correct) setScore((s) => s + 1);
   };
   const next = () => {
     if (last) return onDone(Math.round((score / rounds.length) * 100));
-    setPicked(null); setI((x) => x + 1);
+    setPicked(null); setI((x) => x + 1); setShowHint(false); setAttempts(0);
   };
+  const retry = () => { setPicked(null); setShowHint(false); };
+
+  const revealed = picked !== null && (r.options[picked]?.correct || attempts >= maxAttempts);
+  const correctOpt = r.options.find((o) => o.correct);
 
   return (
     <div data-testid="mission-drill">
@@ -172,30 +189,56 @@ function DrillMission({ m, onDone }) {
       <div className="space-y-3">
         {r.options.map((opt, idx) => {
           let cls = "border-white/10 bg-elevated";
-          if (picked !== null) {
-            if (opt.correct) cls = "border-ok/60 bg-ok/10";
-            else if (idx === picked) cls = "border-bad/60 bg-bad/10";
-          }
+          if (revealed && opt.correct) cls = "border-ok/60 bg-ok/10";
+          else if (picked === idx && !opt.correct) cls = "border-bad/60 bg-bad/10";
           return (
-            <motion.button key={idx} whileTap={{ scale: 0.98 }} onClick={() => pick(idx)} data-testid={`drill-option-${idx}`}
-              className={`w-full text-left rounded-xl border p-4 text-[15px] leading-snug ${cls}`}>
+            <motion.button key={idx} whileTap={{ scale: 0.98 }} onClick={() => pick(idx)}
+              disabled={revealed}
+              data-testid={`drill-option-${idx}`}
+              className={`w-full text-left rounded-xl border p-4 text-[15px] leading-snug ${cls} ${revealed && !opt.correct ? "opacity-50" : ""}`}>
               {opt.text}
             </motion.button>
           );
         })}
       </div>
-      {picked !== null && (
+
+      {/* Hint system */}
+      {!revealed && attempts >= 1 && (r.hint1 || r.hint2) && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          className={`mt-4 rounded-xl p-4 text-sm ${r.options[picked].correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
-          <div className="font-head font-semibold mb-1">{r.options[picked].correct ? "Correct" : "Here's the trade-off"}</div>
-          <div className="text-ink/80">{r.options[picked].feedback}</div>
-          {!r.options[picked].correct && (
-            <div className="text-ok mt-2">✓ Best: {r.options.find((o) => o.correct).text}</div>
+          className="mt-4 rounded-xl p-4 bg-arcane/10 border border-arcane/25 text-sm">
+          <div className="flex items-center gap-2 font-head font-semibold text-arcane mb-1">
+            <Lightbulb size={16} /> Hint {attempts}
+          </div>
+          <p className="text-ink/80">{attempts === 1 ? r.hint1 : r.hint2 || r.hint1}</p>
+        </motion.div>
+      )}
+
+      {/* Reveal after 2 attempts */}
+      {revealed && picked !== null && (
+        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          className={`mt-4 rounded-xl p-4 text-sm ${r.options[picked]?.correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
+          <div className="font-head font-semibold mb-1">
+            {r.options[picked]?.correct ? "Correct — well done." : "Here's the best answer:"}
+          </div>
+          <div className="text-ink/80">{correctOpt?.feedback || r.explain}</div>
+          {!r.options[picked]?.correct && (
+            <div className="text-ok mt-2 font-head">✓ Best: {correctOpt?.text}</div>
           )}
         </motion.div>
       )}
-      <button className={`w-full mt-5 ${picked !== null ? "btn-primary" : "btn-ghost opacity-50 pointer-events-none"}`}
-        onClick={next} data-testid="drill-next">{last ? "Claim XP" : "Next"} <ArrowRight size={18} /></button>
+
+      <div className="flex gap-2 mt-5">
+        {!revealed && picked !== null && (
+          <button className="btn-ghost flex-1" onClick={retry} data-testid="drill-retry">
+            <RotateCw size={16} /> Try again
+          </button>
+        )}
+        {revealed && (
+          <button className="btn-primary w-full" onClick={next} data-testid="drill-next">
+            {last ? "Claim XP" : "Next"} <ArrowRight size={18} />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -364,6 +407,12 @@ function Briefing({ m, onDone }) {
         <div className="label mb-1">Why this matters</div>
         <p className="text-ink/85 leading-relaxed">{p.why_it_matters || "Master this to level up your agent-building skills."}</p>
       </div>
+      {p.analogy && (
+        <div className="card p-4 mt-4 bg-gradient-to-br from-plasma/10 to-surface">
+          <div className="label text-plasma mb-1">Think of it like</div>
+          <p className="text-ink/85 text-sm leading-relaxed">{p.analogy}</p>
+        </div>
+      )}
       {p.objectives?.length > 0 && (
         <div className="mt-4">
           <div className="label mb-2">You'll be able to</div>
@@ -373,6 +422,22 @@ function Briefing({ m, onDone }) {
                 className="flex gap-2 text-sm text-sub"><span className="text-plasma mt-0.5">▸</span>{o}</motion.li>
             ))}
           </ul>
+        </div>
+      )}
+      {p.common_trap && (
+        <div className="mt-4 rounded-xl bg-bad/10 border border-bad/20 p-3">
+          <div className="text-xs font-head font-semibold text-bad flex items-center gap-1.5 mb-1">
+            <Lucide.AlertTriangle size={13} /> Common trap
+          </div>
+          <p className="text-sm text-ink/80">{p.common_trap}</p>
+        </div>
+      )}
+      {p.mini_challenge && (
+        <div className="mt-4 rounded-xl bg-plasma/10 border border-plasma/25 p-3">
+          <div className="text-xs font-head font-semibold text-plasma flex items-center gap-1.5 mb-1">
+            <Lucide.Zap size={13} /> Try it now
+          </div>
+          <p className="text-sm text-ink/80">{p.mini_challenge}</p>
         </div>
       )}
       <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="briefing-done">

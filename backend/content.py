@@ -171,6 +171,8 @@ class ContentEngine:
 
         # 1. BRIEFING
         why = level.get("problem") or level.get("concept") or ""
+        first_term = terms[0] if terms else {}
+        mission_obj = level.get("objectives", [])
         missions.append({
             "id": f"{level['id']}::briefing",
             "type": "briefing",
@@ -181,12 +183,42 @@ class ContentEngine:
             "payload": {
                 "tagline": level["tagline"],
                 "why_it_matters": _shorten(why, 320),
-                "objectives": level.get("objectives", [])[:4],
+                "objectives": mission_obj[:4],
                 "languages": level.get("languages", ""),
+                "analogy": first_term.get("analogy", ""),
+                "common_trap": first_term.get("common_trap", ""),
+                "mini_challenge": first_term.get("mini_challenge", ""),
             },
         })
 
-        # 2. CONCEPT flip cards (myth -> reality)
+        # 2. MENTAL MODEL (from rich term data)
+        if terms and any(t.get("analogy") or t.get("example") for t in terms[:1]):
+            t0 = terms[0]
+            mm_points = [t0["reality"]]
+            if t0.get("analogy"):
+                mm_points.append(f"Think of it like: {t0['analogy']}")
+            if t0.get("example"):
+                mm_points.append(f"Example: {t0['example']}")
+            if t0.get("why_matters"):
+                mm_points.append(t0["why_matters"])
+            missions.append({
+                "id": f"{level['id']}::mentalmodel",
+                "type": "mentalmodel",
+                "title": "Mental Model",
+                "objective": "Build a mental picture before the details.",
+                "estimated_minutes": 3,
+                "xp_reward": XP["concept"],
+                "payload": {
+                    "pattern": t0["term"],
+                    "metaphor": t0.get("analogy", t0["reality"]),
+                    "icon": t0.get("icon", "Lightbulb"),
+                    "points": mm_points,
+                    "mistake": t0.get("common_trap", ""),
+                    "mini_challenge": t0.get("mini_challenge", ""),
+                },
+            })
+
+        # 3. CONCEPT flip cards (myth -> reality)
         if terms:
             cards = [{
                 "term": t["term"],
@@ -267,6 +299,42 @@ class ContentEngine:
                     "code": level["code"],
                     "exercises": level.get("exercises", [])[:3],
                 },
+            })
+
+        # 5b. HANDS-ON LABS (from level-native labs field)
+        for lab in level.get("labs", []):
+            missions.append({
+                "id": f"{level['id']}::lab-{lab['kind']}",
+                "type": "lab",
+                "title": lab.get("title", "Build Lab"),
+                "objective": lab.get("prompt", "")[:120],
+                "estimated_minutes": 4,
+                "xp_reward": lab.get("xp_reward", XP["build"]),
+                "payload": lab,
+            })
+
+        # 5c. DEBUG MISSIONS (from level-native debugs field)
+        for i, dbg in enumerate(level.get("debugs", [])):
+            missions.append({
+                "id": f"{level['id']}::debug-{i}",
+                "type": "debug",
+                "title": dbg.get("failure_mode", "Debug Challenge"),
+                "objective": dbg.get("scenario", "")[:120],
+                "estimated_minutes": 4,
+                "xp_reward": dbg.get("xp_reward", XP["build"]),
+                "payload": dbg,
+            })
+
+        # 5d. PATTERN DRILLS (from level-native drills field)
+        for i, dr in enumerate(level.get("drills", [])):
+            missions.append({
+                "id": f"{level['id']}::drill-{i}",
+                "type": "drill",
+                "title": dr.get("title", "Pattern Drill"),
+                "objective": dr.get("scenario", "")[:120],
+                "estimated_minutes": 3,
+                "xp_reward": XP["decode"],
+                "payload": dr,
             })
 
         # 6. BOSS gauntlet
