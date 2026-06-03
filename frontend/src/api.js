@@ -61,6 +61,7 @@ export const api = {
   testOutQuiz: (id) => client.get(`/test-out/${encodeURIComponent(id)}`).then((r) => r.data),
   submitTestOut: (id, answers) => client.post(`/test-out/${encodeURIComponent(id)}`, { answers }).then((r) => r.data),
   testOutStatus: () => client.get("/test-out/status").then((r) => r.data),
+  submitFeedback: (f) => client.post("/feedback", f).then((r) => r.data),
 };
 
 export { deviceId };

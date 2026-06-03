@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AppProvider, useApp } from "./context/AppContext";
 import BottomNav from "./components/BottomNav";
 import RewardOverlay from "./components/RewardOverlay";
+import FeedbackButton from "./components/FeedbackButton";
 import Home from "./pages/Home";
 import MapPage from "./pages/Map";
 import LevelDetail from "./pages/LevelDetail";
@@ -22,6 +23,7 @@ import Dojo from "./pages/Dojo";
 import Clinic from "./pages/Clinic";
 import Capstone from "./pages/Capstone";
 import TestOutQuiz from "./pages/TestOutQuiz";
+import TesterGuide from "./pages/TesterGuide";
 
 function Shell() {
   const { ready, profile } = useApp();
@@ -63,12 +65,14 @@ function Shell() {
         <Route path="/paths" element={<Paths />} />
         <Route path="/academy/capstone" element={<Capstone />} />
         <Route path="/test-out/:levelId" element={<TestOutQuiz />} />
+        <Route path="/tester-guide" element={<TesterGuide />} />
         <Route path="/academy/:pathId" element={<AcademyHome />} />
         <Route path="/academy/:pathId/dojo" element={<Dojo />} />
         <Route path="/academy/:pathId/clinic" element={<Clinic />} />
       </Routes>
       {!hideNav && <BottomNav />}
       <RewardOverlay />
+      <FeedbackButton route={loc.pathname} />
     </div>
   );
 }

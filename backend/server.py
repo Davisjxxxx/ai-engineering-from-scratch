@@ -21,9 +21,9 @@ from challenges import (BADGES, BADGE_MAP, CHALLENGES, LAB_SCENARIOS,
 from academy import BLOCKS, CAPSTONES, validate_capstone
 from content import LEVEL_COMPLETE_BONUS, SKILL_BRANCHES, TEST_OUT_THRESHOLD, engine
 from models import (AgentBuildPayload, BrainDumpCreate, ChallengeAttempt,
-                    MissionCompletePayload, NotificationPrefsPayload,
-                    ProfileSettings, ReviewGrade, TestOutAnswersPayload,
-                    now_utc, today_str)
+                    FeedbackPayload, MissionCompletePayload,
+                    NotificationPrefsPayload, ProfileSettings, ReviewGrade,
+                    TestOutAnswersPayload, now_utc, today_str)
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
@@ -972,6 +972,85 @@ async def startup():
     await db.review_state.create_index([("device_id", 1), ("card_id", 1)], unique=True)
     await db.profiles.create_index("device_id", unique=True)
     await db.test_outs.create_index([("device_id", 1), ("level_id", 1)], unique=True)
+    await db.feedback.create_index("kind")
+    await db.feedback.create_index("created_at")
+
+
+# ----------------------------------------------------------------- feedback
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "").strip()
+
+
+@api.post("/api/feedback")
+async def submit_feedback(payload: FeedbackPayload, request: Request,
+                          x_device_id: Optional[str] = Header(None)):
+    """Submit tester feedback. Device ID is optional — anonymous feedback ok."""
+    did = None
+    try:
+        did = device_id(x_device_id, request) if x_device_id else None
+    except HTTPException:
+        pass  # allow anonymous
+    doc = {
+        "device_id": did,
+        "kind": payload.kind,
+        "rating": payload.rating,
+        "note": payload.note,
+        "level_id": payload.level_id,
+        "mission_id": payload.mission_id,
+        "lab_kind": payload.lab_kind,
+        "route": payload.route,
+        "user_agent": payload.user_agent or request.headers.get("user-agent", ""),
+        "app_version": payload.app_version,
+        "created_at": now_utc().isoformat(),
+    }
+    await db.feedback.insert_one(doc)
+    return {"ok": True}
+
+
+@api.get("/api/feedback/summary")
+async def feedback_summary(request: Request):
+    """Admin: aggregate feedback summary. Requires ADMIN_TOKEN."""
+    token = request.headers.get("X-Admin-Token", "")
+    if ADMIN_TOKEN and token != ADMIN_TOKEN:
+        raise HTTPException(403, "Admin access required")
+    pipeline = [
+        {"$group": {
+            "_id": "$kind",
+            "count": {"$sum": 1},
+            "avg_rating": {"$avg": "$rating"},
+        }},
+        {"$sort": {"count": -1}},
+    ]
+    by_kind = {d["_id"]: {"count": d["count"], "avg_rating": round(d["avg_rating"], 2) if d["avg_rating"] else None}
+               async for d in db.feedback.aggregate(pipeline)}
+    total = sum(v["count"] for v in by_kind.values())
+    # Most reported levels
+    level_pipeline = [
+        {"$match": {"level_id": {"$ne": None}}},
+        {"$group": {"_id": "$level_id", "count": {"$sum": 1}}},
+        {"$sort": {"count": -1}},
+        {"$limit": 10},
+    ]
+    top_levels = [{"level_id": d["_id"], "count": d["count"]}
+                  async for d in db.feedback.aggregate(level_pipeline)]
+    # Recent bug reports
+    bugs = []
+    async for d in db.feedback.find({"kind": "bug"}).sort("created_at", -1).limit(10):
+        bugs.append({"note": d.get("note", ""), "level_id": d.get("level_id"),
+                      "route": d.get("route"), "created_at": d["created_at"]})
+    return {"total": total, "by_kind": by_kind, "top_levels": top_levels, "recent_bugs": bugs}
+
+
+@api.get("/api/feedback/recent")
+async def feedback_recent(request: Request, limit: int = 20):
+    """Admin: most recent feedback entries. Requires ADMIN_TOKEN."""
+    token = request.headers.get("X-Admin-Token", "")
+    if ADMIN_TOKEN and token != ADMIN_TOKEN:
+        raise HTTPException(403, "Admin access required")
+    entries = []
+    async for d in db.feedback.find().sort("created_at", -1).limit(limit):
+        d.pop("_id", None)
+        entries.append(d)
+    return {"entries": entries}
 
 
 # Serve the React SPA from the static/ directory (populated by Docker build).

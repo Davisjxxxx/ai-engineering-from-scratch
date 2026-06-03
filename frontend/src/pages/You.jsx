@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useApp } from "../context/AppContext";
 import TopHud from "../components/TopHud";
-import { Focus, Eye, Volume2, Bell, GitBranch, Award, Brain, Download, ChevronRight, Flame, Zap, Trophy, GraduationCap } from "lucide-react";
+import { Focus, Eye, Volume2, Bell, GitBranch, Award, Brain, Download, ChevronRight, Flame, Zap, Trophy, GraduationCap, MessageSquare } from "lucide-react";
 
 export default function You() {
   const { profile, updateSettings } = useApp();
@@ -76,6 +76,7 @@ export default function You() {
           <LinkRow to="/badges" icon={Award} label="Badges" />
           <LinkRow to="/review" icon={Brain} label="Review Deck" />
           <LinkRow to="/braindump" icon={Brain} label="Brain Dump" />
+          <LinkRow to="/tester-guide" icon={MessageSquare} label="Beta Tester Guide" />
         </Section>
 
         {installEvt && (

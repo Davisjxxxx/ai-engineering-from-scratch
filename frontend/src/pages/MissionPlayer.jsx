@@ -5,6 +5,7 @@ import { api } from "../api";
 import { useApp } from "../context/AppContext";
 import QuizEngine from "../components/QuizEngine";
 import CodeBlock from "../components/CodeBlock";
+import FeedbackButton from "../components/FeedbackButton";
 import { X, ArrowRight, RotateCw, Check, Lightbulb, ChevronRight } from "lucide-react";
 import * as Lucide from "lucide-react";
 
@@ -65,6 +66,8 @@ export default function MissionPlayer() {
             {mission.type === "boss" && <BossMission m={mission} onDone={finish} />}
           </motion.div>
         </AnimatePresence>
+        <FeedbackButton levelId={levelId} missionId={missionId}
+          labKind={mission.type === "lab" ? mission.payload?.kind : null} />
       </main>
     </div>
   );

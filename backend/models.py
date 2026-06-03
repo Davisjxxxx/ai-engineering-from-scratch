@@ -93,3 +93,15 @@ class NotificationPrefsPayload(BaseModel):
 
 class TestOutAnswersPayload(BaseModel):
     answers: List[int] = []  # selected answer index per question
+
+
+class FeedbackPayload(BaseModel):
+    kind: str = "other"  # confusing, too_easy, too_hard, bug, boring, helpful, fun, other
+    rating: Optional[int] = None  # 1-5
+    note: Optional[str] = None
+    level_id: Optional[str] = None
+    mission_id: Optional[str] = None
+    lab_kind: Optional[str] = None  # order, select, repair
+    route: Optional[str] = None  # current page/route
+    user_agent: Optional[str] = None
+    app_version: Optional[str] = "1.0.0"
