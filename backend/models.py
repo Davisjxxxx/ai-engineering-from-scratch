@@ -89,3 +89,7 @@ class NotificationPrefsPayload(BaseModel):
     capstone_progress_enabled: bool = False
     preferred_time: str = "19:00"
     push_enabled_future_flag: bool = False
+
+
+class TestOutAnswersPayload(BaseModel):
+    answers: List[int] = []  # selected answer index per question

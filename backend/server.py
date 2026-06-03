@@ -19,10 +19,11 @@ from challenges import (BADGES, BADGE_MAP, CHALLENGES, LAB_SCENARIOS,
                         public_challenge, simulate_agent, live_agent,
                         validate_challenge)
 from academy import BLOCKS, CAPSTONES, validate_capstone
-from content import LEVEL_COMPLETE_BONUS, SKILL_BRANCHES, engine
+from content import LEVEL_COMPLETE_BONUS, SKILL_BRANCHES, TEST_OUT_THRESHOLD, engine
 from models import (AgentBuildPayload, BrainDumpCreate, ChallengeAttempt,
                     MissionCompletePayload, NotificationPrefsPayload,
-                    ProfileSettings, ReviewGrade, now_utc, today_str)
+                    ProfileSettings, ReviewGrade, TestOutAnswersPayload,
+                    now_utc, today_str)
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
@@ -120,13 +121,15 @@ async def completed_level_ids(did: str, done: Optional[set] = None) -> set:
 UNLOCK_ALL = os.environ.get("UNLOCK_ALL", "false").strip().lower() in ("1", "true", "yes")
 
 
-def is_unlocked(level_id: str, completed_levels: set) -> bool:
-    # TEST MODE: when UNLOCK_ALL is set, everything is open for full-access QA.
-    # On deploy, set UNLOCK_ALL=false to restore per-world progressive unlock.
+async def get_test_out_unlocks(did: str) -> set:
+    """Return level IDs unlocked via passed test-out attempts."""
+    cur = db.test_outs.find({"device_id": did, "passed": True}, {"level_id": 1})
+    return {d["level_id"] async for d in cur}
+
+
+async def is_unlocked(level_id: str, completed_levels: set, test_out_unlocks: set = None) -> bool:
     if UNLOCK_ALL:
         return True
-    # Every world's first level is open; later levels unlock when the previous
-    # level in the SAME world is completed. Worlds are freely explorable.
     if level_id in engine.first_in_world:
         return True
     if level_id in engine.fork_first:
@@ -135,7 +138,26 @@ def is_unlocked(level_id: str, completed_levels: set) -> bool:
         return True
     prev = (engine.prev_in_world.get(level_id) or engine.fork_prev.get(level_id)
             or engine.academy_prev.get(level_id))
-    return prev is None or prev in completed_levels
+    if prev is None or prev in completed_levels:
+        return True
+    if test_out_unlocks and level_id in test_out_unlocks:
+        return True
+    return False
+
+
+def unlock_source(level_id: str, completed_levels: set, test_out_unlocks: set) -> str:
+    """Return how this level was unlocked."""
+    if UNLOCK_ALL:
+        return "unlock_all"
+    if level_id in engine.first_in_world or level_id in engine.fork_first or level_id in engine.academy_first:
+        return "first_in_sequence"
+    prev = (engine.prev_in_world.get(level_id) or engine.fork_prev.get(level_id)
+            or engine.academy_prev.get(level_id))
+    if prev and prev in completed_levels:
+        return "progression"
+    if level_id in test_out_unlocks:
+        return "test_out"
+    return "locked"
 
 
 async def bump_streak(did: str, profile: dict) -> dict:
@@ -246,6 +268,7 @@ async def campaign(request: Request, x_device_id: Optional[str] = Header(None)):
     profile = await get_profile(did)
     done = await completed_mission_ids(did)
     levels_done = await completed_level_ids(did, done)
+    test_out_unlocks = await get_test_out_unlocks(did)
     worlds = engine.campaign()
     for w in worlds:
         for lv in w["levels"]:
@@ -253,12 +276,14 @@ async def campaign(request: Request, x_device_id: Optional[str] = Header(None)):
             comp = sum(1 for m in mids if m in done)
             lv["missions_completed"] = comp
             lv["completed"] = lv["id"] in levels_done
-            lv["unlocked"] = is_unlocked(lv["id"], levels_done)
+            lv["unlocked"] = await is_unlocked(lv["id"], levels_done, test_out_unlocks)
+            lv["unlocked_by"] = unlock_source(lv["id"], levels_done, test_out_unlocks)
+            lv["can_test_out"] = not lv["unlocked"] and not UNLOCK_ALL
             lv["progress"] = round(100 * comp / len(mids)) if mids else 0
         w["completed_levels"] = sum(1 for lv in w["levels"] if lv["completed"])
         w["unlocked"] = any(lv["unlocked"] for lv in w["levels"])
     return {"profile": profile_public(profile), "worlds": worlds,
-            "next_action": await next_best_action(did, done, levels_done)}
+            "next_action": await next_best_action(did, done, levels_done, test_out_unlocks)}
 
 
 @api.get("/api/levels/{level_id}")
@@ -270,7 +295,10 @@ async def level_detail(level_id: str, request: Request,
         raise HTTPException(404, "Level not found")
     done = await completed_mission_ids(did)
     levels_done = await completed_level_ids(did, done)
-    detail["unlocked"] = is_unlocked(level_id, levels_done)
+    test_out_unlocks = await get_test_out_unlocks(did)
+    detail["unlocked"] = await is_unlocked(level_id, levels_done, test_out_unlocks)
+    detail["unlocked_by"] = unlock_source(level_id, levels_done, test_out_unlocks)
+    detail["can_test_out"] = not detail["unlocked"] and not UNLOCK_ALL
     prog = {d["mission_id"]: d async for d in db.mission_progress.find({"device_id": did, "mission_id": {"$in": [m["id"] for m in detail["missions"]]}})}
     for m in detail["missions"]:
         p = prog.get(m["id"])
@@ -347,10 +375,12 @@ async def complete_mission(mission_id: str, payload: MissionCompletePayload,
     }
 
 
-async def next_best_action(did: str, done: set, levels_done: set) -> dict:
+async def next_best_action(did: str, done: set, levels_done: set, test_out_unlocks: set = None) -> dict:
     """Always surface ONE clear next action."""
+    if test_out_unlocks is None:
+        test_out_unlocks = set()
     for lid in engine.level_order:
-        if not is_unlocked(lid, levels_done):
+        if not await is_unlocked(lid, levels_done, test_out_unlocks):
             continue
         mids = engine.mission_ids_for_level(lid)
         for mid in mids:
@@ -379,12 +409,15 @@ async def fork_detail(fork_id: str, request: Request, x_device_id: Optional[str]
         raise HTTPException(404, "Fork not found")
     done = await completed_mission_ids(did)
     levels_done = await completed_level_ids(did, done)
+    test_out_unlocks = await get_test_out_unlocks(did)
     for lv in detail["levels"]:
         mids = engine.mission_ids_for_level(lv["id"])
         comp = sum(1 for m in mids if m in done)
         lv["missions_completed"] = comp
         lv["completed"] = lv["id"] in levels_done
-        lv["unlocked"] = is_unlocked(lv["id"], levels_done)
+        lv["unlocked"] = await is_unlocked(lv["id"], levels_done, test_out_unlocks)
+        lv["unlocked_by"] = unlock_source(lv["id"], levels_done, test_out_unlocks)
+        lv["can_test_out"] = not lv["unlocked"] and not UNLOCK_ALL
         lv["progress"] = round(100 * comp / len(mids)) if mids else 0
     detail["completed_levels"] = sum(1 for lv in detail["levels"] if lv["completed"])
     return detail
@@ -406,9 +439,11 @@ async def learning_paths(request: Request, x_device_id: Optional[str] = Header(N
     return paths
 
 
-def _academy_next_action(path_id, done, levels_done):
+async def _academy_next_action(path_id, done, levels_done, test_out_unlocks=None):
+    if test_out_unlocks is None:
+        test_out_unlocks = set()
     for ch in engine.academy_chapters(path_id):
-        if not is_unlocked(ch["id"], levels_done):
+        if not await is_unlocked(ch["id"], levels_done, test_out_unlocks):
             continue
         for m in ch["missions"]:
             if m["id"] not in done:
@@ -440,6 +475,7 @@ async def academy_home(path_id: str, request: Request, x_device_id: Optional[str
         raise HTTPException(404, "Learning path not found")
     done = await completed_mission_ids(did)
     levels_done = await completed_level_ids(did, done)
+    test_out_unlocks = await get_test_out_unlocks(did)
     chapters = engine.academy_chapters(path_id)
     nodes = []
     for ch in chapters:
@@ -453,7 +489,8 @@ async def academy_home(path_id: str, request: Request, x_device_id: Optional[str
             "mission_count": len(mids), "missions_completed": comp,
             "progress": round(100 * comp / len(mids)) if mids else 0,
             "completed": ch["id"] in levels_done,
-            "unlocked": is_unlocked(ch["id"], levels_done),
+            "unlocked": await is_unlocked(ch["id"], levels_done, test_out_unlocks),
+            "unlocked_by": unlock_source(ch["id"], levels_done, test_out_unlocks),
             "mastery_score": mastery, "mastery_dims": dims,
         })
     return {
@@ -461,7 +498,7 @@ async def academy_home(path_id: str, request: Request, x_device_id: Optional[str
         "groups": [{**g, "nodes": [n for n in nodes if n["group"] == g["id"]]} for g in summary["groups"]],
         "nodes": nodes,
         "completed_chapters": sum(1 for n in nodes if n["completed"]),
-        "next_action": _academy_next_action(path_id, done, levels_done),
+        "next_action": await _academy_next_action(path_id, done, levels_done, test_out_unlocks),
         "overall_mastery": round(sum(n["mastery_score"] for n in nodes) / len(nodes)) if nodes else 0,
     }
 
@@ -839,11 +876,102 @@ async def put_notif_prefs(payload: NotificationPrefsPayload, request: Request,
     return {**payload.model_dump(), "push_supported": False, "status": "coming_soon"}
 
 
+# ----------------------------------------------------------------- test-out
+@api.get("/api/test-out/{level_id}")
+async def get_test_out_quiz(level_id: str, request: Request,
+                            x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    detail = engine.level_detail(level_id)
+    if not detail:
+        raise HTTPException(404, "Level not found")
+    quiz = engine.test_out_quiz(level_id)
+    if not quiz:
+        raise HTTPException(400, "Not enough question data for this level")
+    # Check existing attempts to avoid re-displaying the same quiz
+    prev = await db.test_outs.find_one(
+        {"device_id": did, "level_id": level_id},
+        sort=[("attempted_at", -1)])
+    quiz["previous_attempts"] = prev["attempts"] if prev else 0
+    quiz["last_score"] = prev.get("score") if prev else None
+    quiz["passed"] = prev.get("passed", False) if prev else False
+    return quiz
+
+
+@api.post("/api/test-out/{level_id}")
+async def submit_test_out(level_id: str, payload: TestOutAnswersPayload,
+                          request: Request, x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    quiz = engine.test_out_quiz(level_id)
+    if not quiz:
+        raise HTTPException(400, "Not enough question data for this level")
+    questions = quiz["questions"]
+    correct_count = 0
+    missed = []
+    for i, q in enumerate(questions):
+        user_answer = payload.answers[i] if i < len(payload.answers) else -1
+        if user_answer == q["answer"]:
+            correct_count += 1
+        else:
+            missed.append({"term": q.get("term", ""), "explain": q["explain"],
+                           "your_answer": q["options"][user_answer] if 0 <= user_answer < len(q["options"]) else "(no answer)",
+                           "correct_answer": q["options"][q["answer"]]})
+    total = len(questions)
+    score = correct_count / total if total else 0
+    passed = score >= TEST_OUT_THRESHOLD
+    attempts = 1
+    prev = await db.test_outs.find_one({"device_id": did, "level_id": level_id})
+    if prev:
+        attempts = prev.get("attempts", 0) + 1
+    await db.test_outs.update_one(
+        {"device_id": did, "level_id": level_id},
+        {"$set": {
+            "device_id": did, "level_id": level_id,
+            "attempts": attempts, "score": score, "passed": passed,
+            "correct_count": correct_count, "total": total,
+            "missed_terms": [m["term"] for m in missed],
+            "attempted_at": now_utc().isoformat(),
+        }}, upsert=True)
+    # Build review recommendations from missed concepts
+    recommendations = []
+    if not passed and missed:
+        lid = engine.first_level_id()
+        detail = engine.level_detail(lid)
+        if detail:
+            for m in detail.get("missions", [])[:3]:
+                recommendations.append({
+                    "level_id": lid,
+                    "level_title": detail["title"],
+                    "mission_id": m["id"],
+                    "mission_title": m["title"],
+                    "mission_type": m["type"],
+                })
+    return {
+        "level_id": level_id,
+        "score": score,
+        "passed": passed,
+        "total_questions": total,
+        "correct_count": correct_count,
+        "threshold": TEST_OUT_THRESHOLD,
+        "attempts": attempts,
+        "missed_concepts": missed,
+        "recommendations": recommendations,
+    }
+
+
+@api.get("/api/test-out/status")
+async def test_out_status(request: Request, x_device_id: Optional[str] = Header(None)):
+    """Return all test-out attempts for this device."""
+    did = device_id(x_device_id, request)
+    cur = db.test_outs.find({"device_id": did}, {"_id": 0})
+    return {"attempts": [d async for d in cur]}
+
+
 @app.on_event("startup")
 async def startup():
     await db.mission_progress.create_index([("device_id", 1), ("mission_id", 1)], unique=True)
     await db.review_state.create_index([("device_id", 1), ("card_id", 1)], unique=True)
     await db.profiles.create_index("device_id", unique=True)
+    await db.test_outs.create_index([("device_id", 1), ("level_id", 1)], unique=True)
 
 
 # Serve the React SPA from the static/ directory (populated by Docker build).

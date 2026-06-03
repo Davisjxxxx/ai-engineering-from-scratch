@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { api } from "../api";
 import TopHud from "../components/TopHud";
 import ProgressRing from "../components/ProgressRing";
-import { Lock, Check, ChevronDown, ChevronRight, Clock } from "lucide-react";
+import { Lock, Check, ChevronDown, ChevronRight, Clock, Zap } from "lucide-react";
 
 export default function MapPage() {
   const [data, setData] = useState(null);
@@ -60,30 +60,58 @@ export default function MapPage() {
 
 function LevelRow({ lv }) {
   const locked = !lv.unlocked;
-  const body = (
-    <div data-testid={`level-row-${lv.id}`}
-      className={`flex items-center gap-3 rounded-xl p-3 border ${
-        locked ? "border-white/5 bg-base/40 opacity-60" :
-        lv.completed ? "border-plasma/25 bg-plasma/5" : "border-arcane/30 bg-elevated"}`}>
-      <div className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${
-        locked ? "bg-white/5 text-muted" : lv.completed ? "bg-plasma/15 text-plasma" : "bg-arcane/15 text-arcane"}`}>
-        {locked ? <Lock size={16} /> : lv.completed ? <Check size={18} /> : <span className="font-head font-bold">{lv.order}</span>}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="font-head font-semibold text-sm truncate">{lv.title}</div>
-        <div className="text-[11px] text-muted flex items-center gap-2">
-          <span className="inline-flex items-center gap-1"><Clock size={11} />~{lv.estimated_minutes}m</span>
-          <span>· {lv.missions_completed}/{lv.mission_count} missions</span>
+  const showTestOut = locked && lv.can_test_out !== false;
+
+  if (locked) {
+    return (
+      <div data-testid={`level-row-${lv.id}`}
+        className="flex items-center gap-3 rounded-xl p-3 border border-white/5 bg-base/40 opacity-60">
+        <div className="h-10 w-10 rounded-lg flex items-center justify-center shrink-0 bg-white/5 text-muted">
+          <Lock size={16} />
         </div>
-      </div>
-      {!locked && lv.progress > 0 && !lv.completed && (
-        <div className="w-10 h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-arcane" style={{ width: `${lv.progress}%` }} />
+        <div className="flex-1 min-w-0">
+          <div className="font-head font-semibold text-sm truncate">{lv.title}</div>
+          <div className="text-[11px] text-muted flex items-center gap-2">
+            <span className="inline-flex items-center gap-1"><Clock size={11} />~{lv.estimated_minutes}m</span>
+            <span>· {lv.mission_count} missions</span>
+          </div>
         </div>
-      )}
-    </div>
+        {showTestOut && (
+          <Link to={`/test-out/${encodeURIComponent(lv.id)}`}
+            data-testid={`test-out-${lv.id}`}
+            className="btn-ghost !min-h-0 !px-3 !py-2 !text-xs !rounded-lg opacity-100 shrink-0"
+            onClick={(e) => e.stopPropagation()}>
+            <Zap size={12} /> Test Out
+          </Link>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <Link to={`/level/${encodeURIComponent(lv.id)}`}>
+      <div data-testid={`level-row-${lv.id}`}
+        className={`flex items-center gap-3 rounded-xl p-3 border ${
+          lv.completed ? "border-plasma/25 bg-plasma/5" : "border-arcane/30 bg-elevated"}`}>
+        <div className={`h-10 w-10 rounded-lg flex items-center justify-center shrink-0 ${
+          lv.completed ? "bg-plasma/15 text-plasma" : "bg-arcane/15 text-arcane"}`}>
+          {lv.completed ? <Check size={18} /> : <span className="font-head font-bold">{lv.order}</span>}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="font-head font-semibold text-sm truncate">{lv.title}</div>
+          <div className="text-[11px] text-muted flex items-center gap-2">
+            <span className="inline-flex items-center gap-1"><Clock size={11} />~{lv.estimated_minutes}m</span>
+            <span>· {lv.missions_completed}/{lv.mission_count} missions</span>
+          </div>
+        </div>
+        {lv.progress > 0 && !lv.completed && (
+          <div className="w-10 h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full bg-arcane" style={{ width: `${lv.progress}%` }} />
+          </div>
+        )}
+      </div>
+    </Link>
   );
-  return locked ? body : <Link to={`/level/${encodeURIComponent(lv.id)}`}>{body}</Link>;
 }
 
 function Loading() {

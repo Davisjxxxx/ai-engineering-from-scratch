@@ -58,6 +58,9 @@ export const api = {
   badges: () => client.get("/badges").then((r) => r.data),
   notifPrefs: () => client.get("/notifications/preferences").then((r) => r.data),
   saveNotifPrefs: (p) => client.put("/notifications/preferences", p).then((r) => r.data),
+  testOutQuiz: (id) => client.get(`/test-out/${encodeURIComponent(id)}`).then((r) => r.data),
+  submitTestOut: (id, answers) => client.post(`/test-out/${encodeURIComponent(id)}`, { answers }).then((r) => r.data),
+  testOutStatus: () => client.get("/test-out/status").then((r) => r.data),
 };
 
 export { deviceId };

@@ -21,6 +21,8 @@ XP = {
     "boss": 80,
 }
 LEVEL_COMPLETE_BONUS = 60
+TEST_OUT_THRESHOLD = 0.9  # must score 90%+ to unlock via test-out
+TEST_OUT_QUESTION_COUNT = 10
 
 SKILL_BRANCHES = [
     {"id": "prompt-design", "name": "Prompt Design", "icon": "wand-sparkles"},
@@ -466,6 +468,50 @@ class ContentEngine:
 
     def review_seed_map(self) -> Dict[str, dict]:
         return {s["card_id"]: s for s in self.all_review_seeds()}
+
+
+    # ---------- test-out quiz ----------
+    def test_out_quiz(self, level_id: str) -> Optional[dict]:
+        """Generate a deterministic test-out quiz for a level.
+        Returns up to TEST_OUT_QUESTION_COUNT questions pulled from the levelʼs
+        key terms plus the world term pool. Quiz is deterministic per level_id
+        and attempt seed so re-rolls are possible."""
+        lv = self.levels_by_id.get(level_id)
+        if not lv:
+            return None
+        rng = _seed(level_id)
+        terms = lv.get("key_terms", [])
+        world_pool = self.world_term_pool.get(lv["world_id"], [])
+        candidates = list(terms) + [t for t in world_pool if t not in terms]
+        if not candidates:
+            return None
+        questions = []
+        for t in candidates[:TEST_OUT_QUESTION_COUNT * 2]:
+            correct = t["reality"]
+            opts = self._distractors(lv, correct, rng, 3) + [correct]
+            opts = list(dict.fromkeys(opts))
+            if len(opts) < 2:
+                continue
+            rng.shuffle(opts)
+            questions.append({
+                "q": f"What does “{t['term']}” actually mean?",
+                "options": opts,
+                "answer": opts.index(correct),
+                "explain": f"{t['term']}: {correct}",
+                "term": t["term"],
+            })
+            if len(questions) >= TEST_OUT_QUESTION_COUNT:
+                break
+        if len(questions) < 3:
+            return None
+        return {
+            "level_id": level_id,
+            "level_title": lv["title"],
+            "threshold": TEST_OUT_THRESHOLD,
+            "question_count": len(questions),
+            "questions": questions,
+        }
+
 
 
 def _shorten(text: str, n: int) -> str:

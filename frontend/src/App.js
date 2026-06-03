@@ -21,6 +21,7 @@ import AcademyHome from "./pages/AcademyHome";
 import Dojo from "./pages/Dojo";
 import Clinic from "./pages/Clinic";
 import Capstone from "./pages/Capstone";
+import TestOutQuiz from "./pages/TestOutQuiz";
 
 function Shell() {
   const { ready, profile } = useApp();
@@ -61,6 +62,7 @@ function Shell() {
         <Route path="/you" element={<You />} />
         <Route path="/paths" element={<Paths />} />
         <Route path="/academy/capstone" element={<Capstone />} />
+        <Route path="/test-out/:levelId" element={<TestOutQuiz />} />
         <Route path="/academy/:pathId" element={<AcademyHome />} />
         <Route path="/academy/:pathId/dojo" element={<Dojo />} />
         <Route path="/academy/:pathId/clinic" element={<Clinic />} />
