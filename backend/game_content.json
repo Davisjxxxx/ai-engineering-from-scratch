@@ -178,6 +178,29 @@
               ],
               "success": "Correct! Global installs, wrong CUDA builds, and forgetting venvs are the top 3 environment killers.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Broken Environment",
+              "prompt": "A teammate set up their AI dev environment but `python -c 'import torch'` fails. Their setup steps are below. One step is wrong — find it and fix it.",
+              "steps": [
+                "1. Install system tools: sudo apt install build-essential git curl",
+                "2. Install Python: uv python install 3.13",
+                "3. Create venv: uv venv && source .venv/bin/activate",
+                "4. Install PyTorch: pip install torch (no CUDA index URL specified)",
+                "5. Verify: python -c 'import torch; print(torch.cuda.is_available())' → False"
+              ],
+              "broken_index": 3,
+              "options": [
+                "Step 4: Use 'uv pip install torch --index-url https://download.pytorch.org/whl/cu124' to match the CUDA version",
+                "Step 4: Use 'pip install torch' — it auto-detects CUDA",
+                "Step 4: Skip PyTorch — use TensorFlow instead, it handles CUDA better",
+                "Step 4: Install CPU-only PyTorch — it's more reliable"
+              ],
+              "answer": 0,
+              "explain": "`pip install torch` installs the CPU-only build by default on Linux. You MUST specify the CUDA index URL matching your system's CUDA version. Check with `nvidia-smi` first, then install the matching PyTorch build. Without this, PyTorch silently falls back to CPU — your code runs but it's 50x slower.",
+              "hint1": "The GPU is detected by nvidia-smi, but PyTorch can't see it. Think about how PyTorch knows which CUDA version to use.",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -615,6 +638,29 @@
               ],
               "success": "Right! venvs isolate, lockfiles pin, pyproject.toml declares. Three tools, three jobs.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Leaking Environment",
+              "prompt": "Project A needs numpy 2.0. Project B needs numpy 1.26. Both 'work' but Project B keeps crashing with 'AttributeError: module numpy has no attribute bool'. One step in this setup is broken — find it.",
+              "steps": [
+                "1. pip install numpy==2.0 (global install, no venv)",
+                "2. Create Project B folder: mkdir project-b && cd project-b",
+                "3. Create venv for B: uv venv && source .venv/bin/activate",
+                "4. Install numpy 1.26 in B's venv: uv pip install numpy==1.26",
+                "5. Run Project B: python train.py → CRASH — numpy 2.0 is still being used!"
+              ],
+              "broken_index": 4,
+              "options": [
+                "Step 4: The venv inherits globally-installed packages. Create the venv with '--seed' flag or deactivate, delete .venv, recreate, then install numpy 1.26",
+                "Step 4: Use 'pip install --force numpy==1.26' to overwrite the global version",
+                "Step 4: Install both versions globally and use symlinks to switch",
+                "Step 4: Edit numpy's source code to add the missing 'bool' attribute"
+              ],
+              "answer": 0,
+              "explain": "Python checks global site-packages BEFORE the venv's packages when the venv was created without isolation flags. The fix: delete the venv, recreate with `uv venv` (which isolates by default), then install numpy 1.26. Or use `--no-site-packages`. Never install AI packages globally — ALWAYS in a venv.",
+              "hint1": "Why is Python importing numpy from outside the venv? Check `which python` and `python -c 'import numpy; print(numpy.__file__)'`.",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -6405,6 +6451,29 @@
               ],
               "success": "Exactly. Chain when the task has multiple distinct sub-goals. Simple single-step tasks don't need chaining — one prompt is enough.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Broken Chain",
+              "prompt": "This prompt chain for writing a blog post is producing rambling, unedited text. The outline is being ignored. One step is wrong — find it.",
+              "steps": [
+                "1. Outline agent: generates blog post structure (5 sections)",
+                "2. Draft agent: writes ALL 5 sections in ONE giant prompt call",
+                "3. Edit agent: receives the giant draft and tries to edit everything at once",
+                "4. Fact-check agent: receives the edited text but can't verify individual claims",
+                "5. Final output: rambling 3000-word post with mixed-up facts"
+              ],
+              "broken_index": 1,
+              "options": [
+                "Step 2: Draft ONE section per agent call — each section gets a focused prompt with its specific outline point",
+                "Step 2: Use a bigger model for the draft step so it handles all sections better",
+                "Step 2: Skip the outline — let the draft agent figure out structure on its own",
+                "Step 2: Combine steps 1+2 — outline and draft in one prompt for efficiency"
+              ],
+              "answer": 0,
+              "explain": "The whole point of prompt chaining is breaking work into focused steps. Drafting all 5 sections in one call defeats the purpose — you're back to a giant prompt. The fix: each section gets its own draft call, fed from the outline. This way each section is focused, edit-able, and fact-checkable individually.",
+              "hint1": "The chain is supposed to break work down. Is drafting 5 sections at once really 'breaking it down'?",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -7165,6 +7234,29 @@
               ],
               "success": "Right! Vague parameter names are the #1 cause of function calling failures. Clear names + descriptions + required fields = reliable tool calls.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Broken Tool",
+              "prompt": "This weather agent keeps calling get_weather() with the wrong argument. The tool definition has a bug — find it and apply the fix.",
+              "steps": [
+                "1. User asks: 'What's the weather in Tokyo?'",
+                "2. Tool definition sent to model: {\"name\": \"get_weather\", \"parameters\": {\"q\": {\"type\": \"string\"}}}",
+                "3. Model outputs: {\"name\": \"get_weather\", \"arguments\": {\"q\": \"What's the weather in Tokyo?\"}}",
+                "4. API call fails — 'What's the weather in Tokyo?' is not a valid city name for the weather API",
+                "5. Agent responds: 'Sorry, I couldn't find that city.'"
+              ],
+              "broken_index": 1,
+              "options": [
+                "Step 2: Rename 'q' to 'city_name' with description 'City name, e.g. Tokyo, London, New York' — the model needs clear parameter names and examples",
+                "Step 2: Remove parameters entirely — let the model figure out what to pass",
+                "Step 2: Add more parameters: country, region, zip_code — more options means better accuracy",
+                "Step 2: Change the tool name to 'get_weather_for_city' — the name is the problem"
+              ],
+              "answer": 0,
+              "explain": "Vague parameter names like 'q' or 'input' are the #1 cause of broken function calls. The model sees 'q' and doesn't know if it means 'query string', 'question text', or 'city name'. A clear name like 'city_name' with a description and example tells the model exactly what to pass. The tool name is already clear — it's the parameters that cause confusion.",
+              "hint1": "The model is passing the user's full question as the argument. Why does it think 'q' means 'the full question'?",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -7340,6 +7432,29 @@
                 "decide"
               ],
               "success": "Benchmarks → Custom evals → Judge scoring → Human calibration → Ship/no-ship. Never deploy without running your own evals.",
+              "xp_reward": 50
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Misaligned Eval",
+              "prompt": "Your eval dashboard shows 94% quality but users complain answers are 'correct but useless.' One step in the evaluation pipeline is broken — find it.",
+              "steps": [
+                "1. Collect 100 real user queries from production logs",
+                "2. Define rubric: score 1-5 on 'factual accuracy' and 'grammar' only",
+                "3. LLM-as-judge scores every output against the rubric",
+                "4. Dashboard shows 94% — 'Ship it!'",
+                "5. Users report: answers are factually correct but too vague, no actionable advice, reads like Wikipedia"
+              ],
+              "broken_index": 1,
+              "options": [
+                "Step 2: Add 'specificity' and 'actionability' to the rubric — the eval measures what you tell it to measure, and users value actionable advice over grammar",
+                "Step 2: Switch to a bigger judge model — GPT-5 will catch the subtlety that GPT-4o missed",
+                "Step 2: Remove the rubric entirely — human review is the only reliable evaluation",
+                "Step 2: Increase the sample size to 10,000 queries — 100 isn't statistically significant"
+              ],
+              "answer": 0,
+              "explain": "An eval measures what you TELL it to measure, not what users actually care about. If your rubric only scores accuracy and grammar, the eval will report '94% great!' while users want specific, actionable answers. Fix: talk to 5 users, find out what they value (specificity, actionability, tone), add those to the rubric. Align the eval with user needs, not just technical correctness.",
+              "hint1": "The eval says 94%. Users say 'useless.' The eval isn't broken — it's measuring the wrong things.",
               "xp_reward": 50
             }
           ],
