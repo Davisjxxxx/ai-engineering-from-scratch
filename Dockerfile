@@ -4,6 +4,7 @@ WORKDIR /app/frontend
 COPY frontend/package.json ./
 RUN npm install
 COPY frontend/ ./
+ENV REACT_APP_BACKEND_URL=
 RUN npm run build
 
 # Stage 2: Python backend + serve static SPA
