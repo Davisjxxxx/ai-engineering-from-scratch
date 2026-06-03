@@ -2,6 +2,29 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, ArrowRight, Lightbulb } from "lucide-react";
 
+/** Renders rich explanations split by double-space-newline separators.
+ *  Each segment is displayed as a row with appropriate text color. */
+function RichExplain({ text }) {
+  if (!text) return null;
+  // Split on "  \n" (markdown-style soft breaks)
+  const parts = text.split(/  \n/).filter(Boolean);
+  if (parts.length <= 1) {
+    return <div className="text-ink/80 leading-relaxed">{text}</div>;
+  }
+  return (
+    <div className="space-y-1.5">
+      {parts.map((part, i) => {
+        const isMain = part.startsWith("**") && i === 0;
+        return (
+          <div key={i} className={`leading-relaxed ${isMain ? "text-ink font-medium" : "text-ink/80"}`}>
+            {part}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /** Reusable quiz runner with anti-loop protection.
  *
  *  State machine per question:
@@ -125,15 +148,15 @@ export default function QuizEngine({ questions, onDone, passThreshold, ctaLabel 
         </motion.div>
       )}
 
-      {/* Reveal: answer + explanation */}
+      {/* Reveal: answer + rich explanation */}
       {revealed && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-          className={`mt-4 rounded-xl p-4 text-sm ${isCorrect ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
-          <div className="font-head font-semibold mb-1">
+          className={`mt-4 rounded-xl p-4 text-sm ${isCorrect ? "bg-ok/10" : "bg-white/5"}`}>
+          <div className={`font-head font-semibold mb-2 ${isCorrect ? "text-ok" : "text-sub"}`}>
             {isCorrect ? "Correct — well done." :
               wrongAttempts >= maxWrongs ? "Here's the answer:" : "Not quite. Here's the truth:"}
           </div>
-          <div className="text-ink/80">{q.explain}</div>
+          <RichExplain text={q.explain} />
           {scored && !isCorrect && (
             <div className="mt-2 text-xs text-muted">This question is marked incorrect for scoring.</div>
           )}

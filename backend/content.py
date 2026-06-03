@@ -472,10 +472,8 @@ class ContentEngine:
 
     # ---------- test-out quiz ----------
     def test_out_quiz(self, level_id: str) -> Optional[dict]:
-        """Generate a deterministic test-out quiz for a level.
-        Returns up to TEST_OUT_QUESTION_COUNT questions pulled from the levelʼs
-        key terms plus the world term pool. Quiz is deterministic per level_id
-        and attempt seed so re-rolls are possible."""
+        """Generate a test-out quiz mixing scenario, debug, pattern, and trap
+        questions — not just definition-matching. Deterministic per level_id."""
         lv = self.levels_by_id.get(level_id)
         if not lv:
             return None
@@ -485,25 +483,128 @@ class ContentEngine:
         candidates = list(terms) + [t for t in world_pool if t not in terms]
         if not candidates:
             return None
+
+        # Bucket terms by what question data they carry
+        has_scenario = [t for t in candidates if t.get("scenario")]
+        has_trap = [t for t in candidates if t.get("common_trap")]
+        has_pattern = [t for t in candidates if t.get("when_to_use")]
+        definition_only = [t for t in candidates
+                           if not t.get("scenario") and not t.get("common_trap")
+                           and not t.get("when_to_use")]
+        all_rich = has_scenario + has_trap + has_pattern
+
         questions = []
-        for t in candidates[:TEST_OUT_QUESTION_COUNT * 2]:
-            correct = t["reality"]
+        used_terms = set()
+
+        def _make_defn(term):
+            correct = term["reality"]
             opts = self._distractors(lv, correct, rng, 3) + [correct]
             opts = list(dict.fromkeys(opts))
             if len(opts) < 2:
-                continue
+                return None
             rng.shuffle(opts)
-            questions.append({
-                "q": f"What does “{t['term']}” actually mean?",
+            return {
+                "q": f'What does “{term["term"]}” actually mean?',
+                "type": "definition",
                 "options": opts,
                 "answer": opts.index(correct),
-                "explain": f"{t['term']}: {correct}",
-                "term": t["term"],
-            })
+                "explain": _rich_explain(term),
+                "term": term["term"],
+            }
+
+        def _make_scenario(term):
+            s = term["scenario"]
+            correct = term["reality"]
+            traps = [term["common_trap"]] if term.get("common_trap") else []
+            fake_traps = self._distractors(lv, correct, rng, 2)
+            wrongs = [t for t in (traps + fake_traps) if t != correct][:3]
+            opts = wrongs + [correct]
+            opts = list(dict.fromkeys(opts))
+            if len(opts) < 2:
+                return None
+            rng.shuffle(opts)
+            return {
+                "q": s,
+                "type": "scenario",
+                "options": opts,
+                "answer": opts.index(correct),
+                "explain": _rich_explain(term),
+                "term": term["term"],
+            }
+
+        def _make_trap(term):
+            trap = term["common_trap"]
+            correct = term["reality"]
+            wrongs = self._distractors(lv, trap, rng, 2)
+            opts = [trap] + wrongs + [correct]
+            opts = list(dict.fromkeys(opts))
+            if len(opts) < 2:
+                return None
+            rng.shuffle(opts)
+            return {
+                "q": f'Someone says: "{trap}" Are they right?',
+                "type": "trap",
+                "options": opts + ["They're wrong — see explanation"],
+                "answer": opts.index(correct) if correct in opts else len(opts),
+                "explain": _rich_explain(term),
+                "term": term["term"],
+                "hint1": f"Hint: {term.get('analogy', '')}" if term.get("analogy") else None,
+            }
+
+        def _make_pattern(term):
+            when = term.get("when_to_use", "")
+            correct = term["reality"]
+            fake_patterns = self._distractors(lv, correct, rng, 3)
+            opts = fake_patterns + [correct]
+            opts = list(dict.fromkeys(opts))
+            if len(opts) < 2:
+                return None
+            rng.shuffle(opts)
+            return {
+                "q": f"{when} Which approach fits best?",
+                "type": "pattern",
+                "options": opts,
+                "answer": opts.index(correct),
+                "explain": _rich_explain(term),
+                "term": term["term"],
+            }
+
+        # Build a balanced mix: ~3 scenario, ~2 trap, ~2 pattern, ~3 definition
+        desired = [
+            ("scenario", _make_scenario, has_scenario, 3),
+            ("trap", _make_trap, has_trap, 2),
+            ("pattern", _make_pattern, has_pattern, 2),
+            ("definition", _make_defn, definition_only + all_rich, 3),
+        ]
+        for _qtype, maker, pool, want in desired:
+            rng.shuffle(pool)
+            for t in pool:
+                if t["term"] in used_terms:
+                    continue
+                if len(questions) >= TEST_OUT_QUESTION_COUNT:
+                    break
+                q = maker(t)
+                if q:
+                    questions.append(q)
+                    used_terms.add(t["term"])
             if len(questions) >= TEST_OUT_QUESTION_COUNT:
                 break
+
+        # Fill remaining slots from any term type
+        if len(questions) < TEST_OUT_QUESTION_COUNT:
+            leftovers = [t for t in candidates if t["term"] not in used_terms]
+            rng.shuffle(leftovers)
+            for t in leftovers:
+                if len(questions) >= TEST_OUT_QUESTION_COUNT:
+                    break
+                q = _make_defn(t)
+                if q:
+                    questions.append(q)
+                    used_terms.add(t["term"])
+
         if len(questions) < 3:
             return None
+        rng.shuffle(questions)
         return {
             "level_id": level_id,
             "level_title": lv["title"],
@@ -512,6 +613,24 @@ class ContentEngine:
             "questions": questions,
         }
 
+
+
+def _rich_explain(term: dict) -> str:
+    """Build a multi-part explanation from term metadata.
+    Returns a formatted string with definition, analogy, example,
+    why-it-matters, common trap, and recap sections."""
+    parts = [f"**{term['term']}**: {term['reality']}"]
+    if term.get("analogy"):
+        parts.append(f"🪞 **Real-life analogy**: {term['analogy']}")
+    if term.get("example"):
+        parts.append(f"🔧 **Concrete example**: {term['example']}")
+    if term.get("why_matters"):
+        parts.append(f"💡 **Why it matters**: {term['why_matters']}")
+    if term.get("common_trap"):
+        parts.append(f"⚠️ **Common trap**: {term['common_trap']}")
+    if term.get("mini_challenge"):
+        parts.append(f"🎯 **Try it**: {term['mini_challenge']}")
+    return "  \n".join(parts)
 
 
 def _shorten(text: str, n: int) -> str:
