@@ -1,0 +1,46 @@
+{
+  "summary": "Iteration 2 focused on the new MIT 18.06 fork feature plus a light regression. Backend: created /app/backend/tests/test_forks.py (9 new tests) + /app/backend/tests/conftest.py (loads frontend/.env so REACT_APP_BACKEND_URL is available + backend/.env so UNLOCK_ALL is visible). Updated test_agentforge.py to honor UNLOCK_ALL=true (test_locked_level_still_visible is skipped, test_campaign_only_first_unlocked relaxes the locked-level requirement). All 32 pytest cases PASS (1 skipped intentionally). Frontend: on /level/01-01-linear-algebra-intuition the fork-banner-mit-1806 banner renders with title 'MIT 18.06 — Strang's Linear Algebra' and tagline; tapping it navigates to /fork/mit-1806. The fork path page lists exactly 35 lecture rows (fork-level-mit1806-01 ... fork-level-mit1806-35), shows the MIT OpenCourseWare · Prof. Gilbert Strang source line and a 0/35 progress bar. Tapping a row opens /level/mit1806-01 which exposes briefing→watch→concept→quiz missions. The Watch mission renders mission-watch with watch-iframe whose src is https://www.youtube.com/embed/J7DzL2_Na80?rel=0 and a watch-done button; clicking it pops the Reward overlay with +XP. Light regression confirms Home/Map (10 worlds)/Lab (3 scenarios)/Arena (9 challenges)/Review/You (3 toggles) all still load and render expected data. UNLOCK_ALL=true confirmed in backend/.env.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_agentforge.py",
+    "/app/backend/tests/test_forks.py",
+    "/app/backend/tests/conftest.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Optional) Consider gating the 'first-spark' / 'level-cleared' badges to also trigger from fork levels — currently verified working since the briefing mission in mit1806-01 yields First Spark.",
+    "(Optional) ForkPath page progress bar shows '0/35' even after a fork level is partially complete in another session — by design (device-bound progress) but worth confirming users see updates after completing a fork lecture on the same device.",
+    "(Optional) React Router v7 future-flag console warnings still present (carry-over from iter 1)."
+  ],
+  "critical_code_review_comments": [
+    "Fork content is cleanly loaded via ContentEngine; level_detail correctly merges prebuilt missions and adds 'forks' on the anchor level — good separation.",
+    "GET /api/forks/{fork_id} returns 404 on unknown id — verified.",
+    "Fork watch mission payload includes youtube_id + watch_for list and the frontend embeds via a sandboxed iframe — good.",
+    "completed_level_ids includes fork levels so seeded review cards from fork concept terms are eligible — verified via /api/review/due (due_count >= 1 after completing all 4 missions).",
+    "UNLOCK_ALL=true behavior is gated to test mode in .env; production should set false. Tests now adapt to either mode using conftest env loading.",
+    "MissionPlayer.jsx supports the new 'watch' mission type; ConceptCards supports payload.front_label/reveal_suffix for the recall framing on fork lectures — verified visually."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_agentforge.py",
+    "/app/backend/tests/test_forks.py",
+    "/app/backend/tests/conftest.py"
+  ],
+  "success_rate": {
+    "backend": "100% (32 passed, 1 skipped by design due to UNLOCK_ALL)",
+    "frontend": "100% (fork banner, /fork/mit-1806 with 35 rows, watch iframe with correct youtube_id, watch-done +XP overlay, plus regression on Home/Map/Lab/Arena/Review/You)"
+  },
+  "test_credentials": "No auth. X-Device-Id header (auto-generated TEST_<uuid>). No API keys needed.",
+  "seed_data_creation": "test_forks.py creates a per-run device profile, completes mit1806-01::briefing/watch/concept/quiz to verify level-bonus + review-seed flow. test_agentforge.py reuses 11-01-prompt-engineering for full level progression. All TEST_-prefixed data is isolated by device id.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend regression: run `pytest /app/backend/tests/ -v` from /app. conftest.py auto-loads frontend/.env and backend/.env so REACT_APP_BACKEND_URL + UNLOCK_ALL are available. Fork suite: test_forks.py (9 tests). Existing 23 agentforge tests + the new 9 fork tests + 1 skipped lock test = 33 total. To exercise the fork watch UI: navigate to /level/mit1806-01, complete briefing (button 'Got it — let's build'), then mission-watch shows iframe with src https://www.youtube.com/embed/J7DzL2_Na80?rel=0 and a watch-done button that awards 30 XP. The Reward overlay shows +XP and optionally a new-badge (First Spark on first mission). Fork checkpoint levels mit1806-13 (Quiz 1 review) and mit1806-34 (Final course review) have boss missions with pooled questions — verified via API. UNLOCK_ALL=true in backend/.env unlocks all 96 campaign + 35 fork levels for test purposes.",
+  "rca of the issue": "No production bugs found. Two pre-existing tests in test_agentforge.py needed adjustment because UNLOCK_ALL=true was introduced in this iteration: (1) test_campaign_only_first_unlocked previously asserted ≥1 locked level — now skips that assertion when UNLOCK_ALL is on; (2) test_locked_level_still_visible — now pytest.skip when UNLOCK_ALL is on. Added conftest.py so pytest can pick up REACT_APP_BACKEND_URL from frontend/.env (previously failed with MissingSchema when env wasn't exported in shell)."
+}

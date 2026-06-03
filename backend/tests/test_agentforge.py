@@ -78,17 +78,18 @@ def test_campaign_only_first_unlocked(s):
     assert first_world["unlocked"] is True
     first_level = first_world["levels"][0]
     assert first_level["unlocked"] is True
-    # Any later level must be locked initially
-    found_locked = False
-    for w in d["worlds"]:
-        for lv in w["levels"]:
-            if lv["id"] != first_level["id"]:
-                if lv["unlocked"] is False:
+    # In UNLOCK_ALL mode all levels are unlocked; otherwise at least one should be locked.
+    unlock_all = os.environ.get("UNLOCK_ALL", "false").lower() == "true"
+    if not unlock_all:
+        found_locked = False
+        for w in d["worlds"]:
+            for lv in w["levels"]:
+                if lv["id"] != first_level["id"] and lv["unlocked"] is False:
                     found_locked = True
                     break
-        if found_locked:
-            break
-    assert found_locked, "Expected at least one locked level for fresh profile"
+            if found_locked:
+                break
+        assert found_locked, "Expected at least one locked level for fresh profile"
     # next_action present
     assert d["next_action"]["kind"] in ("mission", "review")
 
@@ -346,7 +347,10 @@ def test_notif_prefs(s):
 
 # ------------------------------------------------------------------- progression locking enforcement
 def test_locked_level_still_visible(s):
-    """A locked level can be inspected (detail returns) but unlocked=False."""
+    """A locked level can be inspected (detail returns) but unlocked=False.
+    Skipped when UNLOCK_ALL test mode is on (all levels unlocked)."""
+    if os.environ.get("UNLOCK_ALL", "false").lower() == "true":
+        pytest.skip("UNLOCK_ALL=true — no locked levels available to test")
     camp = s.get(f"{API}/campaign").json()
     # find a level that's locked
     locked = None

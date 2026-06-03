@@ -50,6 +50,7 @@ export default function MissionPlayer() {
         <AnimatePresence mode="wait">
           <motion.div key={mission.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             {mission.type === "briefing" && <Briefing m={mission} onDone={finish} />}
+            {mission.type === "watch" && <WatchMission m={mission} onDone={finish} />}
             {mission.type === "concept" && <ConceptCards m={mission} onDone={finish} />}
             {(mission.type === "quiz") && <QuizMission m={mission} onDone={finish} />}
             {mission.type === "mythbuster" && <MythBuster m={mission} onDone={finish} />}
@@ -58,6 +59,42 @@ export default function MissionPlayer() {
           </motion.div>
         </AnimatePresence>
       </main>
+    </div>
+  );
+}
+
+/* ---------------- Watch (Strang video lecture) ---------------- */
+function WatchMission({ m, onDone }) {
+  const p = m.payload;
+  const [started, setStarted] = useState(false);
+  return (
+    <div data-testid="mission-watch">
+      <div className="label">Watch · MIT 18.06</div>
+      <h3 className="font-head text-lg font-semibold mt-1 mb-3 leading-snug">{p.title}</h3>
+      <div className="rounded-xl overflow-hidden border border-white/10 bg-black aspect-video">
+        <iframe
+          title={p.title}
+          src={`https://www.youtube.com/embed/${p.youtube_id}?rel=0`}
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          onLoad={() => setStarted(true)}
+          data-testid="watch-iframe"
+        />
+      </div>
+      {p.watch_for?.length > 0 && (
+        <div className="card p-4 mt-4">
+          <div className="label mb-2 flex items-center gap-1.5"><Lightbulb size={13} /> Watch for</div>
+          <ul className="space-y-2">
+            {p.watch_for.map((w, i) => (
+              <li key={i} className="flex gap-2 text-sm text-sub"><span className="text-plasma mt-0.5">▸</span>{w}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="watch-done">
+        <Check size={18} /> I watched it — claim XP
+      </button>
     </div>
   );
 }
@@ -94,6 +131,8 @@ function Briefing({ m, onDone }) {
 /* ---------------- Concept flip cards ---------------- */
 function ConceptCards({ m, onDone }) {
   const cards = m.payload.cards;
+  const frontLabel = m.payload.front_label || "People say";
+  const revealSuffix = m.payload.reveal_suffix || "— actually";
   const [i, setI] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const last = i === cards.length - 1;
@@ -108,18 +147,18 @@ function ConceptCards({ m, onDone }) {
   return (
     <div data-testid="mission-concept">
       <div className="label">Concept Cards · {i + 1}/{cards.length}</div>
-      <p className="text-sub text-sm mb-4">Tap the card to reveal the reality.</p>
+      <p className="text-sub text-sm mb-4">Tap the card to reveal the answer.</p>
       <div className="[perspective:1200px]">
         <motion.button onClick={() => setFlipped((f) => !f)} data-testid="flip-card"
           className="relative w-full h-72 [transform-style:preserve-3d]"
           animate={{ rotateY: flipped ? 180 : 0 }} transition={{ duration: 0.5 }}>
           <Face className="bg-elevated border-white/10">
-            <div className="label mb-2 text-arcane">People say</div>
+            <div className="label mb-2 text-arcane">{frontLabel}</div>
             <p className="font-head text-xl leading-snug text-ink/90">“{c.front}”</p>
             <span className="absolute bottom-4 text-xs text-muted">tap to flip</span>
           </Face>
           <Face back className="bg-plasma/10 border-plasma/30">
-            <div className="label mb-2 text-plasma">{c.term} — actually</div>
+            <div className="label mb-2 text-plasma">{c.term} {revealSuffix}</div>
             <p className="text-[15px] leading-relaxed text-ink/90">{c.back}</p>
           </Face>
         </motion.button>

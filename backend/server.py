@@ -90,7 +90,8 @@ async def completed_level_ids(did: str, done: Optional[set] = None) -> set:
     if done is None:
         done = await completed_mission_ids(did)
     out = set()
-    for lid in engine.level_order:
+    fork_level_ids = [lv["id"] for fk in engine.forks for lv in fk["levels"]]
+    for lid in list(engine.level_order) + fork_level_ids:
         mids = engine.mission_ids_for_level(lid)
         if mids and all(m in done for m in mids):
             out.add(lid)
@@ -109,7 +110,9 @@ def is_unlocked(level_id: str, completed_levels: set) -> bool:
     # level in the SAME world is completed. Worlds are freely explorable.
     if level_id in engine.first_in_world:
         return True
-    prev = engine.prev_in_world.get(level_id)
+    if level_id in engine.fork_first:
+        return True
+    prev = engine.prev_in_world.get(level_id) or engine.fork_prev.get(level_id)
     return prev is None or prev in completed_levels
 
 
@@ -338,6 +341,31 @@ async def next_best_action(did: str, done: set, levels_done: set) -> dict:
                         "label": f"Continue: {m['title']}"}
     # everything done -> review
     return {"kind": "review", "label": "Sharpen your skills in the Review Deck"}
+
+
+# ----------------------------------------------------------------- forks
+@api.get("/api/forks")
+async def list_forks():
+    return [engine.fork_summary(fk["id"]) for fk in engine.forks]
+
+
+@api.get("/api/forks/{fork_id}")
+async def fork_detail(fork_id: str, request: Request, x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    detail = engine.fork_detail(fork_id)
+    if not detail:
+        raise HTTPException(404, "Fork not found")
+    done = await completed_mission_ids(did)
+    levels_done = await completed_level_ids(did, done)
+    for lv in detail["levels"]:
+        mids = engine.mission_ids_for_level(lv["id"])
+        comp = sum(1 for m in mids if m in done)
+        lv["missions_completed"] = comp
+        lv["completed"] = lv["id"] in levels_done
+        lv["unlocked"] = is_unlocked(lv["id"], levels_done)
+        lv["progress"] = round(100 * comp / len(mids)) if mids else 0
+    detail["completed_levels"] = sum(1 for lv in detail["levels"] if lv["completed"])
+    return detail
 
 
 # ----------------------------------------------------------------- daily

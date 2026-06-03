@@ -1,0 +1,282 @@
+[
+  {
+    "num": 1,
+    "suffix": "",
+    "title": "The geometry of linear equations",
+    "full_title": "Lecture 1: The geometry of linear equations",
+    "youtube_id": "J7DzL2_Na80",
+    "summary": "A major application of linear algebra is to solving systems of linear equations. This lecture presents three ways of thinking about these systems. The “row method” focuses on the individual equations, the “column method” focuses on combining the columns, and the “matrix method” is an even more compact and powerful way of describing systems of linear equations."
+  },
+  {
+    "num": 2,
+    "suffix": "",
+    "title": "Elimination with matrices",
+    "full_title": "Lecture 2: Elimination with matrices",
+    "youtube_id": "QVKj3LADCnA",
+    "summary": "This session introduces the method of elimination, an essential tool for working with matrices. The method follows a simple algorithm. To help make sense of material presented later, we describe this algorithm in terms of matrix multiplication."
+  },
+  {
+    "num": 3,
+    "suffix": "",
+    "title": "Multiplication and inverse matrices",
+    "full_title": "Lecture 3: Multiplication and inverse matrices",
+    "youtube_id": "FX4C-JpTFgY",
+    "summary": "This lecture looks at matrix multiplication from five different points of view. We then learn how to find the inverse of a matrix using elimination, and why the Gauss-Jordan method works."
+  },
+  {
+    "num": 4,
+    "suffix": "",
+    "title": "Factorization into A = LU",
+    "full_title": "Lecture 4: Factorization into A = LU",
+    "youtube_id": "MsIvs_6vC38",
+    "summary": "This session explains inverses, transposes and permutation matrices. We also learn how elimination leads to a useful factorization A = LU and how hard a computer will work to invert a very large matrix."
+  },
+  {
+    "num": 5,
+    "suffix": "",
+    "title": "Transposes, permutations, spaces R^n",
+    "full_title": "Lecture 5: Transposes, permutations, spaces R^n",
+    "youtube_id": "JibVXBElKL0",
+    "summary": "To account for row exchanges in Gaussian elimination, we include a permutation matrix P in the factorization PA = LU. Then we learn about vector spaces and subspaces; these are central to linear algebra."
+  },
+  {
+    "num": 6,
+    "suffix": "",
+    "title": "Column space and nullspace",
+    "full_title": "Lecture 6: Column space and nullspace",
+    "youtube_id": "8o5Cmfpeo6g",
+    "summary": "This lecture discusses column space and nullspace. The column space of a matrix A tells us when the equation Ax = b will have a solution x. The nullspace of A tells us which values of x solve the equation Ax = 0."
+  },
+  {
+    "num": 7,
+    "suffix": "",
+    "title": "Solving Ax = 0: pivot variables, special solutions",
+    "full_title": "Lecture 7: Solving Ax = 0: pivot variables, special solutions",
+    "youtube_id": "VqP2tREMvt0",
+    "summary": "We apply the method of elimination to all matrices, invertible or not. Counting the pivots gives us the rank of the matrix. Further simplifying the matrix puts it in reduced row echelon form R and improves our description of the nullspace."
+  },
+  {
+    "num": 8,
+    "suffix": "",
+    "title": "Solving Ax = b: row reduced form R",
+    "full_title": "Lecture 8: Solving Ax = b: row reduced form R",
+    "youtube_id": "9Q1q7s1jTzU",
+    "summary": "When does Ax = b have solutions x, and how can we describe those solutions? We describe all solutions to Ax = b based on the free variables and special solutions encoded in the reduced form R."
+  },
+  {
+    "num": 9,
+    "suffix": "",
+    "title": "Independence, basis, and dimension",
+    "full_title": "Lecture 9: Independence, basis, and dimension",
+    "youtube_id": "yjBerM5jWsc",
+    "summary": "What does it mean for vectors to be independent? How does the idea of independence help us describe subspaces like the nullspace? A basis is a set of vectors, as few as possible, whose combinations produce all vectors in the space. The number of basis vectors for a space equals the dimension of that space."
+  },
+  {
+    "num": 10,
+    "suffix": "",
+    "title": "The four fundamental subspaces",
+    "full_title": "Lecture 10: The four fundamental subspaces",
+    "youtube_id": "nHlE7EgJFds",
+    "summary": "For some vectors b the equation Ax = b has solutions and for others it does not. Some vectors x are solutions to the equation Ax = 0 and some are not. To understand these equations we study the column space, nullspace, row space and left nullspace of the matrix A."
+  },
+  {
+    "num": 11,
+    "suffix": "",
+    "title": "Matrix spaces; rank 1; small world graphs",
+    "full_title": "Lecture 11: Matrix spaces; rank 1; small world graphs",
+    "youtube_id": "2IdtqGM6KWU",
+    "summary": "As we learned last session, vectors don’t have to be lists of numbers. In this session we explore important new vector spaces while practicing the skills we learned in the old ones. Then we begin the application of matrices to the study of networks."
+  },
+  {
+    "num": 12,
+    "suffix": "",
+    "title": "Graphs, networks, incidence matrices",
+    "full_title": "Lecture 12: Graphs, networks, incidence matrices",
+    "youtube_id": "6-wh6yvk6uc",
+    "summary": "This session explores the linear algebra of electrical networks and the Internet, and sheds light on important results in graph theory."
+  },
+  {
+    "num": 13,
+    "suffix": "",
+    "title": "Quiz 1 review",
+    "full_title": "Lecture 13: Quiz 1 review",
+    "youtube_id": "l88D4r74gtM",
+    "summary": "By approaching what we’ve learned from new directions, the questions in this exam review session test the depth of your understanding. This unit reached the key ideas of subspaces—a higher level of linear algebra."
+  },
+  {
+    "num": 14,
+    "suffix": "",
+    "title": "Orthogonal vectors and subspaces",
+    "full_title": "Lecture 14: Orthogonal vectors and subspaces",
+    "youtube_id": "YzZUIYRCE38",
+    "summary": "Vectors are easier to understand when they’re described in terms of orthogonal bases. In addition, the Four Fundamental Subspaces are orthogonal to each other in pairs. If A is a rectangular matrix, Ax = b is often unsolvable."
+  },
+  {
+    "num": 15,
+    "suffix": "",
+    "title": "Projections onto subspaces",
+    "full_title": "Lecture 15: Projections onto subspaces",
+    "youtube_id": "Y_Ac6KiQ1t0",
+    "summary": "We often want to find the line (or plane, or hyperplane) that best fits our data. This amounts to finding the best possible approximation to some unsolvable system of linear equations Ax = b. The algebra of finding these best fit solutions begins with the projection of a vector onto a subspace."
+  },
+  {
+    "num": 16,
+    "suffix": "",
+    "title": "Projection matrices and least squares",
+    "full_title": "Lecture 16: Projection matrices and least squares",
+    "youtube_id": "osh80YCg_GM",
+    "summary": "Linear regression is commonly used to fit a line to a collection of data. The method of least squares can be viewed as finding the projection of a vector. Linear algebra provides a powerful and efficient description of linear regression in terms of the matrix A_T_A."
+  },
+  {
+    "num": 17,
+    "suffix": "",
+    "title": "Orthogonal matrices and Gram-Schmidt",
+    "full_title": "Lecture 17: Orthogonal matrices and Gram-Schmidt",
+    "youtube_id": "0MtwqhIwdrI",
+    "summary": "Many calculations become simpler when performed using orthonormal vectors or orthogonal matrices. In this session, we learn a procedure for converting any basis to an orthonormal one."
+  },
+  {
+    "num": 18,
+    "suffix": "",
+    "title": "Properties of determinants",
+    "full_title": "Lecture 18: Properties of determinants",
+    "youtube_id": "srxexLishgY",
+    "summary": "The determinant of a matrix is a single number which encodes a lot of information about the matrix. Three simple properties completely describe the determinant. In this lecture we also list seven more properties like det_AB_ = (det_A_)(det_B_) that can be derived from the first three."
+  },
+  {
+    "num": 19,
+    "suffix": "",
+    "title": "Determinant formulas and cofactors",
+    "full_title": "Lecture 19: Determinant formulas and cofactors",
+    "youtube_id": "23LLB9mNJvc",
+    "summary": "One way to compute the determinant is by elimination. In this lecture we derive two related formulas for the determinant using the properties from last lecture."
+  },
+  {
+    "num": 20,
+    "suffix": "",
+    "title": "Cramer's rule, inverse matrix, and volume",
+    "full_title": "Lecture 20: Cramer's rule, inverse matrix, and volume",
+    "youtube_id": "QNpj-gOXW9M",
+    "summary": "Now we start to use the determinant. Understanding the cofactor formula allows us to show that A_-1 = (1/det_A)_C_T, where C is the matrix of cofactors of A. Combining this formula with the equation x = A_-1_b gives us Cramer’s rule for solving Ax = b. Also, the absolute value of the determinant gives the volume of a box."
+  },
+  {
+    "num": 21,
+    "suffix": "",
+    "title": "Eigenvalues and eigenvectors",
+    "full_title": "Lecture 21: Eigenvalues and eigenvectors",
+    "youtube_id": "cdZnhQjJu4I",
+    "summary": "If the product Ax points in the same direction as the vector x, we say that x is an eigenvector of A. Eigenvalues and eigenvectors describe what happens when a matrix is multiplied by a vector. In this session we learn how to find the eigenvalues and eigenvectors of a matrix."
+  },
+  {
+    "num": 22,
+    "suffix": "",
+    "title": "Diagonalization and powers of A",
+    "full_title": "Lecture 22: Diagonalization and powers of A",
+    "youtube_id": "13r9QY6cmjc",
+    "summary": "We know how to find eigenvalues and eigenvectors. In this lecture we learn to diagonalize any matrix that has n independent eigenvectors and see how diagonalization simplifies calculations. The lecture concludes by using eigenvalues and eigenvectors to solve difference equations."
+  },
+  {
+    "num": 23,
+    "suffix": "",
+    "title": "Differential equations and exp(At)",
+    "full_title": "Lecture 23: Differential equations and exp(At)",
+    "youtube_id": "IZqwi0wJovM",
+    "summary": "In this lecture we apply linear algebra to solve differential equations. We also talk about matrix exponential e_At_. We can copy Taylor’s series for e_At_ to define e_At_ for a matrix A. If A is diagonalizable, we can use Λ to find the exact value of e_At_."
+  },
+  {
+    "num": 24,
+    "suffix": "",
+    "title": "Markov matrices; fourier series",
+    "full_title": "Lecture 24: Markov matrices; fourier series",
+    "youtube_id": "lGGDIGizcQ0",
+    "summary": "Like differential equations, Markov matrices describe changes over time. Once again, the eigenvalues and eigenvectors describe the long term behavior of the system. In this session we also learn about Fourier series, which describe periodic functions as points in an infinite dimensional vector space."
+  },
+  {
+    "num": 24,
+    "suffix": "b",
+    "title": "Quiz 2 review",
+    "full_title": "Lecture 24b: Quiz 2 review",
+    "youtube_id": "QuZL5IKpO_U",
+    "summary": "Unit II covered a lot of material, the heart of this course. This session reviews the material covered by Quiz 2. Sample questions are given in this video, too."
+  },
+  {
+    "num": 25,
+    "suffix": "",
+    "title": "Symmetric matrices and positive definiteness",
+    "full_title": "Lecture 25: Symmetric matrices and positive definiteness",
+    "youtube_id": "UCc9q_cAhho",
+    "summary": "Special matrices have special eigenvalues and eigenvectors. Symmetric and positive definite matrices have extremely nice properties, and studying these matrices brings together everything we’ve learned about pivots, determinants and eigenvalues. In this session we also practice doing linear algebra with complex numbers and learn how the pivots give information about the eigenvalues of a symmetric matrix."
+  },
+  {
+    "num": 26,
+    "suffix": "",
+    "title": "Complex matrices; fast fourier transform",
+    "full_title": "Lecture 26: Complex matrices; fast fourier transform",
+    "youtube_id": "M0Sa8fLOajA",
+    "summary": "The Fourier matrices have complex valued entries and many nice properties. This session covers the basics of working with complex matrices and vectors, and concludes with a description of the fast Fourier transform."
+  },
+  {
+    "num": 27,
+    "suffix": "",
+    "title": "Positive definite matrices and minima",
+    "full_title": "Lecture 27: Positive definite matrices and minima",
+    "youtube_id": "vF7eyJ2g3kU",
+    "summary": "In calculus, the second derivative decides whether a critical point of y(x) is a minimum. For functions of multiple variables, the test is whether a matrix of second derivatives is positive definite. In this session we learn several ways of testing for positive definiteness and also how the shape of the graph of ƒ(x) = x_T_Ax is determined by the entries of A."
+  },
+  {
+    "num": 28,
+    "suffix": "",
+    "title": "Similar matrices and Jordan form",
+    "full_title": "Lecture 28: Similar matrices and Jordan form",
+    "youtube_id": "TSdXJw83kyA",
+    "summary": "After a final discussion of positive definite matrices, we learn about “similar” matrices: B = M_-1_AM for some invertible matrix M. Square matrices can be grouped by similarity, and each group has a “nicest” representative in Jordan normal form. This form tells at a glance the eigenvalues and the number of eigenvectors."
+  },
+  {
+    "num": 29,
+    "suffix": "",
+    "title": "Singular value decomposition",
+    "full_title": "Lecture 29: Singular value decomposition",
+    "youtube_id": "TX_vooSnhm8",
+    "summary": "The singular value decomposition of a matrix is usually referred to as the SVD. This is the final and best factorization of a matrix. The factors are orthogonal matrix, diagonal matrix, orthogonal matrix. Any matrix whatsoever has this singular value decomposition. One thing we bring together in this lecture is the very good family of matrices that we just studied: symmetric, positive, definite."
+  },
+  {
+    "num": 30,
+    "suffix": "",
+    "title": "Linear transformations and their matrices",
+    "full_title": "Lecture 30: Linear transformations and their matrices",
+    "youtube_id": "Ts3o2I8_Mxc",
+    "summary": "When we multiply a matrix by an input vector we get an output vector, often in a new space. We can ask what this “linear transformation” does to all the vectors in a space. In fact, matrices were originally invented for the study of linear transformations."
+  },
+  {
+    "num": 31,
+    "suffix": "",
+    "title": "Change of basis; image compression",
+    "full_title": "Lecture 31: Change of basis; image compression",
+    "youtube_id": "0h43aV4aH7I",
+    "summary": "Video cameras record data in a poor format for broadcasting video. To transmit video efficiently, linear algebra is used to change the basis. But which basis is best for video compression is an important question that has not been fully answered!"
+  },
+  {
+    "num": 32,
+    "suffix": "",
+    "title": "Quiz 3 review",
+    "full_title": "Lecture 32: Quiz 3 review",
+    "youtube_id": "HgC1l_6ySkc",
+    "summary": "Quiz 3 covers the understanding of matrices through their eigenvalues. Elimination is history now, because it does NOT preserve eigenvalues. Notice the special types of matrices (like positive definite) and their factorizations."
+  },
+  {
+    "num": 33,
+    "suffix": "",
+    "title": "Left and right inverses; pseudoinverse",
+    "full_title": "Lecture 33: Left and right inverses; pseudoinverse",
+    "youtube_id": "Go2aLo7ZOlU",
+    "summary": "We’d like to be able to “invert A” to solve Ax = b, but A may have only a left inverse or right inverse (or no inverse). This discussion of how and when matrices have inverses improves our understanding of the four fundamental subspaces and of many other key topics in the course."
+  },
+  {
+    "num": 34,
+    "suffix": "",
+    "title": "Final course review",
+    "full_title": "Lecture 34: Final course review",
+    "youtube_id": "RWvi4Vx4CDc",
+    "summary": "Review entire course."
+  }
+]

@@ -68,6 +68,28 @@ class ContentEngine:
                     self.prev_in_world[lv["id"]] = ordered[i - 1]["id"]
             self.world_term_pool[w["id"]] = pool
 
+        # ---- Fork content (alternative learning paths, e.g. MIT 18.06) ----
+        self.forks: List[dict] = []
+        self.fork_by_id: Dict[str, dict] = {}
+        self.fork_first: set = set()
+        self.fork_prev: Dict[str, Optional[str]] = {}
+        self.anchor_forks: Dict[str, List[str]] = {}  # anchor_level_id -> [fork_id]
+        fork_path = CONTENT_PATH.parent / "fork_content.json"
+        if fork_path.exists():
+            fdata = json.loads(fork_path.read_text(encoding="utf-8"))
+            for fk in fdata.get("forks", []):
+                self.forks.append(fk)
+                self.fork_by_id[fk["id"]] = fk
+                self.anchor_forks.setdefault(fk["anchor_level_id"], []).append(fk["id"])
+                ordered = sorted(fk["levels"], key=lambda x: x["order"])
+                for i, lv in enumerate(ordered):
+                    self.levels_by_id[lv["id"]] = lv  # fork levels are addressable too
+                    if i == 0:
+                        self.fork_first.add(lv["id"])
+                        self.fork_prev[lv["id"]] = None
+                    else:
+                        self.fork_prev[lv["id"]] = ordered[i - 1]["id"]
+
     # ---------- campaign ----------
     def campaign(self) -> List[dict]:
         out = []
@@ -260,8 +282,8 @@ class ContentEngine:
         lv = self.levels_by_id.get(level_id)
         if not lv:
             return None
-        missions = self._missions(lv)
-        return {
+        missions = lv["missions"] if lv.get("missions") else self._missions(lv)
+        out = {
             "id": lv["id"],
             "world_id": lv["world_id"],
             "title": lv["title"],
@@ -273,11 +295,46 @@ class ContentEngine:
             "missions": missions,
             "total_xp": sum(m["xp_reward"] for m in missions) + LEVEL_COMPLETE_BONUS,
             "complete_bonus": LEVEL_COMPLETE_BONUS,
+            "is_fork": lv.get("is_fork", False),
+            "fork_id": lv.get("fork_id"),
         }
+        # Surface available forks on the anchor level (e.g. Linear Algebra)
+        if lv["id"] in self.anchor_forks:
+            out["forks"] = [self.fork_summary(fid) for fid in self.anchor_forks[lv["id"]]]
+        return out
 
     def mission_ids_for_level(self, level_id: str) -> List[str]:
         lv = self.levels_by_id.get(level_id)
-        return [m["id"] for m in self._missions(lv)] if lv else []
+        if not lv:
+            return []
+        if lv.get("missions"):
+            return [m["id"] for m in lv["missions"]]
+        return [m["id"] for m in self._missions(lv)]
+
+    # ---------- forks ----------
+    def fork_summary(self, fork_id: str) -> Optional[dict]:
+        fk = self.fork_by_id.get(fork_id)
+        if not fk:
+            return None
+        return {"id": fk["id"], "name": fk["name"], "short": fk.get("short", ""),
+                "source": fk["source"], "tagline": fk["tagline"],
+                "anchor_level_id": fk["anchor_level_id"], "level_count": fk["level_count"]}
+
+    def fork_detail(self, fork_id: str) -> Optional[dict]:
+        fk = self.fork_by_id.get(fork_id)
+        if not fk:
+            return None
+        levels = sorted(fk["levels"], key=lambda x: x["order"])
+        return {
+            **self.fork_summary(fork_id),
+            "levels": [{
+                "id": lv["id"], "title": lv["title"], "tagline": lv["tagline"],
+                "order": lv["order"], "type": lv["type"],
+                "estimated_minutes": lv["estimated_minutes"],
+                "mission_count": len(lv["missions"]),
+                "youtube_id": lv.get("youtube_id"),
+            } for lv in levels],
+        }
 
     # ---------- review cards ----------
     def all_review_seeds(self) -> List[dict]:
@@ -293,6 +350,20 @@ class ContentEngine:
                         "term": t["term"],
                         "prompt": f"What does \u201c{t['term']}\u201d actually mean?",
                         "myth": t["myth"],
+                        "answer": t["reality"],
+                    })
+        # fork review cards (from curated concept terms)
+        for fk in self.forks:
+            for lv in fk["levels"]:
+                for i, t in enumerate(lv.get("review_terms", [])):
+                    seeds.append({
+                        "card_id": f"{lv['id']}::card::{i}",
+                        "level_id": lv["id"],
+                        "world_id": fk["world_id"],
+                        "type": "concept",
+                        "term": t["term"],
+                        "prompt": f"Recall: what is {t['term'].lower()}?",
+                        "myth": "",
                         "answer": t["reality"],
                     })
         return seeds

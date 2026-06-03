@@ -6,6 +6,7 @@ import RewardOverlay from "./components/RewardOverlay";
 import Home from "./pages/Home";
 import MapPage from "./pages/Map";
 import LevelDetail from "./pages/LevelDetail";
+import ForkPath from "./pages/ForkPath";
 import MissionPlayer from "./pages/MissionPlayer";
 import Lab from "./pages/Lab";
 import Arena from "./pages/Arena";
@@ -42,6 +43,7 @@ function Shell() {
         <Route path="/" element={<Home />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/level/:id" element={<LevelDetail />} />
+        <Route path="/fork/:forkId" element={<ForkPath />} />
         <Route path="/play/:levelId/:missionId" element={<MissionPlayer />} />
         <Route path="/lab" element={<Lab />} />
         <Route path="/arena" element={<Arena />} />

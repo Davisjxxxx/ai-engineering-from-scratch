@@ -45,6 +45,8 @@ export const api = {
     client.post(`/review/${encodeURIComponent(id)}/grade`, { quality }).then((r) => r.data),
   seedReviews: () => client.post("/review/seed-all").then((r) => r.data),
   skills: () => client.get("/skills").then((r) => r.data),
+  forks: () => client.get("/forks").then((r) => r.data),
+  fork: (id) => client.get(`/forks/${encodeURIComponent(id)}`).then((r) => r.data),
   badges: () => client.get("/badges").then((r) => r.data),
   notifPrefs: () => client.get("/notifications/preferences").then((r) => r.data),
   saveNotifPrefs: (p) => client.put("/notifications/preferences", p).then((r) => r.data),

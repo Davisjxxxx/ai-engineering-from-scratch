@@ -1,0 +1,3993 @@
+{
+  "version": 1,
+  "forks": [
+    {
+      "id": "mit-1806",
+      "world_id": 1,
+      "anchor_level_id": "01-01-linear-algebra-intuition",
+      "name": "MIT 18.06 — Strang's Linear Algebra",
+      "short": "Video-first fork",
+      "source": "MIT OpenCourseWare · Prof. Gilbert Strang (CC BY-NC-SA 4.0)",
+      "tagline": "Widely called the best linear algebra course in the world. Learn it the way MIT does — watch, then lock it in.",
+      "skill": "product-thinking",
+      "level_count": 35,
+      "levels": [
+        {
+          "id": "mit1806-01",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 10,
+          "title": "L1 · The geometry of linear equations",
+          "tagline": "See Ax=b as the row picture (intersecting lines/planes) and the column picture (combining vectors)",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "See Ax=b as the row picture (intersecting lines/planes) and the column picture (combining vectors)",
+            "Understand a linear combination of columns"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-01::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "The geometry of linear equations",
+                "why_it_matters": "A major application of linear algebra is to solving systems of linear equations. This lecture presents three ways of thinking about these systems. The “row method” focuses on the individual equations, the “column method” focuses on combining the columns, and the “matrix method” is an even more compact and powerful way of describing systems of linear equations.",
+                "objectives": [
+                  "See Ax=b as the row picture (intersecting lines/planes) and the column picture (combining vectors)",
+                  "Understand a linear combination of columns"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-01::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "J7DzL2_Na80",
+                "title": "Lecture 1: The geometry of linear equations",
+                "watch_for": [
+                  "How the column picture turns 'solve equations' into 'combine vectors'",
+                  "When the columns can produce EVERY right-hand side b"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-01::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Row picture",
+                    "front": "What is row picture?",
+                    "back": "Each equation is a line (2D) or plane (3D); the solution is where they all intersect."
+                  },
+                  {
+                    "term": "Column picture",
+                    "front": "What is column picture?",
+                    "back": "Ax is a linear combination of A's columns; solving Ax=b asks which combination equals b."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-01::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "In the column picture, what is Ax?",
+                    "options": [
+                      "The determinant of A",
+                      "The dot product of the rows of A",
+                      "The intersection point of the rows",
+                      "A linear combination of the columns of A weighted by the entries of x"
+                    ],
+                    "answer": 3,
+                    "explain": "Ax mixes the columns of A using x's entries — the heart of Strang's column picture."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Row picture",
+              "myth": "",
+              "reality": "Each equation is a line (2D) or plane (3D); the solution is where they all intersect."
+            },
+            {
+              "term": "Column picture",
+              "myth": "",
+              "reality": "Ax is a linear combination of A's columns; solving Ax=b asks which combination equals b."
+            }
+          ],
+          "youtube_id": "J7DzL2_Na80"
+        },
+        {
+          "id": "mit1806-02",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 20,
+          "title": "L2 · Elimination with matrices",
+          "tagline": "Perform elimination to reach upper-triangular form",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Perform elimination to reach upper-triangular form",
+            "Read off pivots and spot a failure (zero pivot)"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-02::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Elimination with matrices",
+                "why_it_matters": "This session introduces the method of elimination, an essential tool for working with matrices. The method follows a simple algorithm. To help make sense of material presented later, we describe this algorithm in terms of matrix multiplication.",
+                "objectives": [
+                  "Perform elimination to reach upper-triangular form",
+                  "Read off pivots and spot a failure (zero pivot)"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-02::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "QVKj3LADCnA",
+                "title": "Lecture 2: Elimination with matrices",
+                "watch_for": [
+                  "What a pivot is",
+                  "What it means when a pivot is zero"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-02::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Pivot",
+                    "front": "What is pivot?",
+                    "back": "The first nonzero entry in a row used to eliminate entries below it."
+                  },
+                  {
+                    "term": "Elimination",
+                    "front": "What is elimination?",
+                    "back": "Systematically subtracting multiples of rows to reach upper-triangular form U."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-02::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Elimination fails (needs a row exchange) when…",
+                    "options": [
+                      "the matrix is symmetric",
+                      "b has a zero entry",
+                      "the matrix is square",
+                      "a pivot position contains a zero"
+                    ],
+                    "answer": 3,
+                    "explain": "A zero in the pivot position forces a row exchange (or signals singularity)."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Pivot",
+              "myth": "",
+              "reality": "The first nonzero entry in a row used to eliminate entries below it."
+            },
+            {
+              "term": "Elimination",
+              "myth": "",
+              "reality": "Systematically subtracting multiples of rows to reach upper-triangular form U."
+            }
+          ],
+          "youtube_id": "QVKj3LADCnA"
+        },
+        {
+          "id": "mit1806-03",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 30,
+          "title": "L3 · Multiplication and inverse matrices",
+          "tagline": "View matrix multiplication five ways",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "View matrix multiplication five ways",
+            "Understand the inverse and when it exists"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-03::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Multiplication and inverse matrices",
+                "why_it_matters": "This lecture looks at matrix multiplication from five different points of view. We then learn how to find the inverse of a matrix using elimination, and why the Gauss-Jordan method works.",
+                "objectives": [
+                  "View matrix multiplication five ways",
+                  "Understand the inverse and when it exists"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-03::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "FX4C-JpTFgY",
+                "title": "Lecture 3: Multiplication and inverse matrices",
+                "watch_for": [
+                  "Multiplication as combinations of columns AND of rows",
+                  "Why AB and BA differ"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-03::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Inverse matrix",
+                    "front": "What is inverse matrix?",
+                    "back": "A⁻¹ undoes A: A⁻¹A = I. It exists only when A is square and nonsingular."
+                  },
+                  {
+                    "term": "Matrix multiplication",
+                    "front": "What is matrix multiplication?",
+                    "back": "Can be seen as rows·columns, column combinations, row combinations, or sum of rank-1 pieces."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-03::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A square matrix A has an inverse exactly when…",
+                    "options": [
+                      "it has no zero pivots (it is nonsingular)",
+                      "it is diagonal",
+                      "it is symmetric",
+                      "all entries are positive"
+                    ],
+                    "answer": 0,
+                    "explain": "Full set of nonzero pivots ⇔ invertible."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Inverse matrix",
+              "myth": "",
+              "reality": "A⁻¹ undoes A: A⁻¹A = I. It exists only when A is square and nonsingular."
+            },
+            {
+              "term": "Matrix multiplication",
+              "myth": "",
+              "reality": "Can be seen as rows·columns, column combinations, row combinations, or sum of rank-1 pieces."
+            }
+          ],
+          "youtube_id": "FX4C-JpTFgY"
+        },
+        {
+          "id": "mit1806-04",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 40,
+          "title": "L4 · Factorization into A = LU",
+          "tagline": "Factor A = LU from elimination",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Factor A = LU from elimination",
+            "Understand L holds the elimination multipliers"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-04::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Factorization into A = LU",
+                "why_it_matters": "This session explains inverses, transposes and permutation matrices. We also learn how elimination leads to a useful factorization A = LU and how hard a computer will work to invert a very large matrix.",
+                "objectives": [
+                  "Factor A = LU from elimination",
+                  "Understand L holds the elimination multipliers"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-04::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "MsIvs_6vC38",
+                "title": "Lecture 4: Factorization into A = LU",
+                "watch_for": [
+                  "Where the multipliers go in L",
+                  "Why no row exchanges means A = LU"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-04::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "A = LU",
+                    "front": "What is a = lu?",
+                    "back": "Elimination factors A into Lower-triangular L (the multipliers) times Upper-triangular U (the pivots)."
+                  },
+                  {
+                    "term": "Permutation matrix P",
+                    "front": "What is permutation matrix p?",
+                    "back": "Identity with reordered rows; tracks row exchanges so PA = LU."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-04::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "In A = LU, what does L contain?",
+                    "options": [
+                      "the multipliers used during elimination, with 1's on the diagonal",
+                      "the eigenvalues",
+                      "the pivots",
+                      "the right-hand side b"
+                    ],
+                    "answer": 0,
+                    "explain": "L records exactly the numbers you multiplied rows by to eliminate."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "A = LU",
+              "myth": "",
+              "reality": "Elimination factors A into Lower-triangular L (the multipliers) times Upper-triangular U (the pivots)."
+            },
+            {
+              "term": "Permutation matrix P",
+              "myth": "",
+              "reality": "Identity with reordered rows; tracks row exchanges so PA = LU."
+            }
+          ],
+          "youtube_id": "MsIvs_6vC38"
+        },
+        {
+          "id": "mit1806-05",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 50,
+          "title": "L5 · Transposes, permutations, spaces R^n",
+          "tagline": "Use permutations for row exchanges",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Use permutations for row exchanges",
+            "Define a vector space / subspace of Rⁿ"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-05::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Transposes, permutations, spaces R^n",
+                "why_it_matters": "To account for row exchanges in Gaussian elimination, we include a permutation matrix P in the factorization PA = LU. Then we learn about vector spaces and subspaces; these are central to linear algebra.",
+                "objectives": [
+                  "Use permutations for row exchanges",
+                  "Define a vector space / subspace of Rⁿ"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-05::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "JibVXBElKL0",
+                "title": "Lecture 5: Transposes, permutations, spaces R^n",
+                "watch_for": [
+                  "Why P⁻¹ = Pᵀ",
+                  "The rules a subspace must satisfy"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-05::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Transpose Aᵀ",
+                    "front": "What is transpose aᵀ?",
+                    "back": "Flips rows and columns; (AB)ᵀ = BᵀAᵀ."
+                  },
+                  {
+                    "term": "Subspace",
+                    "front": "What is subspace?",
+                    "back": "A set closed under addition and scalar multiplication, always containing the zero vector."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-05::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Which is REQUIRED for a set to be a subspace?",
+                    "options": [
+                      "It must contain the zero vector and be closed under + and scalar ×",
+                      "It must be the column space of some A",
+                      "It must be finite",
+                      "It must contain a basis of Rⁿ"
+                    ],
+                    "answer": 0,
+                    "explain": "Closed under linear combinations, and contains 0 — that's a subspace."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Transpose Aᵀ",
+              "myth": "",
+              "reality": "Flips rows and columns; (AB)ᵀ = BᵀAᵀ."
+            },
+            {
+              "term": "Subspace",
+              "myth": "",
+              "reality": "A set closed under addition and scalar multiplication, always containing the zero vector."
+            }
+          ],
+          "youtube_id": "JibVXBElKL0"
+        },
+        {
+          "id": "mit1806-06",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 60,
+          "title": "L6 · Column space and nullspace",
+          "tagline": "Define column space and nullspace",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define column space and nullspace",
+            "Connect solvability of Ax=b to the column space"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-06::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Column space and nullspace",
+                "why_it_matters": "This lecture discusses column space and nullspace. The column space of a matrix A tells us when the equation Ax = b will have a solution x. The nullspace of A tells us which values of x solve the equation Ax = 0.",
+                "objectives": [
+                  "Define column space and nullspace",
+                  "Connect solvability of Ax=b to the column space"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-06::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "8o5Cmfpeo6g",
+                "title": "Lecture 6: Column space and nullspace",
+                "watch_for": [
+                  "Column space = all reachable b",
+                  "Nullspace = all solutions to Ax=0"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-06::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Column space C(A)",
+                    "front": "What is column space c(a)?",
+                    "back": "All linear combinations of A's columns — exactly the b for which Ax=b is solvable."
+                  },
+                  {
+                    "term": "Nullspace N(A)",
+                    "front": "What is nullspace n(a)?",
+                    "back": "All solutions x to Ax=0; it is a subspace of Rⁿ."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-06::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Ax=b is solvable precisely when…",
+                    "options": [
+                      "b is the zero vector",
+                      "A is square",
+                      "b lies in the nullspace of A",
+                      "b lies in the column space of A"
+                    ],
+                    "answer": 3,
+                    "explain": "Reachable right-hand sides are exactly C(A)."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Column space C(A)",
+              "myth": "",
+              "reality": "All linear combinations of A's columns — exactly the b for which Ax=b is solvable."
+            },
+            {
+              "term": "Nullspace N(A)",
+              "myth": "",
+              "reality": "All solutions x to Ax=0; it is a subspace of Rⁿ."
+            }
+          ],
+          "youtube_id": "8o5Cmfpeo6g"
+        },
+        {
+          "id": "mit1806-07",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 70,
+          "title": "L7 · Solving Ax = 0: pivot variables, special solutions",
+          "tagline": "Find pivot vs free variables",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Find pivot vs free variables",
+            "Build special solutions to Ax=0"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-07::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Solving Ax = 0: pivot variables, special solutions",
+                "why_it_matters": "We apply the method of elimination to all matrices, invertible or not. Counting the pivots gives us the rank of the matrix. Further simplifying the matrix puts it in reduced row echelon form R and improves our description of the nullspace.",
+                "objectives": [
+                  "Find pivot vs free variables",
+                  "Build special solutions to Ax=0"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-07::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "VqP2tREMvt0",
+                "title": "Lecture 7: Solving Ax = 0: pivot variables, special solutions",
+                "watch_for": [
+                  "How free variables generate the nullspace",
+                  "Rank = number of pivots"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-07::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Free variable",
+                    "front": "What is free variable?",
+                    "back": "A variable with no pivot in its column; you set it freely to build nullspace solutions."
+                  },
+                  {
+                    "term": "Rank",
+                    "front": "What is rank?",
+                    "back": "The number of pivots — the true dimension of the row/column space."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-07::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The number of free variables of A equals…",
+                    "options": [
+                      "the number of rows",
+                      "n minus the rank (number of columns minus pivots)",
+                      "the determinant",
+                      "the rank"
+                    ],
+                    "answer": 1,
+                    "explain": "Free variables = n − r; each one gives a special nullspace solution."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Free variable",
+              "myth": "",
+              "reality": "A variable with no pivot in its column; you set it freely to build nullspace solutions."
+            },
+            {
+              "term": "Rank",
+              "myth": "",
+              "reality": "The number of pivots — the true dimension of the row/column space."
+            }
+          ],
+          "youtube_id": "VqP2tREMvt0"
+        },
+        {
+          "id": "mit1806-08",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 80,
+          "title": "L8 · Solving Ax = b: row reduced form R",
+          "tagline": "Describe ALL solutions to Ax=b",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Describe ALL solutions to Ax=b",
+            "Use reduced row echelon form R"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-08::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Solving Ax = b: row reduced form R",
+                "why_it_matters": "When does Ax = b have solutions x, and how can we describe those solutions? We describe all solutions to Ax = b based on the free variables and special solutions encoded in the reduced form R.",
+                "objectives": [
+                  "Describe ALL solutions to Ax=b",
+                  "Use reduced row echelon form R"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-08::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "9Q1q7s1jTzU",
+                "title": "Lecture 8: Solving Ax = b: row reduced form R",
+                "watch_for": [
+                  "Particular + nullspace = complete solution",
+                  "When there are 0, 1, or ∞ solutions"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-08::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Complete solution",
+                    "front": "What is complete solution?",
+                    "back": "x_particular + (any nullspace vector); one particular solution plus all of N(A)."
+                  },
+                  {
+                    "term": "Reduced form R",
+                    "front": "What is reduced form r?",
+                    "back": "rref(A): pivots are 1, with zeros above and below — reveals rank and free columns."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-08::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The complete solution to Ax=b is…",
+                    "options": [
+                      "only the particular solution",
+                      "only the nullspace",
+                      "one particular solution plus every vector in the nullspace",
+                      "the column space of A"
+                    ],
+                    "answer": 2,
+                    "explain": "x = x_p + x_n captures all solutions."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Complete solution",
+              "myth": "",
+              "reality": "x_particular + (any nullspace vector); one particular solution plus all of N(A)."
+            },
+            {
+              "term": "Reduced form R",
+              "myth": "",
+              "reality": "rref(A): pivots are 1, with zeros above and below — reveals rank and free columns."
+            }
+          ],
+          "youtube_id": "9Q1q7s1jTzU"
+        },
+        {
+          "id": "mit1806-09",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 90,
+          "title": "L9 · Independence, basis, and dimension",
+          "tagline": "Define independence, basis, dimension",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define independence, basis, dimension",
+            "Relate basis size to rank"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-09::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Independence, basis, and dimension",
+                "why_it_matters": "What does it mean for vectors to be independent? How does the idea of independence help us describe subspaces like the nullspace? A basis is a set of vectors, as few as possible, whose combinations produce all vectors in the space. The number of basis vectors for a space equals the dimension of that space.",
+                "objectives": [
+                  "Define independence, basis, dimension",
+                  "Relate basis size to rank"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-09::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "yjBerM5jWsc",
+                "title": "Lecture 9: Independence, basis, and dimension",
+                "watch_for": [
+                  "Independence vs spanning",
+                  "Why every basis has the same size"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-09::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Linear independence",
+                    "front": "What is linear independence?",
+                    "back": "No vector is a combination of the others; only the trivial combination gives 0."
+                  },
+                  {
+                    "term": "Basis",
+                    "front": "What is basis?",
+                    "back": "An independent set that spans the space; its size is the dimension."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-09::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A basis of a subspace is…",
+                    "options": [
+                      "any independent set",
+                      "any spanning set",
+                      "an independent set of vectors that spans the subspace",
+                      "the largest set of vectors that fit"
+                    ],
+                    "answer": 2,
+                    "explain": "Independent AND spanning — both conditions define a basis."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Linear independence",
+              "myth": "",
+              "reality": "No vector is a combination of the others; only the trivial combination gives 0."
+            },
+            {
+              "term": "Basis",
+              "myth": "",
+              "reality": "An independent set that spans the space; its size is the dimension."
+            }
+          ],
+          "youtube_id": "yjBerM5jWsc"
+        },
+        {
+          "id": "mit1806-10",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 100,
+          "title": "L10 · The four fundamental subspaces",
+          "tagline": "Name the four fundamental subspaces",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Name the four fundamental subspaces",
+            "Know their dimensions and orthogonality"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-10::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "The four fundamental subspaces",
+                "why_it_matters": "For some vectors b the equation Ax = b has solutions and for others it does not. Some vectors x are solutions to the equation Ax = 0 and some are not. To understand these equations we study the column space, nullspace, row space and left nullspace of the matrix A.",
+                "objectives": [
+                  "Name the four fundamental subspaces",
+                  "Know their dimensions and orthogonality"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-10::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "nHlE7EgJFds",
+                "title": "Lecture 10: The four fundamental subspaces",
+                "watch_for": [
+                  "Dimensions: r, r, n−r, m−r",
+                  "Which subspaces are orthogonal complements"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-10::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Four subspaces",
+                    "front": "What is four subspaces?",
+                    "back": "Column space C(A) and nullspace N(A); row space C(Aᵀ) and left nullspace N(Aᵀ)."
+                  },
+                  {
+                    "term": "Dimensions",
+                    "front": "What is dimensions?",
+                    "back": "dim C(A)=dim C(Aᵀ)=r; dim N(A)=n−r; dim N(Aᵀ)=m−r."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-10::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The row space and column space of A always have…",
+                    "options": [
+                      "the same dimension, r (the rank)",
+                      "dimension m",
+                      "dimension n",
+                      "dimensions that differ by the nullity"
+                    ],
+                    "answer": 0,
+                    "explain": "Row rank = column rank = r — a cornerstone theorem."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Four subspaces",
+              "myth": "",
+              "reality": "Column space C(A) and nullspace N(A); row space C(Aᵀ) and left nullspace N(Aᵀ)."
+            },
+            {
+              "term": "Dimensions",
+              "myth": "",
+              "reality": "dim C(A)=dim C(Aᵀ)=r; dim N(A)=n−r; dim N(Aᵀ)=m−r."
+            }
+          ],
+          "youtube_id": "nHlE7EgJFds"
+        },
+        {
+          "id": "mit1806-11",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 110,
+          "title": "L11 · Matrix spaces; rank 1; small world graphs",
+          "tagline": "Treat matrices as a vector space",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Treat matrices as a vector space",
+            "Recognize rank-1 matrices"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-11::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Matrix spaces; rank 1; small world graphs",
+                "why_it_matters": "As we learned last session, vectors don’t have to be lists of numbers. In this session we explore important new vector spaces while practicing the skills we learned in the old ones. Then we begin the application of matrices to the study of networks.",
+                "objectives": [
+                  "Treat matrices as a vector space",
+                  "Recognize rank-1 matrices"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-11::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "2IdtqGM6KWU",
+                "title": "Lecture 11: Matrix spaces; rank 1; small world graphs",
+                "watch_for": [
+                  "Why every rank-1 matrix is a column times a row",
+                  "Bases of matrix spaces"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-11::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Rank-1 matrix",
+                    "front": "What is rank-1 matrix?",
+                    "back": "Can be written as a column vector times a row vector, uvᵀ — the building block of any matrix."
+                  },
+                  {
+                    "term": "Matrix space",
+                    "front": "What is matrix space?",
+                    "back": "Matrices form a vector space; e.g. 3×3 matrices have dimension 9."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-11::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Every rank-1 matrix can be written as…",
+                    "options": [
+                      "a diagonal matrix",
+                      "a sum of permutation matrices",
+                      "an orthogonal matrix",
+                      "a column times a row, uvᵀ"
+                    ],
+                    "answer": 3,
+                    "explain": "Rank 1 ⇔ outer product uvᵀ."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Rank-1 matrix",
+              "myth": "",
+              "reality": "Can be written as a column vector times a row vector, uvᵀ — the building block of any matrix."
+            },
+            {
+              "term": "Matrix space",
+              "myth": "",
+              "reality": "Matrices form a vector space; e.g. 3×3 matrices have dimension 9."
+            }
+          ],
+          "youtube_id": "2IdtqGM6KWU"
+        },
+        {
+          "id": "mit1806-12",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 120,
+          "title": "L12 · Graphs, networks, incidence matrices",
+          "tagline": "Build incidence matrices from graphs",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Build incidence matrices from graphs",
+            "Connect nullspace/loops to graph structure"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-12::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Graphs, networks, incidence matrices",
+                "why_it_matters": "This session explores the linear algebra of electrical networks and the Internet, and sheds light on important results in graph theory.",
+                "objectives": [
+                  "Build incidence matrices from graphs",
+                  "Connect nullspace/loops to graph structure"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-12::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "6-wh6yvk6uc",
+                "title": "Lecture 12: Graphs, networks, incidence matrices",
+                "watch_for": [
+                  "What the nullspace of an incidence matrix means",
+                  "Euler's formula appearing in linear algebra"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-12::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Incidence matrix",
+                    "front": "What is incidence matrix?",
+                    "back": "Rows = edges, columns = nodes; each row has −1 and +1 marking an edge's ends."
+                  },
+                  {
+                    "term": "Graph nullspace",
+                    "front": "What is graph nullspace?",
+                    "back": "The all-ones vector is in the nullspace — constant potentials cause no current."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-12::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The nullspace of a connected graph's incidence matrix is spanned by…",
+                    "options": [
+                      "the zero vector only",
+                      "every edge vector",
+                      "the diagonal",
+                      "the all-ones vector (constant potential)"
+                    ],
+                    "answer": 3,
+                    "explain": "Equal potentials everywhere ⇒ no flow ⇒ in the nullspace."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Incidence matrix",
+              "myth": "",
+              "reality": "Rows = edges, columns = nodes; each row has −1 and +1 marking an edge's ends."
+            },
+            {
+              "term": "Graph nullspace",
+              "myth": "",
+              "reality": "The all-ones vector is in the nullspace — constant potentials cause no current."
+            }
+          ],
+          "youtube_id": "6-wh6yvk6uc"
+        },
+        {
+          "id": "mit1806-13",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 130,
+          "title": "L13 · Quiz 1 review",
+          "tagline": "Unit 1 — Elimination, spaces & rank",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-13::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Quiz 1 review",
+                "why_it_matters": "By approaching what we’ve learned from new directions, the questions in this exam review session test the depth of your understanding. This unit reached the key ideas of subspaces—a higher level of linear algebra.",
+                "objectives": [],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-13::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "l88D4r74gtM",
+                "title": "Lecture 13: Quiz 1 review",
+                "watch_for": [
+                  "Follow Strang's reasoning end to end."
+                ]
+              }
+            },
+            {
+              "id": "mit1806-13::boss",
+              "type": "boss",
+              "title": "Checkpoint: Unit 1 — Elimination, spaces & rank",
+              "objective": "Prove the unit stuck. Retry freely — no penalty.",
+              "estimated_minutes": 6,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Elimination fails (needs a row exchange) when…",
+                    "options": [
+                      "the matrix is symmetric",
+                      "b has a zero entry",
+                      "the matrix is square",
+                      "a pivot position contains a zero"
+                    ],
+                    "answer": 3,
+                    "explain": "A zero in the pivot position forces a row exchange (or signals singularity)."
+                  },
+                  {
+                    "q": "A square matrix A has an inverse exactly when…",
+                    "options": [
+                      "it has no zero pivots (it is nonsingular)",
+                      "it is diagonal",
+                      "it is symmetric",
+                      "all entries are positive"
+                    ],
+                    "answer": 0,
+                    "explain": "Full set of nonzero pivots ⇔ invertible."
+                  },
+                  {
+                    "q": "Ax=b is solvable precisely when…",
+                    "options": [
+                      "b is the zero vector",
+                      "A is square",
+                      "b lies in the nullspace of A",
+                      "b lies in the column space of A"
+                    ],
+                    "answer": 3,
+                    "explain": "Reachable right-hand sides are exactly C(A)."
+                  },
+                  {
+                    "q": "The number of free variables of A equals…",
+                    "options": [
+                      "the number of rows",
+                      "n minus the rank (number of columns minus pivots)",
+                      "the determinant",
+                      "the rank"
+                    ],
+                    "answer": 1,
+                    "explain": "Free variables = n − r; each one gives a special nullspace solution."
+                  },
+                  {
+                    "q": "The complete solution to Ax=b is…",
+                    "options": [
+                      "only the particular solution",
+                      "only the nullspace",
+                      "one particular solution plus every vector in the nullspace",
+                      "the column space of A"
+                    ],
+                    "answer": 2,
+                    "explain": "x = x_p + x_n captures all solutions."
+                  },
+                  {
+                    "q": "A basis of a subspace is…",
+                    "options": [
+                      "any independent set",
+                      "any spanning set",
+                      "an independent set of vectors that spans the subspace",
+                      "the largest set of vectors that fit"
+                    ],
+                    "answer": 2,
+                    "explain": "Independent AND spanning — both conditions define a basis."
+                  },
+                  {
+                    "q": "The row space and column space of A always have…",
+                    "options": [
+                      "the same dimension, r (the rank)",
+                      "dimension m",
+                      "dimension n",
+                      "dimensions that differ by the nullity"
+                    ],
+                    "answer": 0,
+                    "explain": "Row rank = column rank = r — a cornerstone theorem."
+                  }
+                ],
+                "pass_threshold": 4,
+                "recap": [
+                  "Unit 1 — Elimination, spaces & rank"
+                ]
+              }
+            }
+          ],
+          "review_terms": [],
+          "youtube_id": "l88D4r74gtM"
+        },
+        {
+          "id": "mit1806-14",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 140,
+          "title": "L14 · Orthogonal vectors and subspaces",
+          "tagline": "Define orthogonal vectors and subspaces",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define orthogonal vectors and subspaces",
+            "Use the test xᵀy = 0"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-14::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Orthogonal vectors and subspaces",
+                "why_it_matters": "Vectors are easier to understand when they’re described in terms of orthogonal bases. In addition, the Four Fundamental Subspaces are orthogonal to each other in pairs. If A is a rectangular matrix, Ax = b is often unsolvable.",
+                "objectives": [
+                  "Define orthogonal vectors and subspaces",
+                  "Use the test xᵀy = 0"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-14::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "YzZUIYRCE38",
+                "title": "Lecture 14: Orthogonal vectors and subspaces",
+                "watch_for": [
+                  "Row space ⟂ nullspace",
+                  "Why orthogonal subspaces only meet at 0"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-14::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Orthogonal vectors",
+                    "front": "What is orthogonal vectors?",
+                    "back": "Two vectors are orthogonal when their dot product xᵀy = 0."
+                  },
+                  {
+                    "term": "Orthogonal subspaces",
+                    "front": "What is orthogonal subspaces?",
+                    "back": "Every vector in one is orthogonal to every vector in the other; the row space ⟂ nullspace."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-14::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Vectors x and y are orthogonal when…",
+                    "options": [
+                      "their dot product xᵀy equals 0",
+                      "their sum is 0",
+                      "they have equal length",
+                      "they are parallel"
+                    ],
+                    "answer": 0,
+                    "explain": "Orthogonality ⇔ zero dot product."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Orthogonal vectors",
+              "myth": "",
+              "reality": "Two vectors are orthogonal when their dot product xᵀy = 0."
+            },
+            {
+              "term": "Orthogonal subspaces",
+              "myth": "",
+              "reality": "Every vector in one is orthogonal to every vector in the other; the row space ⟂ nullspace."
+            }
+          ],
+          "youtube_id": "YzZUIYRCE38"
+        },
+        {
+          "id": "mit1806-15",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 150,
+          "title": "L15 · Projections onto subspaces",
+          "tagline": "Project a vector onto a line/subspace",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Project a vector onto a line/subspace",
+            "Derive the projection formula"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-15::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Projections onto subspaces",
+                "why_it_matters": "We often want to find the line (or plane, or hyperplane) that best fits our data. This amounts to finding the best possible approximation to some unsolvable system of linear equations Ax = b. The algebra of finding these best fit solutions begins with the projection of a vector onto a subspace.",
+                "objectives": [
+                  "Project a vector onto a line/subspace",
+                  "Derive the projection formula"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-15::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "Y_Ac6KiQ1t0",
+                "title": "Lecture 15: Projections onto subspaces",
+                "watch_for": [
+                  "The error e = b − p is orthogonal to the subspace",
+                  "Why we project: solve unsolvable systems"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-15::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Projection",
+                    "front": "What is projection?",
+                    "back": "The closest point p in a subspace to b; the error b−p is orthogonal to the subspace."
+                  },
+                  {
+                    "term": "Projection onto a line",
+                    "front": "What is projection onto a line?",
+                    "back": "p = (aᵀb / aᵀa) a — scale the direction a by the right amount."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-15::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "When projecting b onto a subspace, the error vector b−p is…",
+                    "options": [
+                      "orthogonal to the subspace",
+                      "parallel to b",
+                      "always zero",
+                      "the longest possible"
+                    ],
+                    "answer": 0,
+                    "explain": "Projection minimizes distance ⇒ error ⟂ subspace."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Projection",
+              "myth": "",
+              "reality": "The closest point p in a subspace to b; the error b−p is orthogonal to the subspace."
+            },
+            {
+              "term": "Projection onto a line",
+              "myth": "",
+              "reality": "p = (aᵀb / aᵀa) a — scale the direction a by the right amount."
+            }
+          ],
+          "youtube_id": "Y_Ac6KiQ1t0"
+        },
+        {
+          "id": "mit1806-16",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 160,
+          "title": "L16 · Projection matrices and least squares",
+          "tagline": "Build the projection matrix P",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Build the projection matrix P",
+            "Solve least squares via normal equations"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-16::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Projection matrices and least squares",
+                "why_it_matters": "Linear regression is commonly used to fit a line to a collection of data. The method of least squares can be viewed as finding the projection of a vector. Linear algebra provides a powerful and efficient description of linear regression in terms of the matrix A_T_A.",
+                "objectives": [
+                  "Build the projection matrix P",
+                  "Solve least squares via normal equations"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-16::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "osh80YCg_GM",
+                "title": "Lecture 16: Projection matrices and least squares",
+                "watch_for": [
+                  "Why P² = P and Pᵀ = P",
+                  "The normal equations AᵀAx̂ = Aᵀb"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-16::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Projection matrix",
+                    "front": "What is projection matrix?",
+                    "back": "P = A(AᵀA)⁻¹Aᵀ; it satisfies P² = P and Pᵀ = P."
+                  },
+                  {
+                    "term": "Least squares",
+                    "front": "What is least squares?",
+                    "back": "Best-fit solution x̂ solving AᵀAx̂ = Aᵀb when Ax=b has no exact answer."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-16::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The least-squares 'normal equations' are…",
+                    "options": [
+                      "AᵀA x = 0",
+                      "Ax = b",
+                      "AᵀA x̂ = Aᵀb",
+                      "Ax̂ = Aᵀb"
+                    ],
+                    "answer": 2,
+                    "explain": "Projecting b onto C(A) yields AᵀAx̂ = Aᵀb."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Projection matrix",
+              "myth": "",
+              "reality": "P = A(AᵀA)⁻¹Aᵀ; it satisfies P² = P and Pᵀ = P."
+            },
+            {
+              "term": "Least squares",
+              "myth": "",
+              "reality": "Best-fit solution x̂ solving AᵀAx̂ = Aᵀb when Ax=b has no exact answer."
+            }
+          ],
+          "youtube_id": "osh80YCg_GM"
+        },
+        {
+          "id": "mit1806-17",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 170,
+          "title": "L17 · Orthogonal matrices and Gram-Schmidt",
+          "tagline": "Define orthonormal/orthogonal matrices",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define orthonormal/orthogonal matrices",
+            "Run Gram-Schmidt to get Q"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-17::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Orthogonal matrices and Gram-Schmidt",
+                "why_it_matters": "Many calculations become simpler when performed using orthonormal vectors or orthogonal matrices. In this session, we learn a procedure for converting any basis to an orthonormal one.",
+                "objectives": [
+                  "Define orthonormal/orthogonal matrices",
+                  "Run Gram-Schmidt to get Q"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-17::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "0MtwqhIwdrI",
+                "title": "Lecture 17: Orthogonal matrices and Gram-Schmidt",
+                "watch_for": [
+                  "Why QᵀQ = I",
+                  "How Gram-Schmidt removes overlaps"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-17::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Orthogonal matrix Q",
+                    "front": "What is orthogonal matrix q?",
+                    "back": "Columns are orthonormal, so QᵀQ = I and Q preserves lengths."
+                  },
+                  {
+                    "term": "Gram-Schmidt",
+                    "front": "What is gram-schmidt?",
+                    "back": "Turns independent vectors into orthonormal ones by subtracting projections, giving A = QR."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-17::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "For an orthogonal matrix Q…",
+                    "options": [
+                      "Q is always symmetric",
+                      "Q has a zero nullspace only if square",
+                      "det Q = 0",
+                      "QᵀQ = I and Q preserves vector lengths"
+                    ],
+                    "answer": 3,
+                    "explain": "Orthonormal columns ⇒ QᵀQ = I; rotations/reflections preserve length."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Orthogonal matrix Q",
+              "myth": "",
+              "reality": "Columns are orthonormal, so QᵀQ = I and Q preserves lengths."
+            },
+            {
+              "term": "Gram-Schmidt",
+              "myth": "",
+              "reality": "Turns independent vectors into orthonormal ones by subtracting projections, giving A = QR."
+            }
+          ],
+          "youtube_id": "0MtwqhIwdrI"
+        },
+        {
+          "id": "mit1806-18",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 180,
+          "title": "L18 · Properties of determinants",
+          "tagline": "List the defining properties of determinants",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "List the defining properties of determinants",
+            "Use them to reason about singularity"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-18::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Properties of determinants",
+                "why_it_matters": "The determinant of a matrix is a single number which encodes a lot of information about the matrix. Three simple properties completely describe the determinant. In this lecture we also list seven more properties like det_AB_ = (det_A_)(det_B_) that can be derived from the first three.",
+                "objectives": [
+                  "List the defining properties of determinants",
+                  "Use them to reason about singularity"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-18::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "srxexLishgY",
+                "title": "Lecture 18: Properties of determinants",
+                "watch_for": [
+                  "det I = 1, sign flips on row swap, linearity in each row",
+                  "det = 0 ⇔ singular"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-18::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Determinant",
+                    "front": "What is determinant?",
+                    "back": "A single number; det A = 0 exactly when A is singular (no inverse)."
+                  },
+                  {
+                    "term": "Determinant rules",
+                    "front": "What is determinant rules?",
+                    "back": "det I=1; a row swap flips the sign; det is linear in each row."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-18::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "det A = 0 means…",
+                    "options": [
+                      "A is symmetric",
+                      "A is singular (not invertible)",
+                      "A is orthogonal",
+                      "A has full rank"
+                    ],
+                    "answer": 1,
+                    "explain": "Zero determinant ⇔ singular matrix."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Determinant",
+              "myth": "",
+              "reality": "A single number; det A = 0 exactly when A is singular (no inverse)."
+            },
+            {
+              "term": "Determinant rules",
+              "myth": "",
+              "reality": "det I=1; a row swap flips the sign; det is linear in each row."
+            }
+          ],
+          "youtube_id": "srxexLishgY"
+        },
+        {
+          "id": "mit1806-19",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 190,
+          "title": "L19 · Determinant formulas and cofactors",
+          "tagline": "Compute determinants by cofactors",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Compute determinants by cofactors",
+            "See the big (permutation) formula"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-19::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Determinant formulas and cofactors",
+                "why_it_matters": "One way to compute the determinant is by elimination. In this lecture we derive two related formulas for the determinant using the properties from last lecture.",
+                "objectives": [
+                  "Compute determinants by cofactors",
+                  "See the big (permutation) formula"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-19::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "23LLB9mNJvc",
+                "title": "Lecture 19: Determinant formulas and cofactors",
+                "watch_for": [
+                  "Cofactor expansion along a row",
+                  "Why each term picks one entry per row and column"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-19::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Cofactor",
+                    "front": "What is cofactor?",
+                    "back": "Signed minor; expanding along a row/column builds the determinant recursively."
+                  },
+                  {
+                    "term": "Big formula",
+                    "front": "What is big formula?",
+                    "back": "Sum over permutations of ± products, one entry from each row and column."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-19::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Cofactor expansion computes the determinant by…",
+                    "options": [
+                      "adding the eigenvalues",
+                      "multiplying the diagonal only",
+                      "summing signed entries times the determinants of their minors",
+                      "row-reducing to I"
+                    ],
+                    "answer": 2,
+                    "explain": "Each entry × signed minor, summed along a row or column."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Cofactor",
+              "myth": "",
+              "reality": "Signed minor; expanding along a row/column builds the determinant recursively."
+            },
+            {
+              "term": "Big formula",
+              "myth": "",
+              "reality": "Sum over permutations of ± products, one entry from each row and column."
+            }
+          ],
+          "youtube_id": "23LLB9mNJvc"
+        },
+        {
+          "id": "mit1806-20",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 200,
+          "title": "L20 · Cramer's rule, inverse matrix, and volume",
+          "tagline": "Apply Cramer's rule",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Apply Cramer's rule",
+            "Connect determinant to volume"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-20::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Cramer's rule, inverse matrix, and volume",
+                "why_it_matters": "Now we start to use the determinant. Understanding the cofactor formula allows us to show that A_-1 = (1/det_A)_C_T, where C is the matrix of cofactors of A. Combining this formula with the equation x = A_-1_b gives us Cramer’s rule for solving Ax = b. Also, the absolute value of the determinant gives the volume of a box.",
+                "objectives": [
+                  "Apply Cramer's rule",
+                  "Connect determinant to volume"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-20::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "QNpj-gOXW9M",
+                "title": "Lecture 20: Cramer's rule, inverse matrix, and volume",
+                "watch_for": [
+                  "A⁻¹ via cofactors/determinant",
+                  "|det| as the volume of a box"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-20::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Cramer's rule",
+                    "front": "What is cramer's rule?",
+                    "back": "Solves Ax=b using ratios of determinants (great theory, slow in practice)."
+                  },
+                  {
+                    "term": "Determinant as volume",
+                    "front": "What is determinant as volume?",
+                    "back": "|det A| is the volume of the parallelepiped spanned by A's columns."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-20::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "|det A| geometrically equals…",
+                    "options": [
+                      "the volume of the box formed by A's column vectors",
+                      "the trace of A",
+                      "the length of the longest column",
+                      "the largest eigenvector"
+                    ],
+                    "answer": 0,
+                    "explain": "Determinant magnitude = signed volume scaling factor."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Cramer's rule",
+              "myth": "",
+              "reality": "Solves Ax=b using ratios of determinants (great theory, slow in practice)."
+            },
+            {
+              "term": "Determinant as volume",
+              "myth": "",
+              "reality": "|det A| is the volume of the parallelepiped spanned by A's columns."
+            }
+          ],
+          "youtube_id": "QNpj-gOXW9M"
+        },
+        {
+          "id": "mit1806-21",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 210,
+          "title": "L21 · Eigenvalues and eigenvectors",
+          "tagline": "Define eigenvalues and eigenvectors",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define eigenvalues and eigenvectors",
+            "Use det(A−λI)=0"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-21::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Eigenvalues and eigenvectors",
+                "why_it_matters": "If the product Ax points in the same direction as the vector x, we say that x is an eigenvector of A. Eigenvalues and eigenvectors describe what happens when a matrix is multiplied by a vector. In this session we learn how to find the eigenvalues and eigenvectors of a matrix.",
+                "objectives": [
+                  "Define eigenvalues and eigenvectors",
+                  "Use det(A−λI)=0"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-21::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "cdZnhQjJu4I",
+                "title": "Lecture 21: Eigenvalues and eigenvectors",
+                "watch_for": [
+                  "Ax = λx keeps direction",
+                  "Trace = sum of λ, det = product of λ"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-21::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Eigenvector",
+                    "front": "What is eigenvector?",
+                    "back": "A special direction x with Ax = λx — A only stretches it, never turns it."
+                  },
+                  {
+                    "term": "Eigenvalue λ",
+                    "front": "What is eigenvalue λ?",
+                    "back": "The stretch factor; found from det(A − λI) = 0."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-21::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "x is an eigenvector of A when…",
+                    "options": [
+                      "Ax = 0 always",
+                      "x is in the nullspace of Aᵀ",
+                      "Ax is orthogonal to x",
+                      "Ax points along x, i.e. Ax = λx for some scalar λ"
+                    ],
+                    "answer": 3,
+                    "explain": "Eigenvectors keep their direction under A."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Eigenvector",
+              "myth": "",
+              "reality": "A special direction x with Ax = λx — A only stretches it, never turns it."
+            },
+            {
+              "term": "Eigenvalue λ",
+              "myth": "",
+              "reality": "The stretch factor; found from det(A − λI) = 0."
+            }
+          ],
+          "youtube_id": "cdZnhQjJu4I"
+        },
+        {
+          "id": "mit1806-22",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 220,
+          "title": "L22 · Diagonalization and powers of A",
+          "tagline": "Diagonalize A = SΛS⁻¹",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Diagonalize A = SΛS⁻¹",
+            "Compute powers Aᵏ easily"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-22::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Diagonalization and powers of A",
+                "why_it_matters": "We know how to find eigenvalues and eigenvectors. In this lecture we learn to diagonalize any matrix that has n independent eigenvectors and see how diagonalization simplifies calculations. The lecture concludes by using eigenvalues and eigenvectors to solve difference equations.",
+                "objectives": [
+                  "Diagonalize A = SΛS⁻¹",
+                  "Compute powers Aᵏ easily"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-22::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "13r9QY6cmjc",
+                "title": "Lecture 22: Diagonalization and powers of A",
+                "watch_for": [
+                  "Columns of S are eigenvectors",
+                  "Why Aᵏ = SΛᵏS⁻¹"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-22::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Diagonalization",
+                    "front": "What is diagonalization?",
+                    "back": "A = SΛS⁻¹ where S holds eigenvectors and Λ holds eigenvalues — possible when eigenvectors are independent."
+                  },
+                  {
+                    "term": "Powers of A",
+                    "front": "What is powers of a?",
+                    "back": "Aᵏ = SΛᵏS⁻¹, so eigenvalues simply get raised to the k-th power."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-22::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "In A = SΛS⁻¹, the columns of S are…",
+                    "options": [
+                      "the eigenvectors of A",
+                      "orthonormal always",
+                      "the pivots of A",
+                      "the rows of A"
+                    ],
+                    "answer": 0,
+                    "explain": "S's columns are eigenvectors; Λ is the diagonal of eigenvalues."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Diagonalization",
+              "myth": "",
+              "reality": "A = SΛS⁻¹ where S holds eigenvectors and Λ holds eigenvalues — possible when eigenvectors are independent."
+            },
+            {
+              "term": "Powers of A",
+              "myth": "",
+              "reality": "Aᵏ = SΛᵏS⁻¹, so eigenvalues simply get raised to the k-th power."
+            }
+          ],
+          "youtube_id": "13r9QY6cmjc"
+        },
+        {
+          "id": "mit1806-23",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 230,
+          "title": "L23 · Differential equations and exp(At)",
+          "tagline": "Solve linear ODEs with eigenvalues",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Solve linear ODEs with eigenvalues",
+            "Interpret the matrix exponential e^{At}"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-23::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Differential equations and exp(At)",
+                "why_it_matters": "In this lecture we apply linear algebra to solve differential equations. We also talk about matrix exponential e_At_. We can copy Taylor’s series for e_At_ to define e_At_ for a matrix A. If A is diagonalizable, we can use Λ to find the exact value of e_At_.",
+                "objectives": [
+                  "Solve linear ODEs with eigenvalues",
+                  "Interpret the matrix exponential e^{At}"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-23::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "IZqwi0wJovM",
+                "title": "Lecture 23: Differential equations and exp(At)",
+                "watch_for": [
+                  "Stability from the sign of eigenvalue real parts",
+                  "e^{At} via diagonalization"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-23::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Matrix exponential",
+                    "front": "What is matrix exponential?",
+                    "back": "e^{At} propagates a linear system; eigenvalues set growth/decay."
+                  },
+                  {
+                    "term": "Stability",
+                    "front": "What is stability?",
+                    "back": "Solutions decay when every eigenvalue has negative real part."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-23::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A linear system du/dt = Au is stable when…",
+                    "options": [
+                      "A has a zero eigenvalue",
+                      "det A = 1",
+                      "A is symmetric",
+                      "all eigenvalues of A have negative real part"
+                    ],
+                    "answer": 3,
+                    "explain": "Negative real parts ⇒ e^{λt} decays ⇒ stable."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Matrix exponential",
+              "myth": "",
+              "reality": "e^{At} propagates a linear system; eigenvalues set growth/decay."
+            },
+            {
+              "term": "Stability",
+              "myth": "",
+              "reality": "Solutions decay when every eigenvalue has negative real part."
+            }
+          ],
+          "youtube_id": "IZqwi0wJovM"
+        },
+        {
+          "id": "mit1806-24",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 240,
+          "title": "L24 · Markov matrices; fourier series",
+          "tagline": "Recognize Markov matrices",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Recognize Markov matrices",
+            "Find the steady state"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-24::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Markov matrices; fourier series",
+                "why_it_matters": "Like differential equations, Markov matrices describe changes over time. Once again, the eigenvalues and eigenvectors describe the long term behavior of the system. In this session we also learn about Fourier series, which describe periodic functions as points in an infinite dimensional vector space.",
+                "objectives": [
+                  "Recognize Markov matrices",
+                  "Find the steady state"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-24::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "lGGDIGizcQ0",
+                "title": "Lecture 24: Markov matrices; fourier series",
+                "watch_for": [
+                  "Columns sum to 1, λ=1 is an eigenvalue",
+                  "Steady state = eigenvector for λ=1"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-24::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Markov matrix",
+                    "front": "What is markov matrix?",
+                    "back": "Nonnegative entries with columns summing to 1; always has eigenvalue λ = 1."
+                  },
+                  {
+                    "term": "Steady state",
+                    "front": "What is steady state?",
+                    "back": "The eigenvector for λ=1 — the long-run distribution."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-24::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Every Markov matrix has an eigenvalue equal to…",
+                    "options": [
+                      "−1",
+                      "its largest entry",
+                      "0",
+                      "1, whose eigenvector is the steady state"
+                    ],
+                    "answer": 3,
+                    "explain": "Columns summing to 1 force λ=1."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Markov matrix",
+              "myth": "",
+              "reality": "Nonnegative entries with columns summing to 1; always has eigenvalue λ = 1."
+            },
+            {
+              "term": "Steady state",
+              "myth": "",
+              "reality": "The eigenvector for λ=1 — the long-run distribution."
+            }
+          ],
+          "youtube_id": "lGGDIGizcQ0"
+        },
+        {
+          "id": "mit1806-24b",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 241,
+          "title": "L24B · Quiz 2 review",
+          "tagline": "Unit 2 — Orthogonality, determinants & eigenvalues",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-24b::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Quiz 2 review",
+                "why_it_matters": "Unit II covered a lot of material, the heart of this course. This session reviews the material covered by Quiz 2. Sample questions are given in this video, too.",
+                "objectives": [],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-24b::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "QuZL5IKpO_U",
+                "title": "Lecture 24b: Quiz 2 review",
+                "watch_for": [
+                  "Follow Strang's reasoning end to end."
+                ]
+              }
+            },
+            {
+              "id": "mit1806-24b::boss",
+              "type": "boss",
+              "title": "Checkpoint: Unit 2 — Orthogonality, determinants & eigenvalues",
+              "objective": "Prove the unit stuck. Retry freely — no penalty.",
+              "estimated_minutes": 6,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Vectors x and y are orthogonal when…",
+                    "options": [
+                      "their dot product xᵀy equals 0",
+                      "their sum is 0",
+                      "they have equal length",
+                      "they are parallel"
+                    ],
+                    "answer": 0,
+                    "explain": "Orthogonality ⇔ zero dot product."
+                  },
+                  {
+                    "q": "When projecting b onto a subspace, the error vector b−p is…",
+                    "options": [
+                      "orthogonal to the subspace",
+                      "parallel to b",
+                      "always zero",
+                      "the longest possible"
+                    ],
+                    "answer": 0,
+                    "explain": "Projection minimizes distance ⇒ error ⟂ subspace."
+                  },
+                  {
+                    "q": "The least-squares 'normal equations' are…",
+                    "options": [
+                      "AᵀA x = 0",
+                      "Ax = b",
+                      "AᵀA x̂ = Aᵀb",
+                      "Ax̂ = Aᵀb"
+                    ],
+                    "answer": 2,
+                    "explain": "Projecting b onto C(A) yields AᵀAx̂ = Aᵀb."
+                  },
+                  {
+                    "q": "For an orthogonal matrix Q…",
+                    "options": [
+                      "Q is always symmetric",
+                      "Q has a zero nullspace only if square",
+                      "det Q = 0",
+                      "QᵀQ = I and Q preserves vector lengths"
+                    ],
+                    "answer": 3,
+                    "explain": "Orthonormal columns ⇒ QᵀQ = I; rotations/reflections preserve length."
+                  },
+                  {
+                    "q": "det A = 0 means…",
+                    "options": [
+                      "A is symmetric",
+                      "A is singular (not invertible)",
+                      "A is orthogonal",
+                      "A has full rank"
+                    ],
+                    "answer": 1,
+                    "explain": "Zero determinant ⇔ singular matrix."
+                  },
+                  {
+                    "q": "x is an eigenvector of A when…",
+                    "options": [
+                      "Ax = 0 always",
+                      "x is in the nullspace of Aᵀ",
+                      "Ax is orthogonal to x",
+                      "Ax points along x, i.e. Ax = λx for some scalar λ"
+                    ],
+                    "answer": 3,
+                    "explain": "Eigenvectors keep their direction under A."
+                  },
+                  {
+                    "q": "In A = SΛS⁻¹, the columns of S are…",
+                    "options": [
+                      "the eigenvectors of A",
+                      "orthonormal always",
+                      "the pivots of A",
+                      "the rows of A"
+                    ],
+                    "answer": 0,
+                    "explain": "S's columns are eigenvectors; Λ is the diagonal of eigenvalues."
+                  }
+                ],
+                "pass_threshold": 4,
+                "recap": [
+                  "Unit 2 — Orthogonality, determinants & eigenvalues"
+                ]
+              }
+            }
+          ],
+          "review_terms": [],
+          "youtube_id": "QuZL5IKpO_U"
+        },
+        {
+          "id": "mit1806-25",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 250,
+          "title": "L25 · Symmetric matrices and positive definiteness",
+          "tagline": "State the spectral theorem",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "State the spectral theorem",
+            "Define positive definiteness"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-25::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Symmetric matrices and positive definiteness",
+                "why_it_matters": "Special matrices have special eigenvalues and eigenvectors. Symmetric and positive definite matrices have extremely nice properties, and studying these matrices brings together everything we’ve learned about pivots, determinants and eigenvalues. In this session we also practice doing linear algebra with complex numbers and learn how the pivots give information about the eigenvalues of a symmetric matrix.",
+                "objectives": [
+                  "State the spectral theorem",
+                  "Define positive definiteness"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-25::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "UCc9q_cAhho",
+                "title": "Lecture 25: Symmetric matrices and positive definiteness",
+                "watch_for": [
+                  "Symmetric ⇒ real eigenvalues & orthogonal eigenvectors",
+                  "Positive definite ⇔ all λ > 0"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-25::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Symmetric matrix",
+                    "front": "What is symmetric matrix?",
+                    "back": "A = Aᵀ ⇒ real eigenvalues and orthonormal eigenvectors: A = QΛQᵀ."
+                  },
+                  {
+                    "term": "Positive definite",
+                    "front": "What is positive definite?",
+                    "back": "Symmetric with all eigenvalues positive (and xᵀAx > 0 for x≠0)."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-25::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A symmetric matrix always has…",
+                    "options": [
+                      "real eigenvalues and orthogonal eigenvectors",
+                      "complex eigenvalues",
+                      "rank 1",
+                      "a zero determinant"
+                    ],
+                    "answer": 0,
+                    "explain": "The spectral theorem: symmetric ⇒ A = QΛQᵀ."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Symmetric matrix",
+              "myth": "",
+              "reality": "A = Aᵀ ⇒ real eigenvalues and orthonormal eigenvectors: A = QΛQᵀ."
+            },
+            {
+              "term": "Positive definite",
+              "myth": "",
+              "reality": "Symmetric with all eigenvalues positive (and xᵀAx > 0 for x≠0)."
+            }
+          ],
+          "youtube_id": "UCc9q_cAhho"
+        },
+        {
+          "id": "mit1806-26",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 260,
+          "title": "L26 · Complex matrices; fast fourier transform",
+          "tagline": "Handle complex vectors/matrices",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Handle complex vectors/matrices",
+            "Meet the Fourier matrix & FFT idea"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-26::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Complex matrices; fast fourier transform",
+                "why_it_matters": "The Fourier matrices have complex valued entries and many nice properties. This session covers the basics of working with complex matrices and vectors, and concludes with a description of the fast Fourier transform.",
+                "objectives": [
+                  "Handle complex vectors/matrices",
+                  "Meet the Fourier matrix & FFT idea"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-26::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "M0Sa8fLOajA",
+                "title": "Lecture 26: Complex matrices; fast fourier transform",
+                "watch_for": [
+                  "Hermitian replaces transpose for complex matrices",
+                  "Why the FFT is fast"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-26::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Hermitian / conjugate transpose",
+                    "front": "What is hermitian / conjugate transpose?",
+                    "back": "For complex matrices, use Aᴴ (conjugate transpose); Hermitian means A = Aᴴ."
+                  },
+                  {
+                    "term": "Fourier matrix",
+                    "front": "What is fourier matrix?",
+                    "back": "Orthogonal complex matrix whose structure lets the FFT factor it for huge speedups."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-26::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "For complex matrices, the role of the transpose is played by…",
+                    "options": [
+                      "the plain transpose Aᵀ",
+                      "the determinant",
+                      "the conjugate transpose (Hermitian) Aᴴ",
+                      "the inverse A⁻¹"
+                    ],
+                    "answer": 2,
+                    "explain": "Complex inner products use the conjugate transpose."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Hermitian / conjugate transpose",
+              "myth": "",
+              "reality": "For complex matrices, use Aᴴ (conjugate transpose); Hermitian means A = Aᴴ."
+            },
+            {
+              "term": "Fourier matrix",
+              "myth": "",
+              "reality": "Orthogonal complex matrix whose structure lets the FFT factor it for huge speedups."
+            }
+          ],
+          "youtube_id": "M0Sa8fLOajA"
+        },
+        {
+          "id": "mit1806-27",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 270,
+          "title": "L27 · Positive definite matrices and minima",
+          "tagline": "Test positive definiteness multiple ways",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Test positive definiteness multiple ways",
+            "Link to minima of xᵀAx"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-27::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Positive definite matrices and minima",
+                "why_it_matters": "In calculus, the second derivative decides whether a critical point of y(x) is a minimum. For functions of multiple variables, the test is whether a matrix of second derivatives is positive definite. In this session we learn several ways of testing for positive definiteness and also how the shape of the graph of ƒ(x) = x_T_Ax is determined by the entries of A.",
+                "objectives": [
+                  "Test positive definiteness multiple ways",
+                  "Link to minima of xᵀAx"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-27::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "vF7eyJ2g3kU",
+                "title": "Lecture 27: Positive definite matrices and minima",
+                "watch_for": [
+                  "Pivots, determinants, eigenvalues, xᵀAx tests",
+                  "Why PD ⇒ a true minimum"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-27::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "PD tests",
+                    "front": "What is pd tests?",
+                    "back": "Positive definite ⇔ all eigenvalues > 0 ⇔ all pivots > 0 ⇔ all leading determinants > 0."
+                  },
+                  {
+                    "term": "Energy xᵀAx",
+                    "front": "What is energy xᵀax?",
+                    "back": "Positive definiteness means xᵀAx > 0, giving a bowl with a unique minimum."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-27::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Which is a valid test for positive definiteness?",
+                    "options": [
+                      "All pivots (equivalently all eigenvalues) are positive",
+                      "The trace is zero",
+                      "The matrix is triangular",
+                      "Some eigenvalue is negative"
+                    ],
+                    "answer": 0,
+                    "explain": "PD ⇔ positive pivots ⇔ positive eigenvalues ⇔ positive leading minors."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "PD tests",
+              "myth": "",
+              "reality": "Positive definite ⇔ all eigenvalues > 0 ⇔ all pivots > 0 ⇔ all leading determinants > 0."
+            },
+            {
+              "term": "Energy xᵀAx",
+              "myth": "",
+              "reality": "Positive definiteness means xᵀAx > 0, giving a bowl with a unique minimum."
+            }
+          ],
+          "youtube_id": "vF7eyJ2g3kU"
+        },
+        {
+          "id": "mit1806-28",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 280,
+          "title": "L28 · Similar matrices and Jordan form",
+          "tagline": "Define matrix similarity",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Define matrix similarity",
+            "Meet Jordan form for non-diagonalizable A"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-28::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Similar matrices and Jordan form",
+                "why_it_matters": "After a final discussion of positive definite matrices, we learn about “similar” matrices: B = M_-1_AM for some invertible matrix M. Square matrices can be grouped by similarity, and each group has a “nicest” representative in Jordan normal form. This form tells at a glance the eigenvalues and the number of eigenvectors.",
+                "objectives": [
+                  "Define matrix similarity",
+                  "Meet Jordan form for non-diagonalizable A"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-28::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "TSdXJw83kyA",
+                "title": "Lecture 28: Similar matrices and Jordan form",
+                "watch_for": [
+                  "Similar matrices share eigenvalues",
+                  "When diagonalization fails"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-28::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Similar matrices",
+                    "front": "What is similar matrices?",
+                    "back": "B = M⁻¹AM; similar matrices have the same eigenvalues."
+                  },
+                  {
+                    "term": "Jordan form",
+                    "front": "What is jordan form?",
+                    "back": "The closest-to-diagonal form when A lacks enough independent eigenvectors."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-28::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Similar matrices A and M⁻¹AM always share…",
+                    "options": [
+                      "the same entries",
+                      "the same eigenvalues",
+                      "the same column space",
+                      "the same eigenvectors"
+                    ],
+                    "answer": 1,
+                    "explain": "Similarity preserves eigenvalues (the characteristic polynomial)."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Similar matrices",
+              "myth": "",
+              "reality": "B = M⁻¹AM; similar matrices have the same eigenvalues."
+            },
+            {
+              "term": "Jordan form",
+              "myth": "",
+              "reality": "The closest-to-diagonal form when A lacks enough independent eigenvectors."
+            }
+          ],
+          "youtube_id": "TSdXJw83kyA"
+        },
+        {
+          "id": "mit1806-29",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 290,
+          "title": "L29 · Singular value decomposition",
+          "tagline": "State the SVD A = UΣVᵀ",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "State the SVD A = UΣVᵀ",
+            "Know it exists for ANY matrix"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-29::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Singular value decomposition",
+                "why_it_matters": "The singular value decomposition of a matrix is usually referred to as the SVD. This is the final and best factorization of a matrix. The factors are orthogonal matrix, diagonal matrix, orthogonal matrix. Any matrix whatsoever has this singular value decomposition. One thing we bring together in this lecture is the very good family of matrices that we just studied: symmetric, positive, definite.",
+                "objectives": [
+                  "State the SVD A = UΣVᵀ",
+                  "Know it exists for ANY matrix"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-29::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "TX_vooSnhm8",
+                "title": "Lecture 29: Singular value decomposition",
+                "watch_for": [
+                  "U,V orthogonal; Σ diagonal of singular values",
+                  "SVD connects the four subspaces"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-29::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "SVD",
+                    "front": "What is svd?",
+                    "back": "A = UΣVᵀ: orthogonal U and V, diagonal Σ of singular values — works for every matrix."
+                  },
+                  {
+                    "term": "Singular values",
+                    "front": "What is singular values?",
+                    "back": "Nonnegative diagonal entries of Σ; squares are eigenvalues of AᵀA."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-29::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The singular value decomposition A = UΣVᵀ exists for…",
+                    "options": [
+                      "only invertible matrices",
+                      "only symmetric matrices",
+                      "any matrix whatsoever (any shape, any rank)",
+                      "only square matrices"
+                    ],
+                    "answer": 2,
+                    "explain": "Strang: the SVD is the final, best factorization — it always exists."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "SVD",
+              "myth": "",
+              "reality": "A = UΣVᵀ: orthogonal U and V, diagonal Σ of singular values — works for every matrix."
+            },
+            {
+              "term": "Singular values",
+              "myth": "",
+              "reality": "Nonnegative diagonal entries of Σ; squares are eigenvalues of AᵀA."
+            }
+          ],
+          "youtube_id": "TX_vooSnhm8"
+        },
+        {
+          "id": "mit1806-30",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 300,
+          "title": "L30 · Linear transformations and their matrices",
+          "tagline": "See linear transformations behind matrices",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "See linear transformations behind matrices",
+            "Choose bases to get the matrix"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-30::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Linear transformations and their matrices",
+                "why_it_matters": "When we multiply a matrix by an input vector we get an output vector, often in a new space. We can ask what this “linear transformation” does to all the vectors in a space. In fact, matrices were originally invented for the study of linear transformations.",
+                "objectives": [
+                  "See linear transformations behind matrices",
+                  "Choose bases to get the matrix"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-30::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "Ts3o2I8_Mxc",
+                "title": "Lecture 30: Linear transformations and their matrices",
+                "watch_for": [
+                  "A transformation + bases ⇒ a matrix",
+                  "Why the matrix depends on the basis"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-30::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Linear transformation",
+                    "front": "What is linear transformation?",
+                    "back": "A rule T with T(x+y)=T(x)+T(y) and T(cx)=cT(x); matrices represent them once you fix bases."
+                  },
+                  {
+                    "term": "Matrix of a transformation",
+                    "front": "What is matrix of a transformation?",
+                    "back": "Columns are the images of the basis vectors written in the output basis."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-30::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A matrix represents a linear transformation only after you…",
+                    "options": [
+                      "invert the matrix",
+                      "make it symmetric",
+                      "choose input and output bases",
+                      "compute its determinant"
+                    ],
+                    "answer": 2,
+                    "explain": "The same transformation has different matrices in different bases."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Linear transformation",
+              "myth": "",
+              "reality": "A rule T with T(x+y)=T(x)+T(y) and T(cx)=cT(x); matrices represent them once you fix bases."
+            },
+            {
+              "term": "Matrix of a transformation",
+              "myth": "",
+              "reality": "Columns are the images of the basis vectors written in the output basis."
+            }
+          ],
+          "youtube_id": "Ts3o2I8_Mxc"
+        },
+        {
+          "id": "mit1806-31",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 310,
+          "title": "L31 · Change of basis; image compression",
+          "tagline": "Change basis with B = M⁻¹AM-style maps",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Change basis with B = M⁻¹AM-style maps",
+            "See compression as a basis choice"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-31::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Change of basis; image compression",
+                "why_it_matters": "Video cameras record data in a poor format for broadcasting video. To transmit video efficiently, linear algebra is used to change the basis. But which basis is best for video compression is an important question that has not been fully answered!",
+                "objectives": [
+                  "Change basis with B = M⁻¹AM-style maps",
+                  "See compression as a basis choice"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-31::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "0h43aV4aH7I",
+                "title": "Lecture 31: Change of basis; image compression",
+                "watch_for": [
+                  "Why a good basis makes data sparse",
+                  "Connection to SVD compression"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-31::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "Change of basis",
+                    "front": "What is change of basis?",
+                    "back": "Re-express vectors/operators in a new basis via an invertible change-of-basis matrix."
+                  },
+                  {
+                    "term": "Image compression",
+                    "front": "What is image compression?",
+                    "back": "Pick a basis where most coefficients are tiny, then keep only the big ones."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-31::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Image compression works by…",
+                    "options": [
+                      "choosing a basis where most coefficients are negligible and discarding them",
+                      "inverting the image matrix",
+                      "making the matrix symmetric",
+                      "deleting random pixels"
+                    ],
+                    "answer": 0,
+                    "explain": "A smart basis concentrates information into a few coefficients."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "Change of basis",
+              "myth": "",
+              "reality": "Re-express vectors/operators in a new basis via an invertible change-of-basis matrix."
+            },
+            {
+              "term": "Image compression",
+              "myth": "",
+              "reality": "Pick a basis where most coefficients are tiny, then keep only the big ones."
+            }
+          ],
+          "youtube_id": "0h43aV4aH7I"
+        },
+        {
+          "id": "mit1806-32",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 320,
+          "title": "L32 · Quiz 3 review",
+          "tagline": "Unit 3 — Positive definite, SVD & transformations",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-32::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Quiz 3 review",
+                "why_it_matters": "Quiz 3 covers the understanding of matrices through their eigenvalues. Elimination is history now, because it does NOT preserve eigenvalues. Notice the special types of matrices (like positive definite) and their factorizations.",
+                "objectives": [],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-32::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "HgC1l_6ySkc",
+                "title": "Lecture 32: Quiz 3 review",
+                "watch_for": [
+                  "Follow Strang's reasoning end to end."
+                ]
+              }
+            },
+            {
+              "id": "mit1806-32::boss",
+              "type": "boss",
+              "title": "Checkpoint: Unit 3 — Positive definite, SVD & transformations",
+              "objective": "Prove the unit stuck. Retry freely — no penalty.",
+              "estimated_minutes": 6,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A symmetric matrix always has…",
+                    "options": [
+                      "real eigenvalues and orthogonal eigenvectors",
+                      "complex eigenvalues",
+                      "rank 1",
+                      "a zero determinant"
+                    ],
+                    "answer": 0,
+                    "explain": "The spectral theorem: symmetric ⇒ A = QΛQᵀ."
+                  },
+                  {
+                    "q": "Which is a valid test for positive definiteness?",
+                    "options": [
+                      "All pivots (equivalently all eigenvalues) are positive",
+                      "The trace is zero",
+                      "The matrix is triangular",
+                      "Some eigenvalue is negative"
+                    ],
+                    "answer": 0,
+                    "explain": "PD ⇔ positive pivots ⇔ positive eigenvalues ⇔ positive leading minors."
+                  },
+                  {
+                    "q": "Similar matrices A and M⁻¹AM always share…",
+                    "options": [
+                      "the same entries",
+                      "the same eigenvalues",
+                      "the same column space",
+                      "the same eigenvectors"
+                    ],
+                    "answer": 1,
+                    "explain": "Similarity preserves eigenvalues (the characteristic polynomial)."
+                  },
+                  {
+                    "q": "The singular value decomposition A = UΣVᵀ exists for…",
+                    "options": [
+                      "only invertible matrices",
+                      "only symmetric matrices",
+                      "any matrix whatsoever (any shape, any rank)",
+                      "only square matrices"
+                    ],
+                    "answer": 2,
+                    "explain": "Strang: the SVD is the final, best factorization — it always exists."
+                  },
+                  {
+                    "q": "A matrix represents a linear transformation only after you…",
+                    "options": [
+                      "invert the matrix",
+                      "make it symmetric",
+                      "choose input and output bases",
+                      "compute its determinant"
+                    ],
+                    "answer": 2,
+                    "explain": "The same transformation has different matrices in different bases."
+                  }
+                ],
+                "pass_threshold": 3,
+                "recap": [
+                  "Unit 3 — Positive definite, SVD & transformations"
+                ]
+              }
+            }
+          ],
+          "review_terms": [],
+          "youtube_id": "HgC1l_6ySkc"
+        },
+        {
+          "id": "mit1806-33",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 330,
+          "title": "L33 · Left and right inverses; pseudoinverse",
+          "tagline": "Distinguish left/right inverses",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [
+            "Distinguish left/right inverses",
+            "Define the pseudoinverse"
+          ],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-33::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Left and right inverses; pseudoinverse",
+                "why_it_matters": "We’d like to be able to “invert A” to solve Ax = b, but A may have only a left inverse or right inverse (or no inverse). This discussion of how and when matrices have inverses improves our understanding of the four fundamental subspaces and of many other key topics in the course.",
+                "objectives": [
+                  "Distinguish left/right inverses",
+                  "Define the pseudoinverse"
+                ],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-33::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "Go2aLo7ZOlU",
+                "title": "Lecture 33: Left and right inverses; pseudoinverse",
+                "watch_for": [
+                  "Full column rank ⇒ left inverse",
+                  "Pseudoinverse handles any shape/rank"
+                ]
+              }
+            },
+            {
+              "id": "mit1806-33::concept",
+              "type": "concept",
+              "title": "Concept Cards",
+              "objective": "Tap each card. Recall the idea, then confirm.",
+              "estimated_minutes": 3,
+              "xp_reward": 25,
+              "payload": {
+                "front_label": "Recall",
+                "reveal_suffix": "— explained",
+                "cards": [
+                  {
+                    "term": "One-sided inverses",
+                    "front": "What is one-sided inverses?",
+                    "back": "Full column rank gives a left inverse; full row rank gives a right inverse."
+                  },
+                  {
+                    "term": "Pseudoinverse A⁺",
+                    "front": "What is pseudoinverse a⁺?",
+                    "back": "The best inverse for any matrix; maps b to the least-squares minimum-norm solution."
+                  }
+                ]
+              }
+            },
+            {
+              "id": "mit1806-33::quiz",
+              "type": "quiz",
+              "title": "Comprehension Check",
+              "objective": "One quick check. Immediate feedback, retry freely.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "The pseudoinverse A⁺ is useful because it…",
+                    "options": [
+                      "requires positive definiteness",
+                      "only exists for square matrices",
+                      "gives the best (least-squares, minimum-norm) solution for ANY matrix",
+                      "equals the transpose"
+                    ],
+                    "answer": 2,
+                    "explain": "A⁺ extends 'inverse' to rectangular/rank-deficient matrices."
+                  }
+                ]
+              }
+            }
+          ],
+          "review_terms": [
+            {
+              "term": "One-sided inverses",
+              "myth": "",
+              "reality": "Full column rank gives a left inverse; full row rank gives a right inverse."
+            },
+            {
+              "term": "Pseudoinverse A⁺",
+              "myth": "",
+              "reality": "The best inverse for any matrix; maps b to the least-squares minimum-norm solution."
+            }
+          ],
+          "youtube_id": "Go2aLo7ZOlU"
+        },
+        {
+          "id": "mit1806-34",
+          "is_fork": true,
+          "fork_id": "mit-1806",
+          "world_id": 1,
+          "order": 340,
+          "title": "L34 · Final course review",
+          "tagline": "Final Review — the whole course",
+          "type": "Video Lecture",
+          "estimated_minutes": 15,
+          "objectives": [],
+          "source_path": "MIT OCW 18.06 (CC BY-NC-SA 4.0)",
+          "missions": [
+            {
+              "id": "mit1806-34::briefing",
+              "type": "briefing",
+              "title": "Lecture Briefing",
+              "objective": "Get the big idea before you watch Strang.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Final course review",
+                "why_it_matters": "Review entire course.",
+                "objectives": [],
+                "languages": "MIT 18.06 · Gilbert Strang"
+              }
+            },
+            {
+              "id": "mit1806-34::watch",
+              "type": "watch",
+              "title": "Watch the Lecture",
+              "objective": "Watch Prof. Strang teach it (the best part).",
+              "estimated_minutes": 7,
+              "xp_reward": 30,
+              "payload": {
+                "youtube_id": "RWvi4Vx4CDc",
+                "title": "Lecture 34: Final course review",
+                "watch_for": [
+                  "Follow Strang's reasoning end to end."
+                ]
+              }
+            },
+            {
+              "id": "mit1806-34::boss",
+              "type": "boss",
+              "title": "Checkpoint: Final Review — the whole course",
+              "objective": "Prove the unit stuck. Retry freely — no penalty.",
+              "estimated_minutes": 6,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "In the column picture, what is Ax?",
+                    "options": [
+                      "The determinant of A",
+                      "The dot product of the rows of A",
+                      "The intersection point of the rows",
+                      "A linear combination of the columns of A weighted by the entries of x"
+                    ],
+                    "answer": 3,
+                    "explain": "Ax mixes the columns of A using x's entries — the heart of Strang's column picture."
+                  },
+                  {
+                    "q": "Ax=b is solvable precisely when…",
+                    "options": [
+                      "b is the zero vector",
+                      "A is square",
+                      "b lies in the nullspace of A",
+                      "b lies in the column space of A"
+                    ],
+                    "answer": 3,
+                    "explain": "Reachable right-hand sides are exactly C(A)."
+                  },
+                  {
+                    "q": "The row space and column space of A always have…",
+                    "options": [
+                      "the same dimension, r (the rank)",
+                      "dimension m",
+                      "dimension n",
+                      "dimensions that differ by the nullity"
+                    ],
+                    "answer": 0,
+                    "explain": "Row rank = column rank = r — a cornerstone theorem."
+                  },
+                  {
+                    "q": "The least-squares 'normal equations' are…",
+                    "options": [
+                      "AᵀA x = 0",
+                      "Ax = b",
+                      "AᵀA x̂ = Aᵀb",
+                      "Ax̂ = Aᵀb"
+                    ],
+                    "answer": 2,
+                    "explain": "Projecting b onto C(A) yields AᵀAx̂ = Aᵀb."
+                  },
+                  {
+                    "q": "x is an eigenvector of A when…",
+                    "options": [
+                      "Ax = 0 always",
+                      "x is in the nullspace of Aᵀ",
+                      "Ax is orthogonal to x",
+                      "Ax points along x, i.e. Ax = λx for some scalar λ"
+                    ],
+                    "answer": 3,
+                    "explain": "Eigenvectors keep their direction under A."
+                  },
+                  {
+                    "q": "A symmetric matrix always has…",
+                    "options": [
+                      "real eigenvalues and orthogonal eigenvectors",
+                      "complex eigenvalues",
+                      "rank 1",
+                      "a zero determinant"
+                    ],
+                    "answer": 0,
+                    "explain": "The spectral theorem: symmetric ⇒ A = QΛQᵀ."
+                  },
+                  {
+                    "q": "The singular value decomposition A = UΣVᵀ exists for…",
+                    "options": [
+                      "only invertible matrices",
+                      "only symmetric matrices",
+                      "any matrix whatsoever (any shape, any rank)",
+                      "only square matrices"
+                    ],
+                    "answer": 2,
+                    "explain": "Strang: the SVD is the final, best factorization — it always exists."
+                  }
+                ],
+                "pass_threshold": 4,
+                "recap": [
+                  "Final Review — the whole course"
+                ]
+              }
+            }
+          ],
+          "review_terms": [],
+          "youtube_id": "RWvi4Vx4CDc"
+        }
+      ]
+    }
+  ]
+}

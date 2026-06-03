@@ -26,6 +26,17 @@ Phases with lesson docs become Worlds: 0 Forge Outpost, 1 Vector Vale, 2 Pattern
 7 Attention Spire, 10 Crucible Core, 11 Prompt Bazaar, 14 Agent Sanctum, 16 Swarm Bastion, 17 Production Bulwark.
 Each lesson → level with up to 6 missions + boss + review cards. Progression is global/linear (unlock next).
 
+## Forks (alternative learning paths) — added 2026-06-02
+- **MIT 18.06 — Strang's Linear Algebra** fork (`backend/fork_content.json`, built by `scripts/build_fork.py`
+  from `backend/mit1806_lectures.json`). 35 lecture levels, 136 missions, anchored under World 1's
+  `01-01-linear-algebra-intuition` level.
+- New **watch** mission type embeds the real Strang YouTube lecture; plus Briefing, Concept Cards (curated,
+  "Recall" framing), Comprehension quiz, and unit Checkpoints (boss) pulling pooled questions.
+- Source assets NOT stored (only lecture metadata + YouTube IDs). MIT OCW CC BY-NC-SA 4.0.
+- Endpoints: `GET /api/forks`, `GET /api/forks/{id}` (per-level progress + lock). Anchor level detail returns
+  a `forks` array. Fork levels are addressable via the normal `/api/levels/{id}` + mission-complete flow;
+  XP/streak/review all apply. Frontend: fork banner on anchor level → `/fork/:forkId` (ForkPath page).
+
 ## Implemented (2026-06-02)
 - Campaign map (worlds/levels, lock/unlock, progress rings, mission counts).
 - Mission player: briefing, concept flip-cards, quiz (decode), myth-buster, build (code trace), boss battle (pass threshold, recap).

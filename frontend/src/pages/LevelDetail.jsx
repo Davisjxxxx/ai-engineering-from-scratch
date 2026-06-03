@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { api } from "../api";
-import { ArrowLeft, Check, Play, Lock, BookOpen, Layers, HelpCircle, Hammer, Crown, Wand2, Clock } from "lucide-react";
+import { ArrowLeft, Check, Play, Lock, BookOpen, Layers, HelpCircle, Hammer, Crown, Wand2, Clock, PlayCircle, GitFork, ChevronRight } from "lucide-react";
 
 const TYPE_META = {
   briefing: { icon: BookOpen, label: "Learn", color: "plasma" },
+  watch: { icon: PlayCircle, label: "Watch", color: "arcane" },
   concept: { icon: Layers, label: "Cards", color: "plasma" },
   quiz: { icon: HelpCircle, label: "Decode", color: "arcane" },
   mythbuster: { icon: Wand2, label: "Myth Buster", color: "arcane" },
@@ -27,7 +28,7 @@ export default function LevelDetail() {
     <div className="pb-nav">
       <header className="sticky top-0 z-40 glass pt-safe">
         <div className="px-4 py-3 flex items-center gap-3">
-          <button onClick={() => nav("/map")} data-testid="back-btn" className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center">
+          <button onClick={() => nav(-1)} data-testid="back-btn" className="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center">
             <ArrowLeft size={18} />
           </button>
           <div className="min-w-0">
@@ -53,6 +54,23 @@ export default function LevelDetail() {
             </ul>
           )}
         </motion.div>
+
+        {lv.forks?.length > 0 && lv.forks.map((fk) => (
+          <Link key={fk.id} to={`/fork/${fk.id}`} data-testid={`fork-banner-${fk.id}`}
+            className="card p-4 block active:scale-[0.99] transition-transform border-arcane/30 bg-gradient-to-br from-arcane/10 to-surface">
+            <div className="flex items-center gap-3">
+              <div className="h-11 w-11 rounded-xl bg-arcane/15 text-arcane flex items-center justify-center shrink-0">
+                <GitFork size={20} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="label text-arcane">Alternative path · {fk.level_count} lectures</div>
+                <div className="font-head font-bold">{fk.name}</div>
+              </div>
+              <ChevronRight className="text-muted shrink-0" />
+            </div>
+            <p className="text-xs text-sub mt-2">{fk.tagline}</p>
+          </Link>
+        ))}
 
         <div className="label px-1">Missions</div>
         <div className="space-y-2.5">
