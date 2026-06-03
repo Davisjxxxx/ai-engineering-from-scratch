@@ -285,8 +285,18 @@ class ContentEngine:
                     "payload": {"rounds": rounds},
                 })
 
-        # 5. BUILD / LAB (code trace + explain-like-building)
+        # 5. BUILD / LAB (code trace + explain-like-building, or interactive fill-in)
         if level.get("code"):
+            code_data = level["code"]
+            payload = {
+                "concept": _shorten(level.get("concept", ""), 360),
+                "code": code_data,
+                "exercises": level.get("exercises", [])[:3],
+            }
+            if isinstance(code_data, dict):
+                if code_data.get("interactive"):
+                    payload["interactive"] = True
+                    payload["fill_in"] = code_data.get("fill_in")
             missions.append({
                 "id": f"{level['id']}::build",
                 "type": "build",
@@ -294,11 +304,7 @@ class ContentEngine:
                 "objective": "Read the working pattern, then commit it to memory.",
                 "estimated_minutes": 5,
                 "xp_reward": XP["build"],
-                "payload": {
-                    "concept": _shorten(level.get("concept", ""), 360),
-                    "code": level["code"],
-                    "exercises": level.get("exercises", [])[:3],
-                },
+                "payload": payload,
             })
 
         # 5b. HANDS-ON LABS (from level-native labs field)
