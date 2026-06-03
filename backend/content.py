@@ -90,6 +90,26 @@ class ContentEngine:
                     else:
                         self.fork_prev[lv["id"]] = ordered[i - 1]["id"]
 
+        # ---- Academy learning paths (e.g. Agentic Design Patterns) ----
+        self.academy_paths: List[dict] = []
+        self.academy_by_id: Dict[str, dict] = {}
+        self.academy_first: set = set()
+        self.academy_prev: Dict[str, Optional[str]] = {}
+        ac_path = CONTENT_PATH.parent / "academy_content.json"
+        if ac_path.exists():
+            adata = json.loads(ac_path.read_text(encoding="utf-8"))
+            for path in adata.get("paths", []):
+                self.academy_paths.append(path)
+                self.academy_by_id[path["id"]] = path
+                ordered = sorted(path["chapters"], key=lambda x: x["number"])
+                for i, ch in enumerate(ordered):
+                    self.levels_by_id[ch["id"]] = ch  # chapters are addressable levels
+                    if i == 0:
+                        self.academy_first.add(ch["id"])
+                        self.academy_prev[ch["id"]] = None
+                    else:
+                        self.academy_prev[ch["id"]] = ordered[i - 1]["id"]
+
     # ---------- campaign ----------
     def campaign(self) -> List[dict]:
         out = []
@@ -297,6 +317,11 @@ class ContentEngine:
             "complete_bonus": LEVEL_COMPLETE_BONUS,
             "is_fork": lv.get("is_fork", False),
             "fork_id": lv.get("fork_id"),
+            "is_academy": lv.get("is_academy", False),
+            "path_id": lv.get("path_id"),
+            "pattern": lv.get("pattern"),
+            "icon": lv.get("icon"),
+            "group": lv.get("group"),
         }
         # Surface available forks on the anchor level (e.g. Linear Algebra)
         if lv["id"] in self.anchor_forks:
@@ -310,6 +335,60 @@ class ContentEngine:
         if lv.get("missions"):
             return [m["id"] for m in lv["missions"]]
         return [m["id"] for m in self._missions(lv)]
+
+    # ---------- academy paths ----------
+    def learning_paths(self) -> List[dict]:
+        paths = [{
+            "id": "campaign", "title": "AI Engineering Quest", "kind": "campaign",
+            "tagline": "The original 96-level journey from math foundations to multi-agent systems.",
+            "unit_count": self.data["level_count"], "unit_label": "levels",
+        }]
+        for p in self.academy_paths:
+            paths.append({
+                "id": p["id"], "title": p["title"], "kind": "academy",
+                "tagline": p["tagline"], "description": p.get("description", ""),
+                "attribution": p.get("attribution", ""),
+                "unit_count": p["chapter_count"], "unit_label": "patterns",
+            })
+        return paths
+
+    def academy_summary(self, path_id: str) -> Optional[dict]:
+        p = self.academy_by_id.get(path_id)
+        if not p:
+            return None
+        return {"id": p["id"], "title": p["title"], "tagline": p["tagline"],
+                "description": p.get("description", ""), "attribution": p.get("attribution", ""),
+                "groups": p["groups"], "chapter_count": p["chapter_count"]}
+
+    def academy_chapters(self, path_id: str) -> List[dict]:
+        p = self.academy_by_id.get(path_id)
+        return sorted(p["chapters"], key=lambda x: x["number"]) if p else []
+
+    def first_academy_chapter(self, path_id: str) -> Optional[str]:
+        chs = self.academy_chapters(path_id)
+        return chs[0]["id"] if chs else None
+
+    def dojo_bank(self, path_id: str = "agentic-patterns") -> List[dict]:
+        bank = []
+        for ch in self.academy_chapters(path_id):
+            for m in ch["missions"]:
+                if m["type"] == "drill":
+                    for r in m["payload"]["rounds"]:
+                        bank.append({"id": f"{ch['id']}-dojo", "pattern": ch["pattern"],
+                                     "scenario": r["scenario"], "options": r["options"]})
+        return bank
+
+    def clinic_bank(self, path_id: str = "agentic-patterns") -> List[dict]:
+        bank = []
+        for ch in self.academy_chapters(path_id):
+            for m in ch["missions"]:
+                if m["type"] == "debug":
+                    p = m["payload"]
+                    bank.append({"id": f"{ch['id']}-clinic", "pattern": ch["pattern"],
+                                 "scenario": p["scenario"], "broken": p.get("broken", ""),
+                                 "options": p["options"], "answer": p["answer"],
+                                 "failure_mode": p.get("failure_mode", ""), "explain": p["explain"]})
+        return bank
 
     # ---------- forks ----------
     def fork_summary(self, fork_id: str) -> Optional[dict]:
@@ -365,6 +444,20 @@ class ContentEngine:
                         "prompt": f"Recall: what is {t['term'].lower()}?",
                         "myth": "",
                         "answer": t["reality"],
+                    })
+        # academy review cards (explicit prompt/answer)
+        for path in self.academy_paths:
+            for ch in path["chapters"]:
+                for i, c in enumerate(ch.get("review_cards", [])):
+                    seeds.append({
+                        "card_id": f"{ch['id']}::card::{i}",
+                        "level_id": ch["id"],
+                        "world_id": -1,
+                        "type": "pattern",
+                        "term": ch["pattern"],
+                        "prompt": c["prompt"],
+                        "myth": "",
+                        "answer": c["answer"],
                     })
         return seeds
 

@@ -1,0 +1,3720 @@
+{
+  "version": 1,
+  "paths": [
+    {
+      "id": "agentic-patterns",
+      "title": "Agentic Design Patterns Academy",
+      "source_type": "pdf",
+      "source_file_name": "Agentic Design Patterns (Antonio Gulli)",
+      "attribution": "Based on 'Agentic Design Patterns: A Hands-On Guide to Building Intelligent Systems' by Antonio Gulli. Original transformed teaching content; the author donates royalties to Save the Children.",
+      "description": "Master 21 agentic design patterns by building, debugging, and applying each one.",
+      "tagline": "Build, debug and apply the 21 patterns that power real AI agents.",
+      "groups": [
+        {
+          "id": "foundations",
+          "name": "Foundations",
+          "patterns": [
+            1,
+            2,
+            3,
+            5,
+            6
+          ]
+        },
+        {
+          "id": "orchestration",
+          "name": "Orchestration",
+          "patterns": [
+            4,
+            7,
+            10,
+            15,
+            17
+          ]
+        },
+        {
+          "id": "reliability",
+          "name": "Reliability & Safety",
+          "patterns": [
+            8,
+            12,
+            13,
+            18,
+            19
+          ]
+        },
+        {
+          "id": "advanced",
+          "name": "Knowledge & Advanced Systems",
+          "patterns": [
+            9,
+            11,
+            14,
+            16,
+            20,
+            21
+          ]
+        }
+      ],
+      "chapter_count": 21,
+      "chapters": [
+        {
+          "id": "adp-01",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 1,
+          "group": "foundations",
+          "pattern": "Prompt Chaining",
+          "title": "1. Prompt Chaining",
+          "tagline": "Prompt Chaining = An assembly line",
+          "type": "Pattern",
+          "icon": "link",
+          "estimated_minutes": 19,
+          "objectives": [
+            "Big tasks that one prompt does badly — break them into ordered steps where each output feeds the next."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-01::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Prompt Chaining = An assembly line",
+                "why_it_matters": "Big tasks that one prompt does badly — break them into ordered steps where each output feeds the next.",
+                "objectives": [
+                  "Use when: A task has clear sequential stages; Each stage needs a focused instruction",
+                  "Avoid when: The task is a single simple ask; Stages are independent (use Parallelization)",
+                  "Example: Summarize a doc → extract the action items → format them as JSON."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-01::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "An assembly line",
+                "icon": "link",
+                "pattern": "Prompt Chaining",
+                "points": [
+                  "Output of each step is the input of the next",
+                  "Each link has one job and one clear format",
+                  "A broken link breaks the chain — validate between steps"
+                ],
+                "mistake": "Letting step 1's messy output flow into step 2 without a defined structure."
+              }
+            },
+            {
+              "id": "adp-01::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "You must turn a long meeting transcript into a clean JSON list of decisions with owners and dates.",
+                    "options": [
+                      {
+                        "text": "Prompt Chaining (summarize → extract → format)",
+                        "correct": true,
+                        "feedback": "Right — sequential stages, each feeding the next, with a structured final step."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "These steps depend on each other; you can't extract before you summarize."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "There's only one task type here, nothing to route."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-01::lab",
+              "type": "lab",
+              "title": "Build Lab",
+              "objective": "Assemble a content pipeline that turns a raw document into validated JSON.",
+              "estimated_minutes": 5,
+              "xp_reward": 55,
+              "payload": {
+                "kind": "order",
+                "goal": "Assemble a content pipeline that turns a raw document into validated JSON.",
+                "prompt": "Tap the steps in the correct order to build the chain.",
+                "steps": [
+                  {
+                    "id": "fmt",
+                    "label": "Format & validate as JSON"
+                  },
+                  {
+                    "id": "sum",
+                    "label": "Summarize the raw document"
+                  },
+                  {
+                    "id": "ext",
+                    "label": "Extract the action items"
+                  }
+                ],
+                "correct_order": [
+                  "sum",
+                  "ext",
+                  "fmt"
+                ],
+                "success": "Summarize → Extract → Format. Each step feeds the next; the last one enforces structure."
+              }
+            },
+            {
+              "id": "adp-01::debug",
+              "type": "debug",
+              "title": "Broken Agent Fix",
+              "objective": "Diagnose the failure and choose the fix.",
+              "estimated_minutes": 3,
+              "xp_reward": 45,
+              "payload": {
+                "scenario": "An agent pipeline outputs free text instead of the JSON the next system needs.",
+                "broken": "step3 = 'Write a nice summary of the items.'",
+                "options": [
+                  "Add an explicit output-format/schema instruction and a validation step",
+                  "Raise the temperature so it's more creative",
+                  "Delete the extraction step",
+                  "Run the same prompt twice"
+                ],
+                "answer": 0,
+                "failure_mode": "Missing structured output",
+                "explain": "The final link must declare its schema and validate — otherwise downstream parsing breaks."
+              }
+            },
+            {
+              "id": "adp-01::boss",
+              "type": "boss",
+              "title": "Boss: Prompt Chaining",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "In a chain, what makes a link reliable?",
+                    "options": [
+                      "Its output has a defined, validated structure",
+                      "It skips formatting",
+                      "It calls a random tool",
+                      "It uses the highest temperature"
+                    ],
+                    "answer": 0,
+                    "explain": "Defined I/O contracts between steps keep the chain from drifting."
+                  },
+                  {
+                    "q": "A 3-stage pipeline keeps producing malformed final JSON. Best fix?",
+                    "options": [
+                      "Merge all steps into one prompt",
+                      "Remove the extract step",
+                      "Add a validate/format step and reject malformed intermediate output",
+                      "Increase the model size only"
+                    ],
+                    "answer": 2,
+                    "explain": "Validation between links catches errors before they cascade."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Output of each step is the input of the next",
+                  "Each link has one job and one clear format",
+                  "A broken link breaks the chain — validate between steps"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Prompt Chaining solve?",
+              "answer": "It breaks a complex task into ordered steps, each output feeding the next."
+            },
+            {
+              "prompt": "When should you NOT use Prompt Chaining?",
+              "answer": "When the task is a single simple ask, or when subtasks are independent (use Parallelization)."
+            },
+            {
+              "prompt": "Prompt Chaining failure mode?",
+              "answer": "Unstructured output from one step corrupts the next — links must have defined I/O."
+            },
+            {
+              "prompt": "Pattern often confused with Prompt Chaining?",
+              "answer": "Parallelization — but chaining is sequential & dependent, parallelization is independent."
+            },
+            {
+              "prompt": "What should you validate in a chain?",
+              "answer": "The structure of each intermediate output before it feeds the next step."
+            },
+            {
+              "prompt": "Real-world use of Prompt Chaining?",
+              "answer": "Transcript → summary → action-item extraction → formatted JSON."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-01",
+            "title": "Prompt Chaining Adept",
+            "description": "Cleared the Prompt Chaining chapter."
+          }
+        },
+        {
+          "id": "adp-02",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 2,
+          "group": "foundations",
+          "pattern": "Routing",
+          "title": "2. Routing",
+          "tagline": "Routing = A traffic controller",
+          "type": "Pattern",
+          "icon": "route",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Many possible request types — send each to the specialist best equipped to handle it."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-02::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Routing = A traffic controller",
+                "why_it_matters": "Many possible request types — send each to the specialist best equipped to handle it.",
+                "objectives": [
+                  "Use when: Requests fall into distinct categories; Different handlers/tools fit different intents",
+                  "Avoid when: Every request is the same kind; There's only one capable handler",
+                  "Example: A support message could be billing, technical, or cancellation — route to the right agent."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-02::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A traffic controller",
+                "icon": "route",
+                "pattern": "Routing",
+                "points": [
+                  "Classify the intent first",
+                  "Map each intent to a specialist",
+                  "Always have a default/fallback route"
+                ],
+                "mistake": "No fallback route, so unknown intents crash or get mishandled."
+              }
+            },
+            {
+              "id": "adp-02::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A customer request could be billing, technical support, or a cancellation.",
+                    "options": [
+                      {
+                        "text": "Routing",
+                        "correct": true,
+                        "feedback": "Right — classify intent, dispatch to the matching specialist, with a fallback."
+                      },
+                      {
+                        "text": "Prompt Chaining",
+                        "correct": false,
+                        "feedback": "Chaining runs fixed stages; it can't pick between different handlers."
+                      },
+                      {
+                        "text": "RAG",
+                        "correct": false,
+                        "feedback": "Retrieval helps answer, but doesn't decide which department handles the request."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-02::boss",
+              "type": "boss",
+              "title": "Boss: Routing",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "What must every router include?",
+                    "options": [
+                      "A fallback/default route for unknown intents",
+                      "A memory store",
+                      "A higher temperature",
+                      "A calculator"
+                    ],
+                    "answer": 0,
+                    "explain": "Unclassified intents need a safe default instead of failing."
+                  },
+                  {
+                    "q": "A router sends refunds to the FAQ bot. Root cause?",
+                    "options": [
+                      "Intent classification is wrong/too coarse",
+                      "Memory is full",
+                      "Too many tools",
+                      "The FAQ bot is too smart"
+                    ],
+                    "answer": 0,
+                    "explain": "Routing quality depends on accurate intent detection."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Classify the intent first",
+                  "Map each intent to a specialist",
+                  "Always have a default/fallback route"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Routing solve?",
+              "answer": "Directing each request to the specialist handler best suited to its intent."
+            },
+            {
+              "prompt": "When NOT to use Routing?",
+              "answer": "When all requests are the same kind or only one handler exists."
+            },
+            {
+              "prompt": "Routing failure mode?",
+              "answer": "No fallback route, or misclassified intent sending work to the wrong handler."
+            },
+            {
+              "prompt": "What must a router always have?",
+              "answer": "A default/fallback route for unknown or low-confidence intents."
+            },
+            {
+              "prompt": "Confused with Routing?",
+              "answer": "Prompt Chaining — but chaining is fixed stages, routing chooses among handlers."
+            },
+            {
+              "prompt": "Real-world Routing example?",
+              "answer": "Triaging a support request into billing / technical / cancellation."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-02",
+            "title": "Routing Adept",
+            "description": "Cleared the Routing chapter."
+          }
+        },
+        {
+          "id": "adp-03",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 3,
+          "group": "foundations",
+          "pattern": "Parallelization",
+          "title": "3. Parallelization",
+          "tagline": "Parallelization = A task swarm",
+          "type": "Pattern",
+          "icon": "split",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Independent subtasks that waste time if run one-by-one — fan them out, then merge."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-03::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Parallelization = A task swarm",
+                "why_it_matters": "Independent subtasks that waste time if run one-by-one — fan them out, then merge.",
+                "objectives": [
+                  "Use when: Subtasks don't depend on each other; Latency matters",
+                  "Avoid when: Steps depend on previous output (use Chaining); Order matters",
+                  "Example: Research 5 competitors at once, then merge into one comparison table."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-03::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A task swarm",
+                "icon": "split",
+                "pattern": "Parallelization",
+                "points": [
+                  "Split into independent units",
+                  "Run them concurrently",
+                  "Merge results into one coherent answer"
+                ],
+                "mistake": "Parallelizing dependent steps, so later tasks use stale/missing inputs."
+              }
+            },
+            {
+              "id": "adp-03::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "You need to gather facts about 6 unrelated companies and combine them into a report.",
+                    "options": [
+                      {
+                        "text": "Parallelization",
+                        "correct": true,
+                        "feedback": "Right — independent lookups fan out, then a merge step combines them."
+                      },
+                      {
+                        "text": "Prompt Chaining",
+                        "correct": false,
+                        "feedback": "These lookups don't depend on each other — chaining would be needlessly slow."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Reflection improves one answer; it doesn't gather parallel data."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-03::boss",
+              "type": "boss",
+              "title": "Boss: Parallelization",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Parallelization requires subtasks to be…",
+                    "options": [
+                      "all identical",
+                      "independent of each other",
+                      "sequential",
+                      "human-approved"
+                    ],
+                    "answer": 1,
+                    "explain": "Independence is what makes concurrency safe."
+                  },
+                  {
+                    "q": "What step is essential after fan-out?",
+                    "options": [
+                      "A merge/aggregate step",
+                      "A delete step",
+                      "A higher temperature",
+                      "A second router"
+                    ],
+                    "answer": 0,
+                    "explain": "Results must be combined coherently."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Split into independent units",
+                  "Run them concurrently",
+                  "Merge results into one coherent answer"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Parallelization solve?",
+              "answer": "Running independent subtasks concurrently to cut latency, then merging results."
+            },
+            {
+              "prompt": "When NOT to parallelize?",
+              "answer": "When steps depend on each other or order matters — use Prompt Chaining."
+            },
+            {
+              "prompt": "Parallelization failure mode?",
+              "answer": "Parallelizing dependent steps so later work uses missing/stale inputs."
+            },
+            {
+              "prompt": "Essential final step?",
+              "answer": "A merge/aggregation step that combines the parallel results."
+            },
+            {
+              "prompt": "Confused with Parallelization?",
+              "answer": "Prompt Chaining — chaining is dependent & sequential."
+            },
+            {
+              "prompt": "Real-world Parallelization example?",
+              "answer": "Researching multiple sources at once and merging into one report."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-03",
+            "title": "Parallelization Adept",
+            "description": "Cleared the Parallelization chapter."
+          }
+        },
+        {
+          "id": "adp-04",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 4,
+          "group": "orchestration",
+          "pattern": "Reflection",
+          "title": "4. Reflection",
+          "tagline": "Reflection = A self-review loop",
+          "type": "Pattern",
+          "icon": "refresh-ccw",
+          "estimated_minutes": 11,
+          "objectives": [
+            "First drafts are often wrong — have the agent critique and improve its own output."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-04::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Reflection = A self-review loop",
+                "why_it_matters": "First drafts are often wrong — have the agent critique and improve its own output.",
+                "objectives": [
+                  "Use when: Quality matters more than speed; Errors are catchable by self-review",
+                  "Avoid when: Latency/cost is critical; The task is trivial",
+                  "Example: Draft an answer → critique it for gaps → produce an improved version."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-04::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A self-review loop",
+                "icon": "refresh-ccw",
+                "pattern": "Reflection",
+                "points": [
+                  "Produce a first draft",
+                  "Critique it against criteria",
+                  "Revise to fix the identified weaknesses"
+                ],
+                "mistake": "A critique step that rubber-stamps the draft without finding real weaknesses."
+              }
+            },
+            {
+              "id": "adp-04::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent's first-pass code reviews keep missing edge cases.",
+                    "options": [
+                      {
+                        "text": "Reflection",
+                        "correct": true,
+                        "feedback": "Right — add a critique-then-revise loop to catch what the first pass missed."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "There's one task; nothing to route."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Running more copies in parallel won't add self-critique."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-04::boss",
+              "type": "boss",
+              "title": "Boss: Reflection",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A useful reflection step must…",
+                    "options": [
+                      "identify at least one concrete weakness",
+                      "increase length",
+                      "always approve the draft",
+                      "call a tool"
+                    ],
+                    "answer": 0,
+                    "explain": "Reflection that finds nothing adds no value."
+                  },
+                  {
+                    "q": "Reflection trades off…",
+                    "options": [
+                      "safety for speed",
+                      "memory for tools",
+                      "extra latency/cost for higher quality",
+                      "nothing at all"
+                    ],
+                    "answer": 2,
+                    "explain": "Self-review costs time but improves results."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Produce a first draft",
+                  "Critique it against criteria",
+                  "Revise to fix the identified weaknesses"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Reflection solve?",
+              "answer": "Improving output quality by having the agent critique and revise its own work."
+            },
+            {
+              "prompt": "When NOT to use Reflection?",
+              "answer": "When latency/cost is critical or the task is trivial."
+            },
+            {
+              "prompt": "Reflection failure mode?",
+              "answer": "A critique that rubber-stamps the draft without finding real weaknesses."
+            },
+            {
+              "prompt": "What must the critique step do?",
+              "answer": "Identify at least one concrete weakness to fix."
+            },
+            {
+              "prompt": "Reflection trade-off?",
+              "answer": "More latency/cost in exchange for higher quality."
+            },
+            {
+              "prompt": "Real-world Reflection example?",
+              "answer": "Draft → self-critique for gaps → improved final answer."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-04",
+            "title": "Reflection Adept",
+            "description": "Cleared the Reflection chapter."
+          }
+        },
+        {
+          "id": "adp-05",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 5,
+          "group": "foundations",
+          "pattern": "Tool Use",
+          "title": "5. Tool Use",
+          "tagline": "Tool Use = An agent reaching outside itself",
+          "type": "Pattern",
+          "icon": "wrench",
+          "estimated_minutes": 19,
+          "objectives": [
+            "LLMs can't reliably compute, fetch live data, or act — give them tools and let them decide when to call."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-05::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Tool Use = An agent reaching outside itself",
+                "why_it_matters": "LLMs can't reliably compute, fetch live data, or act — give them tools and let them decide when to call.",
+                "objectives": [
+                  "Use when: You need exact math, live data, or real actions; The model alone would hallucinate the answer",
+                  "Avoid when: The model already knows reliably; A tool call adds risk with no benefit",
+                  "Example: Use a calculator for exact arithmetic instead of trusting token prediction."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-05::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "An agent reaching outside itself",
+                "icon": "wrench",
+                "pattern": "Tool Use",
+                "points": [
+                  "Decide IF a tool is needed",
+                  "Pick the RIGHT tool and arguments",
+                  "Feed the result back into the answer"
+                ],
+                "mistake": "Calling tools unnecessarily, or ignoring/failing to incorporate the tool's result."
+              }
+            },
+            {
+              "id": "adp-05::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "The agent must answer 'What's 18.5% of $2,430?' but keeps inventing numbers.",
+                    "options": [
+                      {
+                        "text": "Tool Use (calculator)",
+                        "correct": true,
+                        "feedback": "Right — offload exact arithmetic to a calculator tool and use its result."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Self-critique won't make token prediction good at exact math."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Remembering won't compute the number reliably."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-05::lab",
+              "type": "lab",
+              "title": "Build Lab",
+              "objective": "Equip an agent that answers exact financial questions safely.",
+              "estimated_minutes": 5,
+              "xp_reward": 55,
+              "payload": {
+                "kind": "select",
+                "goal": "Equip an agent that answers exact financial questions safely.",
+                "prompt": "Select ONLY the components this agent truly needs.",
+                "blocks": [
+                  {
+                    "id": "calc",
+                    "label": "Calculator tool"
+                  },
+                  {
+                    "id": "guard",
+                    "label": "Confirmation gate for risky actions"
+                  },
+                  {
+                    "id": "img",
+                    "label": "Image generator"
+                  },
+                  {
+                    "id": "incorp",
+                    "label": "Step that uses the tool's result"
+                  },
+                  {
+                    "id": "spam",
+                    "label": "Mass email sender"
+                  }
+                ],
+                "required": [
+                  "calc",
+                  "incorp",
+                  "guard"
+                ],
+                "success": "Calculator + a step that uses its output + a confirmation gate. The image generator and mass-mailer are needless risk."
+              }
+            },
+            {
+              "id": "adp-05::debug",
+              "type": "debug",
+              "title": "Broken Agent Fix",
+              "objective": "Diagnose the failure and choose the fix.",
+              "estimated_minutes": 3,
+              "xp_reward": 45,
+              "payload": {
+                "scenario": "An agent calls a web-search tool for every message, even 'hello', burning cost and adding latency.",
+                "broken": "policy = always call web_search before replying",
+                "options": [
+                  "Call the tool only when the query actually needs external/live info",
+                  "Add a second search tool",
+                  "Increase max tokens",
+                  "Remove the answer step"
+                ],
+                "answer": 0,
+                "failure_mode": "Tool called unnecessarily",
+                "explain": "Tool use should be conditional on need — not a reflex on every turn."
+              }
+            },
+            {
+              "id": "adp-05::boss",
+              "type": "boss",
+              "title": "Boss: Tool Use",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "When should an agent call a tool?",
+                    "options": [
+                      "Never",
+                      "Only when the model can't reliably do it alone",
+                      "Only for greetings",
+                      "On every single turn"
+                    ],
+                    "answer": 1,
+                    "explain": "Tools add capability AND risk — call them with purpose."
+                  },
+                  {
+                    "q": "After a tool returns, the agent must…",
+                    "options": [
+                      "call the same tool again",
+                      "ignore it",
+                      "incorporate the result into its answer",
+                      "increase temperature"
+                    ],
+                    "answer": 2,
+                    "explain": "An unused tool result is wasted (or unsafe)."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Decide IF a tool is needed",
+                  "Pick the RIGHT tool and arguments",
+                  "Feed the result back into the answer"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Tool Use solve?",
+              "answer": "Lets an agent compute, fetch live data, or act by calling external functions instead of guessing."
+            },
+            {
+              "prompt": "When NOT to use a tool?",
+              "answer": "When the model already knows reliably, or the call adds risk with no benefit."
+            },
+            {
+              "prompt": "Tool Use failure mode?",
+              "answer": "Unnecessary calls, wrong tool/args, or ignoring the returned result."
+            },
+            {
+              "prompt": "What must happen after a tool runs?",
+              "answer": "The result must be incorporated into the agent's response."
+            },
+            {
+              "prompt": "Safety concern with Tool Use?",
+              "answer": "Tools can take real actions — gate risky ones behind confirmation."
+            },
+            {
+              "prompt": "Real-world Tool Use example?",
+              "answer": "Calling a calculator for exact math or an API for live prices."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-05",
+            "title": "Tool Use Adept",
+            "description": "Cleared the Tool Use chapter."
+          }
+        },
+        {
+          "id": "adp-06",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 6,
+          "group": "foundations",
+          "pattern": "Planning",
+          "title": "6. Planning",
+          "tagline": "Planning = A map before the journey",
+          "type": "Pattern",
+          "icon": "map",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Multi-step goals where acting blindly fails — make a plan, then execute and track it."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-06::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Planning = A map before the journey",
+                "why_it_matters": "Multi-step goals where acting blindly fails — make a plan, then execute and track it.",
+                "objectives": [
+                  "Use when: The goal needs several coordinated steps; You want to track progress and adapt",
+                  "Avoid when: A single action solves it; The environment changes faster than you can plan",
+                  "Example: Plan: gather data → analyze → draft → review → publish, executing each in order."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-06::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A map before the journey",
+                "icon": "map",
+                "pattern": "Planning",
+                "points": [
+                  "Decompose the goal into ordered steps",
+                  "Execute step by step",
+                  "Track state and re-plan on failure"
+                ],
+                "mistake": "Making a plan but never tracking execution state, so the agent repeats or skips steps."
+              }
+            },
+            {
+              "id": "adp-06::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent must organize a multi-step product launch with dependencies.",
+                    "options": [
+                      {
+                        "text": "Planning",
+                        "correct": true,
+                        "feedback": "Right — decompose into ordered steps, execute, and track state."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "There are dependencies, so pure fan-out would break order."
+                      },
+                      {
+                        "text": "Tool Use",
+                        "correct": false,
+                        "feedback": "Tools help execute steps, but you still need a plan to sequence them."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-06::boss",
+              "type": "boss",
+              "title": "Boss: Planning",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A good plan tracks…",
+                    "options": [
+                      "the temperature",
+                      "only the final answer",
+                      "nothing",
+                      "execution state across ordered steps"
+                    ],
+                    "answer": 3,
+                    "explain": "State tracking prevents repeats/skips and enables re-planning."
+                  },
+                  {
+                    "q": "When a step fails, the planner should…",
+                    "options": [
+                      "ignore it",
+                      "delete the goal",
+                      "re-plan or trigger a fallback",
+                      "halt forever"
+                    ],
+                    "answer": 2,
+                    "explain": "Adaptation on failure is core to planning."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Decompose the goal into ordered steps",
+                  "Execute step by step",
+                  "Track state and re-plan on failure"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Planning solve?",
+              "answer": "Coordinating multi-step goals by decomposing, executing, and tracking progress."
+            },
+            {
+              "prompt": "When NOT to plan?",
+              "answer": "When one action solves it, or the world changes faster than plans hold."
+            },
+            {
+              "prompt": "Planning failure mode?",
+              "answer": "No execution-state tracking — the agent repeats or skips steps."
+            },
+            {
+              "prompt": "What should a planner do on failure?",
+              "answer": "Re-plan or trigger a fallback."
+            },
+            {
+              "prompt": "Confused with Planning?",
+              "answer": "Plain Tool Use — tools execute steps, planning sequences them."
+            },
+            {
+              "prompt": "Real-world Planning example?",
+              "answer": "An agent sequencing gather → analyze → draft → review → publish."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-06",
+            "title": "Planning Adept",
+            "description": "Cleared the Planning chapter."
+          }
+        },
+        {
+          "id": "adp-07",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 7,
+          "group": "orchestration",
+          "pattern": "Multi-Agent Collaboration",
+          "title": "7. Multi-Agent Collaboration",
+          "tagline": "Multi-Agent Collaboration = A specialist team",
+          "type": "Pattern",
+          "icon": "users",
+          "estimated_minutes": 11,
+          "objectives": [
+            "One generalist agent struggles with complex work — split roles across specialists that collaborate."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-07::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Multi-Agent Collaboration = A specialist team",
+                "why_it_matters": "One generalist agent struggles with complex work — split roles across specialists that collaborate.",
+                "objectives": [
+                  "Use when: Work has distinct specialties; A coordinator can manage handoffs",
+                  "Avoid when: A single agent suffices; Coordination overhead outweighs benefits",
+                  "Example: Planner, researcher, builder, reviewer, and safety-checker agents working together."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-07::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A specialist team",
+                "icon": "users",
+                "pattern": "Multi-Agent Collaboration",
+                "points": [
+                  "Give each agent a distinct role",
+                  "Define clear handoffs",
+                  "Include a coordinator/reviewer"
+                ],
+                "mistake": "Unclear handoffs, so agents duplicate work or drop tasks between them."
+              }
+            },
+            {
+              "id": "adp-07::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A complex report needs research, drafting, fact-checking, and a final safety review.",
+                    "options": [
+                      {
+                        "text": "Multi-Agent Collaboration",
+                        "correct": true,
+                        "feedback": "Right — distinct specialist roles with clear handoffs and a reviewer."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Reflection is one agent self-reviewing, not a team of specialists."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing picks ONE handler; this needs several working together."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-07::boss",
+              "type": "boss",
+              "title": "Boss: Multi-Agent Collaboration",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A healthy multi-agent team needs…",
+                    "options": [
+                      "one giant prompt",
+                      "identical agents",
+                      "no coordinator",
+                      "distinct roles and clear handoffs"
+                    ],
+                    "answer": 3,
+                    "explain": "Role clarity + handoffs prevent dropped/duplicated work."
+                  },
+                  {
+                    "q": "Who guards quality in a team?",
+                    "options": [
+                      "nobody",
+                      "the calculator",
+                      "A reviewer/coordinator agent",
+                      "the user only"
+                    ],
+                    "answer": 2,
+                    "explain": "A coordinator or reviewer keeps the team aligned."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Give each agent a distinct role",
+                  "Define clear handoffs",
+                  "Include a coordinator/reviewer"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Multi-Agent solve?",
+              "answer": "Splitting complex work across specialist agents that collaborate."
+            },
+            {
+              "prompt": "When NOT to go multi-agent?",
+              "answer": "When one agent suffices or coordination overhead outweighs benefits."
+            },
+            {
+              "prompt": "Multi-Agent failure mode?",
+              "answer": "Unclear handoffs causing duplicated or dropped tasks."
+            },
+            {
+              "prompt": "What roles keep a team healthy?",
+              "answer": "Distinct specialists plus a coordinator/reviewer."
+            },
+            {
+              "prompt": "Confused with Multi-Agent?",
+              "answer": "Reflection (one agent) and Routing (one handler) — multi-agent is a collaborating team."
+            },
+            {
+              "prompt": "Real-world Multi-Agent example?",
+              "answer": "Planner + researcher + builder + reviewer + safety checker."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-07",
+            "title": "Multi-Agent Collaboration Adept",
+            "description": "Cleared the Multi-Agent Collaboration chapter."
+          }
+        },
+        {
+          "id": "adp-08",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 8,
+          "group": "reliability",
+          "pattern": "Memory Management",
+          "title": "8. Memory Management",
+          "tagline": "Memory Management = A durable notebook, not a hoarder's attic",
+          "type": "Pattern",
+          "icon": "database",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Agents forget across turns or drown in irrelevant history — manage what to keep, summarize, and retrieve."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-08::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Memory Management = A durable notebook, not a hoarder's attic",
+                "why_it_matters": "Agents forget across turns or drown in irrelevant history — manage what to keep, summarize, and retrieve.",
+                "objectives": [
+                  "Use when: Multi-turn or long-running tasks; Context exceeds the window",
+                  "Avoid when: Single-shot tasks; All context fits and stays relevant",
+                  "Example: Summarize old turns and retrieve only the memories relevant to the current step."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-08::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A durable notebook, not a hoarder's attic",
+                "icon": "database",
+                "pattern": "Memory Management",
+                "points": [
+                  "Keep relevant context, drop noise",
+                  "Summarize older history",
+                  "Retrieve memories by relevance"
+                ],
+                "mistake": "Dumping the entire history every call, or leaking private/irrelevant memory."
+              }
+            },
+            {
+              "id": "adp-08::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A long-running assistant blows its context window by pasting all prior turns each call.",
+                    "options": [
+                      {
+                        "text": "Memory Management (summarize + retrieve)",
+                        "correct": true,
+                        "feedback": "Right — summarize old turns and pull only relevant memories."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Running tasks in parallel doesn't fix context bloat."
+                      },
+                      {
+                        "text": "Guardrails",
+                        "correct": false,
+                        "feedback": "Guardrails enforce safety, not context efficiency."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-08::boss",
+              "type": "boss",
+              "title": "Boss: Memory Management",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Better than dumping all history?",
+                    "options": [
+                      "Delete all memory",
+                      "Raise temperature",
+                      "Summarize old turns and retrieve by relevance",
+                      "Add more tools"
+                    ],
+                    "answer": 2,
+                    "explain": "Selective memory beats raw history dumps."
+                  },
+                  {
+                    "q": "A memory safety concern?",
+                    "options": [
+                      "Leaking private/irrelevant context",
+                      "No router",
+                      "Too few tokens",
+                      "Too much math"
+                    ],
+                    "answer": 0,
+                    "explain": "Memory boundaries protect privacy and relevance."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Keep relevant context, drop noise",
+                  "Summarize older history",
+                  "Retrieve memories by relevance"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Memory Management solve?",
+              "answer": "Keeping relevant context across turns without overflowing the window or leaking noise."
+            },
+            {
+              "prompt": "When NOT to manage memory heavily?",
+              "answer": "Single-shot tasks where all context fits and stays relevant."
+            },
+            {
+              "prompt": "Memory failure mode?",
+              "answer": "Dumping full history every call, or leaking private/irrelevant memory."
+            },
+            {
+              "prompt": "Better strategy than full-history?",
+              "answer": "Summarize older turns and retrieve only relevant memories."
+            },
+            {
+              "prompt": "Memory boundary concern?",
+              "answer": "Excluding private/irrelevant data from what you keep and retrieve."
+            },
+            {
+              "prompt": "Real-world Memory example?",
+              "answer": "A coding assistant summarizing earlier context and recalling only what's relevant now."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-08",
+            "title": "Memory Management Adept",
+            "description": "Cleared the Memory Management chapter."
+          }
+        },
+        {
+          "id": "adp-09",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 9,
+          "group": "advanced",
+          "pattern": "Learning & Adaptation",
+          "title": "9. Learning & Adaptation",
+          "tagline": "Learning & Adaptation = An agent that gets better with practice",
+          "type": "Pattern",
+          "icon": "trending-up",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Static agents stagnate — capture feedback and outcomes to improve behavior over time."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-09::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Learning & Adaptation = An agent that gets better with practice",
+                "why_it_matters": "Static agents stagnate — capture feedback and outcomes to improve behavior over time.",
+                "objectives": [
+                  "Use when: Repeated tasks with feedback signals; Performance should improve with data",
+                  "Avoid when: One-off tasks; No reliable feedback signal",
+                  "Example: Log which answers users accepted and adapt future responses toward what works."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-09::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "An agent that gets better with practice",
+                "icon": "trending-up",
+                "pattern": "Learning & Adaptation",
+                "points": [
+                  "Collect outcome/feedback signals",
+                  "Update behavior or examples",
+                  "Guard against drift"
+                ],
+                "mistake": "Adapting on noisy or biased feedback, causing drift toward the wrong behavior."
+              }
+            },
+            {
+              "id": "adp-09::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A recommendation agent should improve as it sees which suggestions users accept.",
+                    "options": [
+                      {
+                        "text": "Learning & Adaptation",
+                        "correct": true,
+                        "feedback": "Right — capture feedback signals and adapt behavior over time."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing dispatches requests; it doesn't learn from outcomes."
+                      },
+                      {
+                        "text": "Guardrails",
+                        "correct": false,
+                        "feedback": "Guardrails constrain; they don't improve performance from feedback."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-09::boss",
+              "type": "boss",
+              "title": "Boss: Learning & Adaptation",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Learning needs a reliable…",
+                    "options": [
+                      "higher temperature",
+                      "feedback/outcome signal",
+                      "bigger prompt",
+                      "more tools"
+                    ],
+                    "answer": 1,
+                    "explain": "Adaptation is only as good as its signal."
+                  },
+                  {
+                    "q": "Main risk of adaptation?",
+                    "options": [
+                      "drift from noisy/biased feedback",
+                      "no router",
+                      "too little memory",
+                      "too much safety"
+                    ],
+                    "answer": 0,
+                    "explain": "Bad signals push behavior the wrong way."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Collect outcome/feedback signals",
+                  "Update behavior or examples",
+                  "Guard against drift"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Learning & Adaptation solve?",
+              "answer": "Improving agent behavior over time using feedback and outcomes."
+            },
+            {
+              "prompt": "When NOT to add learning?",
+              "answer": "One-off tasks or when no reliable feedback signal exists."
+            },
+            {
+              "prompt": "Learning failure mode?",
+              "answer": "Adapting on noisy/biased feedback causing drift."
+            },
+            {
+              "prompt": "What does adaptation require?",
+              "answer": "A reliable feedback/outcome signal."
+            },
+            {
+              "prompt": "How to stay safe while adapting?",
+              "answer": "Guard against drift and validate changes."
+            },
+            {
+              "prompt": "Real-world Learning example?",
+              "answer": "Adapting recommendations from which suggestions users accept."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-09",
+            "title": "Learning & Adaptation Adept",
+            "description": "Cleared the Learning & Adaptation chapter."
+          }
+        },
+        {
+          "id": "adp-10",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 10,
+          "group": "orchestration",
+          "pattern": "Model Context Protocol (MCP)",
+          "title": "10. Model Context Protocol (MCP)",
+          "tagline": "Model Context Protocol (MCP) = A universal power outlet for tools",
+          "type": "Pattern",
+          "icon": "plug",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Every tool integration is bespoke — MCP is a standard way for agents to discover and call tools/data."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-10::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Model Context Protocol (MCP) = A universal power outlet for tools",
+                "why_it_matters": "Every tool integration is bespoke — MCP is a standard way for agents to discover and call tools/data.",
+                "objectives": [
+                  "Use when: You want portable, standardized tool/data access; Multiple agents share the same tools",
+                  "Avoid when: A single hardcoded tool is enough; You need a one-off prototype",
+                  "Example: An agent connects to an MCP server to use any registered tool without custom glue code."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-10::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A universal power outlet for tools",
+                "icon": "plug",
+                "pattern": "Model Context Protocol (MCP)",
+                "points": [
+                  "A standard protocol, not a single API",
+                  "Agents discover capabilities",
+                  "Tools/data become plug-and-play"
+                ],
+                "mistake": "Treating MCP as 'just another API' and skipping its discovery/capability contract."
+              }
+            },
+            {
+              "id": "adp-10::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "You want many agents to share the same growing set of tools without rewriting integrations.",
+                    "options": [
+                      {
+                        "text": "Model Context Protocol (MCP)",
+                        "correct": true,
+                        "feedback": "Right — a standard interface so tools are discoverable and portable."
+                      },
+                      {
+                        "text": "Prompt Chaining",
+                        "correct": false,
+                        "feedback": "Chaining sequences prompts; it doesn't standardize tool access."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Memory stores context, not a tool-integration standard."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-10::boss",
+              "type": "boss",
+              "title": "Boss: Model Context Protocol (MCP)",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "MCP is best described as…",
+                    "options": [
+                      "a standard protocol for tool/data access",
+                      "a memory store",
+                      "a prompt template",
+                      "a single vendor API"
+                    ],
+                    "answer": 0,
+                    "explain": "MCP standardizes how agents discover and use capabilities."
+                  },
+                  {
+                    "q": "Key benefit of MCP?",
+                    "options": [
+                      "no need for tools",
+                      "fewer guardrails",
+                      "portable, plug-and-play integrations",
+                      "higher temperature"
+                    ],
+                    "answer": 2,
+                    "explain": "Standardization removes bespoke glue per tool."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "A standard protocol, not a single API",
+                  "Agents discover capabilities",
+                  "Tools/data become plug-and-play"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does MCP solve?",
+              "answer": "Standardizing how agents discover and call tools/data, replacing bespoke integrations."
+            },
+            {
+              "prompt": "When NOT to use MCP?",
+              "answer": "For a single hardcoded tool or a quick one-off prototype."
+            },
+            {
+              "prompt": "MCP failure mode?",
+              "answer": "Treating it as just another API and ignoring its discovery/capability contract."
+            },
+            {
+              "prompt": "MCP in one line?",
+              "answer": "A universal, standardized 'outlet' so tools are plug-and-play across agents."
+            },
+            {
+              "prompt": "Confused with MCP?",
+              "answer": "Plain Tool Use — MCP is the standard layer that makes tools portable."
+            },
+            {
+              "prompt": "Real-world MCP example?",
+              "answer": "Agents connecting to an MCP server to use any registered tool."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-10",
+            "title": "Model Context Protocol (MCP) Adept",
+            "description": "Cleared the Model Context Protocol (MCP) chapter."
+          }
+        },
+        {
+          "id": "adp-11",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 11,
+          "group": "advanced",
+          "pattern": "Goal Setting & Monitoring",
+          "title": "11. Goal Setting & Monitoring",
+          "tagline": "Goal Setting & Monitoring = A North Star with a progress dashboard",
+          "type": "Pattern",
+          "icon": "target",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Agents wander without a clear objective — define goals and continuously check progress toward them."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-11::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Goal Setting & Monitoring = A North Star with a progress dashboard",
+                "why_it_matters": "Agents wander without a clear objective — define goals and continuously check progress toward them.",
+                "objectives": [
+                  "Use when: Long-running or autonomous tasks; Success must be measurable",
+                  "Avoid when: Trivial single actions; No measurable success criteria",
+                  "Example: Set 'reduce open tickets to <10' and monitor the count, adjusting actions until met."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-11::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A North Star with a progress dashboard",
+                "icon": "target",
+                "pattern": "Goal Setting & Monitoring",
+                "points": [
+                  "Define a concrete, measurable goal",
+                  "Monitor progress continuously",
+                  "Adjust actions toward the goal"
+                ],
+                "mistake": "Vague goals with no success metric, so the agent never knows when it's done."
+              }
+            },
+            {
+              "id": "adp-11::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An autonomous agent keeps working but never knows if it has succeeded.",
+                    "options": [
+                      {
+                        "text": "Goal Setting & Monitoring",
+                        "correct": true,
+                        "feedback": "Right — a measurable goal plus progress monitoring defines 'done'."
+                      },
+                      {
+                        "text": "Tool Use",
+                        "correct": false,
+                        "feedback": "Tools execute actions; they don't define success."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Concurrency doesn't tell the agent when it's finished."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-11::boss",
+              "type": "boss",
+              "title": "Boss: Goal Setting & Monitoring",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A good goal is…",
+                    "options": [
+                      "concrete and measurable",
+                      "secret",
+                      "vague and open-ended",
+                      "infinite"
+                    ],
+                    "answer": 0,
+                    "explain": "Measurable goals create a clear finish line."
+                  },
+                  {
+                    "q": "Monitoring lets the agent…",
+                    "options": [
+                      "skip the goal",
+                      "ignore results",
+                      "loop blindly",
+                      "track progress and adjust toward the goal"
+                    ],
+                    "answer": 3,
+                    "explain": "Continuous checks keep work on target."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Define a concrete, measurable goal",
+                  "Monitor progress continuously",
+                  "Adjust actions toward the goal"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Goal Setting solve?",
+              "answer": "Giving agents a measurable objective and tracking progress toward it."
+            },
+            {
+              "prompt": "When NOT needed?",
+              "answer": "Trivial single actions with no measurable success."
+            },
+            {
+              "prompt": "Goal-setting failure mode?",
+              "answer": "Vague goals with no success metric — the agent never knows it's done."
+            },
+            {
+              "prompt": "What makes a good goal?",
+              "answer": "Concrete and measurable."
+            },
+            {
+              "prompt": "Why monitor?",
+              "answer": "To track progress and adjust actions toward the goal."
+            },
+            {
+              "prompt": "Real-world example?",
+              "answer": "Driving open tickets below a threshold and monitoring the count."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-11",
+            "title": "Goal Setting & Monitoring Adept",
+            "description": "Cleared the Goal Setting & Monitoring chapter."
+          }
+        },
+        {
+          "id": "adp-12",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 12,
+          "group": "reliability",
+          "pattern": "Exception Handling & Recovery",
+          "title": "12. Exception Handling & Recovery",
+          "tagline": "Exception Handling & Recovery = Seatbelts and airbags",
+          "type": "Pattern",
+          "icon": "shield-alert",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Tools fail, APIs time out, outputs malform — agents need defined failure paths, retries, and fallbacks."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-12::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Exception Handling & Recovery = Seatbelts and airbags",
+                "why_it_matters": "Tools fail, APIs time out, outputs malform — agents need defined failure paths, retries, and fallbacks.",
+                "objectives": [
+                  "Use when: Any production agent touching tools/APIs; Reliability matters",
+                  "Avoid when: Throwaway demos (still risky); No external dependencies at all",
+                  "Example: If a tool call fails, retry with backoff, then fall back to a safe default and inform the user."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-12::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "Seatbelts and airbags",
+                "icon": "shield-alert",
+                "pattern": "Exception Handling & Recovery",
+                "points": [
+                  "Anticipate failure points",
+                  "Retry with limits/backoff",
+                  "Fall back safely and report"
+                ],
+                "mistake": "No fallback after an exception — the agent hangs, loops, or crashes silently."
+              }
+            },
+            {
+              "id": "adp-12::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent freezes whenever its search API times out.",
+                    "options": [
+                      {
+                        "text": "Exception Handling & Recovery",
+                        "correct": true,
+                        "feedback": "Right — add retry-with-limit then a safe fallback path."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Self-critique doesn't handle infrastructure failures."
+                      },
+                      {
+                        "text": "Prioritization",
+                        "correct": false,
+                        "feedback": "Ranking tasks won't recover from a timeout."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-12::boss",
+              "type": "boss",
+              "title": "Boss: Exception Handling & Recovery",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "After an exception, an agent should…",
+                    "options": [
+                      "ignore it",
+                      "crash silently",
+                      "retry within limits, then fall back safely",
+                      "loop forever"
+                    ],
+                    "answer": 2,
+                    "explain": "Bounded retries + fallback keep agents reliable."
+                  },
+                  {
+                    "q": "A retry must always have…",
+                    "options": [
+                      "a maximum attempt limit",
+                      "higher temperature",
+                      "no logging",
+                      "infinite attempts"
+                    ],
+                    "answer": 0,
+                    "explain": "Unbounded retries cause runaway behavior."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Anticipate failure points",
+                  "Retry with limits/backoff",
+                  "Fall back safely and report"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Exception Handling solve?",
+              "answer": "Keeping agents reliable when tools/APIs fail via defined failure paths."
+            },
+            {
+              "prompt": "When is it needed?",
+              "answer": "Any production agent with external dependencies."
+            },
+            {
+              "prompt": "Exception failure mode?",
+              "answer": "No fallback after an error — the agent hangs, loops, or crashes silently."
+            },
+            {
+              "prompt": "What must retries have?",
+              "answer": "A maximum attempt limit (and ideally backoff)."
+            },
+            {
+              "prompt": "Recovery best practice?",
+              "answer": "Retry within limits, then fall back to a safe default and report."
+            },
+            {
+              "prompt": "Real-world example?",
+              "answer": "Falling back to cached data when a live API times out."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-12",
+            "title": "Exception Handling & Recovery Adept",
+            "description": "Cleared the Exception Handling & Recovery chapter."
+          }
+        },
+        {
+          "id": "adp-13",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 13,
+          "group": "reliability",
+          "pattern": "Human-in-the-Loop",
+          "title": "13. Human-in-the-Loop",
+          "tagline": "Human-in-the-Loop = A co-pilot asking before risky moves",
+          "type": "Pattern",
+          "icon": "user-check",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Some actions are too risky for full autonomy — require human approval at key decision points."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-13::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Human-in-the-Loop = A co-pilot asking before risky moves",
+                "why_it_matters": "Some actions are too risky for full autonomy — require human approval at key decision points.",
+                "objectives": [
+                  "Use when: Irreversible or high-impact actions; Compliance/oversight is required",
+                  "Avoid when: Low-stakes, fully reversible tasks; Latency-critical automation with low risk",
+                  "Example: An agent drafts a refund but waits for a human 'approve' before issuing it."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-13::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A co-pilot asking before risky moves",
+                "icon": "user-check",
+                "pattern": "Human-in-the-Loop",
+                "points": [
+                  "Identify risky/irreversible actions",
+                  "Pause for human approval",
+                  "Log the human decision"
+                ],
+                "mistake": "Skipping the approval gate on destructive actions, or logging no human decision."
+              }
+            },
+            {
+              "id": "adp-13::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent can delete production data to 'clean up'.",
+                    "options": [
+                      {
+                        "text": "Human-in-the-Loop",
+                        "correct": true,
+                        "feedback": "Right — destructive actions require explicit human approval first."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Concurrency has nothing to do with approval of risky actions."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing picks a handler; it doesn't gate dangerous actions."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-13::boss",
+              "type": "boss",
+              "title": "Boss: Human-in-the-Loop",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Risky/irreversible actions require…",
+                    "options": [
+                      "instant execution",
+                      "explicit human approval before execution",
+                      "more tools",
+                      "a louder log"
+                    ],
+                    "answer": 1,
+                    "explain": "A human gate bounds autonomy on high-impact actions."
+                  },
+                  {
+                    "q": "After a human decides, the agent should…",
+                    "options": [
+                      "escalate forever",
+                      "forget it",
+                      "log the decision and proceed accordingly",
+                      "retry without approval"
+                    ],
+                    "answer": 2,
+                    "explain": "Decisions must be recorded for auditability."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Identify risky/irreversible actions",
+                  "Pause for human approval",
+                  "Log the human decision"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Human-in-the-Loop solve?",
+              "answer": "Bounding autonomy by requiring human approval for risky actions."
+            },
+            {
+              "prompt": "When NOT to add a human gate?",
+              "answer": "Low-stakes, fully reversible, latency-critical tasks."
+            },
+            {
+              "prompt": "HITL failure mode?",
+              "answer": "Skipping approval on destructive actions or not logging the decision."
+            },
+            {
+              "prompt": "What triggers a human gate?",
+              "answer": "Irreversible or high-impact actions, or compliance needs."
+            },
+            {
+              "prompt": "After approval, what's required?",
+              "answer": "Log the human decision and proceed accordingly."
+            },
+            {
+              "prompt": "Real-world HITL example?",
+              "answer": "An agent waiting for human sign-off before issuing a refund."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-13",
+            "title": "Human-in-the-Loop Adept",
+            "description": "Cleared the Human-in-the-Loop chapter."
+          }
+        },
+        {
+          "id": "adp-14",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 14,
+          "group": "advanced",
+          "pattern": "Knowledge Retrieval (RAG)",
+          "title": "14. Knowledge Retrieval (RAG)",
+          "tagline": "Knowledge Retrieval (RAG) = Open-book, not from-memory",
+          "type": "Pattern",
+          "icon": "search",
+          "estimated_minutes": 19,
+          "objectives": [
+            "LLMs hallucinate facts they don't reliably know — retrieve real evidence first, then answer from it."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-14::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Knowledge Retrieval (RAG) = Open-book, not from-memory",
+                "why_it_matters": "LLMs hallucinate facts they don't reliably know — retrieve real evidence first, then answer from it.",
+                "objectives": [
+                  "Use when: Answers must be grounded in specific/up-to-date sources; Facts change or are private",
+                  "Avoid when: Pure reasoning with no external facts; The model reliably knows the answer",
+                  "Example: Retrieve policy snippets, then answer the question citing those snippets — refuse if unsupported."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-14::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "Open-book, not from-memory",
+                "icon": "search",
+                "pattern": "Knowledge Retrieval (RAG)",
+                "points": [
+                  "Retrieve relevant evidence FIRST",
+                  "Answer grounded in that evidence",
+                  "Reject unsupported claims"
+                ],
+                "mistake": "Answering before retrieving, or citing nothing so claims can't be verified."
+              }
+            },
+            {
+              "id": "adp-14::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent must answer questions about your company's private, frequently-changing policies.",
+                    "options": [
+                      {
+                        "text": "Knowledge Retrieval (RAG)",
+                        "correct": true,
+                        "feedback": "Right — retrieve current policy snippets, then answer grounded in them."
+                      },
+                      {
+                        "text": "Reasoning Techniques",
+                        "correct": false,
+                        "feedback": "Reasoning can't invent private, changing facts it was never given."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Self-review of a hallucinated answer still lacks the source facts."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-14::lab",
+              "type": "lab",
+              "title": "Build Lab",
+              "objective": "Build a grounded answer flow that won't hallucinate.",
+              "estimated_minutes": 5,
+              "xp_reward": 55,
+              "payload": {
+                "kind": "order",
+                "goal": "Build a grounded answer flow that won't hallucinate.",
+                "prompt": "Tap the steps in the correct order.",
+                "steps": [
+                  {
+                    "id": "ans",
+                    "label": "Answer using ONLY the retrieved evidence"
+                  },
+                  {
+                    "id": "ret",
+                    "label": "Retrieve relevant source snippets"
+                  },
+                  {
+                    "id": "chk",
+                    "label": "Reject the claim if no evidence supports it"
+                  }
+                ],
+                "correct_order": [
+                  "ret",
+                  "ans",
+                  "chk"
+                ],
+                "success": "Retrieve → answer from evidence → reject unsupported claims. Retrieval comes BEFORE the answer."
+              }
+            },
+            {
+              "id": "adp-14::debug",
+              "type": "debug",
+              "title": "Broken Agent Fix",
+              "objective": "Diagnose the failure and choose the fix.",
+              "estimated_minutes": 3,
+              "xp_reward": 45,
+              "payload": {
+                "scenario": "An agent confidently answers private-policy questions but cites no sources and is often wrong.",
+                "broken": "flow = answer_from_model_memory()",
+                "options": [
+                  "Add a retrieval step before answering and ground the response in cited evidence",
+                  "Increase temperature",
+                  "Add a second LLM call with no sources",
+                  "Trust the model's confidence"
+                ],
+                "answer": 0,
+                "failure_mode": "Hallucination without retrieval",
+                "explain": "Retrieve first, then answer from (and cite) the evidence."
+              }
+            },
+            {
+              "id": "adp-14::boss",
+              "type": "boss",
+              "title": "Boss: Knowledge Retrieval (RAG)",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "RAG's core ordering is…",
+                    "options": [
+                      "retrieve evidence, THEN answer from it",
+                      "guess confidently",
+                      "never retrieve",
+                      "answer, then maybe search"
+                    ],
+                    "answer": 0,
+                    "explain": "Grounding before generation is the whole point."
+                  },
+                  {
+                    "q": "If retrieval finds no support, the agent should…",
+                    "options": [
+                      "decline or flag the claim as unsupported",
+                      "answer confidently",
+                      "make it up",
+                      "delete the question"
+                    ],
+                    "answer": 0,
+                    "explain": "Unsupported claims must be rejected, not fabricated."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Retrieve relevant evidence FIRST",
+                  "Answer grounded in that evidence",
+                  "Reject unsupported claims"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does RAG solve?",
+              "answer": "Grounding answers in retrieved evidence to reduce hallucination."
+            },
+            {
+              "prompt": "When NOT to use RAG?",
+              "answer": "Pure reasoning with no external facts, or when the model reliably knows."
+            },
+            {
+              "prompt": "RAG failure mode?",
+              "answer": "Answering before retrieving, or citing nothing so claims can't be verified."
+            },
+            {
+              "prompt": "RAG's required ordering?",
+              "answer": "Retrieve evidence first, then answer grounded in it."
+            },
+            {
+              "prompt": "What if no evidence is found?",
+              "answer": "Decline or flag the claim as unsupported."
+            },
+            {
+              "prompt": "Real-world RAG example?",
+              "answer": "Answering policy questions from retrieved, cited policy snippets."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-14",
+            "title": "Knowledge Retrieval (RAG) Adept",
+            "description": "Cleared the Knowledge Retrieval (RAG) chapter."
+          }
+        },
+        {
+          "id": "adp-15",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 15,
+          "group": "orchestration",
+          "pattern": "Inter-Agent Communication (A2A)",
+          "title": "15. Inter-Agent Communication (A2A)",
+          "tagline": "Inter-Agent Communication (A2A) = A shared team language",
+          "type": "Pattern",
+          "icon": "messages-square",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Agents from different systems can't cooperate without a common way to talk — A2A standardizes messages."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-15::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Inter-Agent Communication (A2A) = A shared team language",
+                "why_it_matters": "Agents from different systems can't cooperate without a common way to talk — A2A standardizes messages.",
+                "objectives": [
+                  "Use when: Independent agents must coordinate; Agents are built by different teams/vendors",
+                  "Avoid when: All agents live in one process you control; Simple function calls suffice",
+                  "Example: A planning agent delegates a subtask to a remote research agent via a shared message format."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-15::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A shared team language",
+                "icon": "messages-square",
+                "pattern": "Inter-Agent Communication (A2A)",
+                "points": [
+                  "A shared message contract",
+                  "Agents request and respond",
+                  "Interoperability across systems"
+                ],
+                "mistake": "Ad-hoc message formats that break when an agent changes its output."
+              }
+            },
+            {
+              "id": "adp-15::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "Two agents built by different vendors must hand tasks back and forth reliably.",
+                    "options": [
+                      {
+                        "text": "Inter-Agent Communication (A2A)",
+                        "correct": true,
+                        "feedback": "Right — a standardized message contract lets independent agents interoperate."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Memory holds context; it doesn't define how agents talk to each other."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Reflection is internal self-review, not cross-agent messaging."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-15::boss",
+              "type": "boss",
+              "title": "Boss: Inter-Agent Communication (A2A)",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A2A's core requirement is…",
+                    "options": [
+                      "no structure",
+                      "a shared, stable message contract",
+                      "one giant prompt",
+                      "a calculator"
+                    ],
+                    "answer": 1,
+                    "explain": "Interoperability needs an agreed message format."
+                  },
+                  {
+                    "q": "A2A failure mode?",
+                    "options": [
+                      "too little memory",
+                      "ad-hoc formats that break on change",
+                      "too few tools",
+                      "too much safety"
+                    ],
+                    "answer": 1,
+                    "explain": "Unstable contracts break cross-agent coordination."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "A shared message contract",
+                  "Agents request and respond",
+                  "Interoperability across systems"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does A2A solve?",
+              "answer": "Letting independent agents coordinate via a shared, standardized message format."
+            },
+            {
+              "prompt": "When NOT to use A2A?",
+              "answer": "When all agents live in one process and simple function calls suffice."
+            },
+            {
+              "prompt": "A2A failure mode?",
+              "answer": "Ad-hoc message formats that break when an agent changes."
+            },
+            {
+              "prompt": "A2A in one line?",
+              "answer": "A shared 'language' so agents from different systems interoperate."
+            },
+            {
+              "prompt": "Confused with A2A?",
+              "answer": "MCP (agent↔tools) vs A2A (agent↔agent)."
+            },
+            {
+              "prompt": "Real-world A2A example?",
+              "answer": "A planner delegating to a remote research agent via a common protocol."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-15",
+            "title": "Inter-Agent Communication (A2A) Adept",
+            "description": "Cleared the Inter-Agent Communication (A2A) chapter."
+          }
+        },
+        {
+          "id": "adp-16",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 16,
+          "group": "advanced",
+          "pattern": "Resource-Aware Optimization",
+          "title": "16. Resource-Aware Optimization",
+          "tagline": "Resource-Aware Optimization = A budget-conscious traveler",
+          "type": "Pattern",
+          "icon": "gauge",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Agents can waste tokens, money, and time — optimize for cost/latency without losing quality."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-16::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Resource-Aware Optimization = A budget-conscious traveler",
+                "why_it_matters": "Agents can waste tokens, money, and time — optimize for cost/latency without losing quality.",
+                "objectives": [
+                  "Use when: High-volume or cost-sensitive systems; Latency budgets matter",
+                  "Avoid when: Quality is paramount and cost is irrelevant; Prototypes where speed of building wins",
+                  "Example: Use a cheap model for easy requests and escalate to a strong model only when needed."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-16::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A budget-conscious traveler",
+                "icon": "gauge",
+                "pattern": "Resource-Aware Optimization",
+                "points": [
+                  "Match effort to difficulty",
+                  "Cache & reuse where possible",
+                  "Escalate only with reason"
+                ],
+                "mistake": "Always using the most expensive path, or cutting cost so hard that quality collapses."
+              }
+            },
+            {
+              "id": "adp-16::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A high-traffic agent uses a top-tier model for every trivial request, blowing the budget.",
+                    "options": [
+                      {
+                        "text": "Resource-Aware Optimization",
+                        "correct": true,
+                        "feedback": "Right — route easy requests to cheaper paths, escalate only when needed."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Self-review adds cost; it doesn't reduce it."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Memory helps context, not cost control by itself."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-16::boss",
+              "type": "boss",
+              "title": "Boss: Resource-Aware Optimization",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Resource-aware agents match…",
+                    "options": [
+                      "nothing",
+                      "effort/cost to task difficulty",
+                      "every task to the priciest model",
+                      "temperature to randomness"
+                    ],
+                    "answer": 1,
+                    "explain": "Spend where it pays off."
+                  },
+                  {
+                    "q": "Escalating to an expensive path should…",
+                    "options": [
+                      "never happen",
+                      "require a reason",
+                      "be random",
+                      "happen always"
+                    ],
+                    "answer": 1,
+                    "explain": "Justified escalation controls cost."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Match effort to difficulty",
+                  "Cache & reuse where possible",
+                  "Escalate only with reason"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Resource-Aware Optimization solve?",
+              "answer": "Cutting cost/latency without sacrificing needed quality."
+            },
+            {
+              "prompt": "When NOT to optimize cost?",
+              "answer": "When quality is paramount and cost is irrelevant."
+            },
+            {
+              "prompt": "Optimization failure mode?",
+              "answer": "Always using the priciest path, or cutting so hard quality collapses."
+            },
+            {
+              "prompt": "Core principle?",
+              "answer": "Match effort/cost to task difficulty; escalate only with reason."
+            },
+            {
+              "prompt": "A cheap win?",
+              "answer": "Cache and reuse results where possible."
+            },
+            {
+              "prompt": "Real-world example?",
+              "answer": "Cheap model for easy queries, strong model only when needed."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-16",
+            "title": "Resource-Aware Optimization Adept",
+            "description": "Cleared the Resource-Aware Optimization chapter."
+          }
+        },
+        {
+          "id": "adp-17",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 17,
+          "group": "orchestration",
+          "pattern": "Reasoning Techniques",
+          "title": "17. Reasoning Techniques",
+          "tagline": "Reasoning Techniques = Showing your work",
+          "type": "Pattern",
+          "icon": "brain-circuit",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Hard problems need structured thinking — techniques like step-by-step or self-consistency boost accuracy."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-17::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Reasoning Techniques = Showing your work",
+                "why_it_matters": "Hard problems need structured thinking — techniques like step-by-step or self-consistency boost accuracy.",
+                "objectives": [
+                  "Use when: Multi-step logic, math, or planning; Accuracy matters more than tokens",
+                  "Avoid when: Trivial lookups; Latency-critical paths where reasoning adds little",
+                  "Example: Ask the model to reason step-by-step, then sample several paths and take the majority answer."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-17::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "Showing your work",
+                "icon": "brain-circuit",
+                "pattern": "Reasoning Techniques",
+                "points": [
+                  "Make thinking explicit and structured",
+                  "Explore multiple paths when stakes are high",
+                  "Verify the conclusion"
+                ],
+                "mistake": "Exposing raw chain-of-thought to users or trusting a single unchecked reasoning path."
+              }
+            },
+            {
+              "id": "adp-17::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent gets multi-step word problems wrong by jumping straight to an answer.",
+                    "options": [
+                      {
+                        "text": "Reasoning Techniques (step-by-step / self-consistency)",
+                        "correct": true,
+                        "feedback": "Right — structured, multi-path reasoning improves multi-step accuracy."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "There's one problem type; routing doesn't add reasoning."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Recall won't fix flawed in-the-moment reasoning."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-17::boss",
+              "type": "boss",
+              "title": "Boss: Reasoning Techniques",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Self-consistency improves accuracy by…",
+                    "options": [
+                      "using one fast guess",
+                      "skipping verification",
+                      "raising temperature only",
+                      "sampling several reasoning paths and taking the majority"
+                    ],
+                    "answer": 3,
+                    "explain": "Multiple paths + majority vote beat a single chain."
+                  },
+                  {
+                    "q": "A reasoning safety rule?",
+                    "options": [
+                      "always show it",
+                      "remove all steps",
+                      "never verify",
+                      "don't expose raw chain-of-thought to end users"
+                    ],
+                    "answer": 3,
+                    "explain": "Keep internal reasoning internal; share conclusions."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Make thinking explicit and structured",
+                  "Explore multiple paths when stakes are high",
+                  "Verify the conclusion"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem do Reasoning Techniques solve?",
+              "answer": "Boosting accuracy on multi-step problems via structured, explicit reasoning."
+            },
+            {
+              "prompt": "When NOT to use heavy reasoning?",
+              "answer": "Trivial lookups or latency-critical paths."
+            },
+            {
+              "prompt": "Reasoning failure mode?",
+              "answer": "Trusting a single unchecked path, or leaking raw chain-of-thought."
+            },
+            {
+              "prompt": "What is self-consistency?",
+              "answer": "Sampling multiple reasoning paths and taking the majority answer."
+            },
+            {
+              "prompt": "Reasoning trade-off?",
+              "answer": "More tokens/latency for higher accuracy."
+            },
+            {
+              "prompt": "Real-world reasoning example?",
+              "answer": "Step-by-step solving of a multi-constraint scheduling problem."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-17",
+            "title": "Reasoning Techniques Adept",
+            "description": "Cleared the Reasoning Techniques chapter."
+          }
+        },
+        {
+          "id": "adp-18",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 18,
+          "group": "reliability",
+          "pattern": "Guardrails / Safety Patterns",
+          "title": "18. Guardrails / Safety Patterns",
+          "tagline": "Guardrails / Safety Patterns = Bumpers on the bowling lane",
+          "type": "Pattern",
+          "icon": "shield",
+          "estimated_minutes": 19,
+          "objectives": [
+            "Agents can produce unsafe, off-policy, or harmful output/actions — guardrails constrain inputs and outputs."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-18::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Guardrails / Safety Patterns = Bumpers on the bowling lane",
+                "why_it_matters": "Agents can produce unsafe, off-policy, or harmful output/actions — guardrails constrain inputs and outputs.",
+                "objectives": [
+                  "Use when: User-facing or action-taking agents; Policy/safety/compliance applies",
+                  "Avoid when: Never — but tune strength to the risk",
+                  "Example: Block an agent from running destructive commands and refuse unsupported medical claims safely."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-18::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "Bumpers on the bowling lane",
+                "icon": "shield",
+                "pattern": "Guardrails / Safety Patterns",
+                "points": [
+                  "Check inputs AND outputs",
+                  "Block or escalate unsafe actions",
+                  "Explain the refusal safely"
+                ],
+                "mistake": "Guardrails too weak (let unsafe output through) or too blunt (block everything useful)."
+              }
+            },
+            {
+              "id": "adp-18::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent is about to execute a user-supplied shell command that could wipe a disk.",
+                    "options": [
+                      {
+                        "text": "Guardrails / Safety Patterns",
+                        "correct": true,
+                        "feedback": "Right — a guardrail blocks/escalates the destructive action before it runs."
+                      },
+                      {
+                        "text": "Memory",
+                        "correct": false,
+                        "feedback": "Remembering the command doesn't make running it safe."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Running it in parallel is just as dangerous."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-18::lab",
+              "type": "lab",
+              "title": "Build Lab",
+              "objective": "Harden an agent that takes real-world actions.",
+              "estimated_minutes": 5,
+              "xp_reward": 55,
+              "payload": {
+                "kind": "select",
+                "goal": "Harden an agent that takes real-world actions.",
+                "prompt": "Select the guardrails this action-taking agent needs.",
+                "blocks": [
+                  {
+                    "id": "in",
+                    "label": "Input check (block injections/unsafe requests)"
+                  },
+                  {
+                    "id": "out",
+                    "label": "Output check (filter unsafe/unsupported content)"
+                  },
+                  {
+                    "id": "gate",
+                    "label": "Confirmation gate for destructive actions"
+                  },
+                  {
+                    "id": "temp",
+                    "label": "Raise temperature for creativity"
+                  },
+                  {
+                    "id": "log",
+                    "label": "Audit log of blocked attempts"
+                  }
+                ],
+                "required": [
+                  "in",
+                  "out",
+                  "gate",
+                  "log"
+                ],
+                "success": "Input + output checks, a confirmation gate, and an audit log. Higher temperature is not a safety control."
+              }
+            },
+            {
+              "id": "adp-18::debug",
+              "type": "debug",
+              "title": "Broken Agent Fix",
+              "objective": "Diagnose the failure and choose the fix.",
+              "estimated_minutes": 3,
+              "xp_reward": 45,
+              "payload": {
+                "scenario": "A 'safety' agent only checks the user's input, but the model still emits unsupported medical advice.",
+                "broken": "guardrail = validate_input_only()",
+                "options": [
+                  "Add an OUTPUT guardrail that filters unsafe/unsupported responses",
+                  "Remove the input check",
+                  "Increase max tokens",
+                  "Trust the model's confidence"
+                ],
+                "answer": 0,
+                "failure_mode": "Guardrail too weak (output unchecked)",
+                "explain": "Safety must cover outputs too — input-only checks miss unsafe generations."
+              }
+            },
+            {
+              "id": "adp-18::boss",
+              "type": "boss",
+              "title": "Boss: Guardrails / Safety Patterns",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Guardrails should check…",
+                    "options": [
+                      "only greetings",
+                      "only the temperature",
+                      "both inputs and outputs",
+                      "nothing"
+                    ],
+                    "answer": 2,
+                    "explain": "Unsafe content can enter via input OR exit via output."
+                  },
+                  {
+                    "q": "When blocking, the agent should…",
+                    "options": [
+                      "comply anyway",
+                      "refuse safely and explain the policy reason",
+                      "fabricate an answer",
+                      "crash"
+                    ],
+                    "answer": 1,
+                    "explain": "A safe, explained refusal beats silent failure or compliance."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Check inputs AND outputs",
+                  "Block or escalate unsafe actions",
+                  "Explain the refusal safely"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem do Guardrails solve?",
+              "answer": "Constraining agent inputs/outputs/actions to stay safe and on-policy."
+            },
+            {
+              "prompt": "Tuning guardrails?",
+              "answer": "Strong enough to stop harm, not so blunt they block useful work."
+            },
+            {
+              "prompt": "Guardrail failure mode?",
+              "answer": "Too weak (unsafe output passes) or too blunt (everything blocked)."
+            },
+            {
+              "prompt": "What should guardrails inspect?",
+              "answer": "Both inputs and outputs, plus risky actions."
+            },
+            {
+              "prompt": "How to refuse?",
+              "answer": "Block or escalate, and explain the policy reason safely."
+            },
+            {
+              "prompt": "Real-world Guardrail example?",
+              "answer": "Blocking destructive shell commands and unsupported claims."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-18",
+            "title": "Guardrails / Safety Patterns Adept",
+            "description": "Cleared the Guardrails / Safety Patterns chapter."
+          }
+        },
+        {
+          "id": "adp-19",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 19,
+          "group": "reliability",
+          "pattern": "Evaluation & Monitoring",
+          "title": "19. Evaluation & Monitoring",
+          "tagline": "Evaluation & Monitoring = A quality inspector on the line",
+          "type": "Pattern",
+          "icon": "clipboard-check",
+          "estimated_minutes": 19,
+          "objectives": [
+            "You can't improve what you don't measure — score agent outputs against rubrics and monitor in production."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-19::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Evaluation & Monitoring = A quality inspector on the line",
+                "why_it_matters": "You can't improve what you don't measure — score agent outputs against rubrics and monitor in production.",
+                "objectives": [
+                  "Use when: Before and after shipping any agent; You need to catch regressions",
+                  "Avoid when: Never — but match rubric depth to stakes",
+                  "Example: Score support replies on accuracy, format, safety, and resolution — not on length."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-19::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A quality inspector on the line",
+                "icon": "clipboard-check",
+                "pattern": "Evaluation & Monitoring",
+                "points": [
+                  "Define a clear rubric",
+                  "Score outputs objectively",
+                  "Turn failures into improvement suggestions"
+                ],
+                "mistake": "No rubric ('looks good to me'), or measuring vanity metrics like word count."
+              }
+            },
+            {
+              "id": "adp-19::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A team ships an agent and judges quality by 'it feels right'.",
+                    "options": [
+                      {
+                        "text": "Evaluation & Monitoring",
+                        "correct": true,
+                        "feedback": "Right — define a rubric, score objectively, and monitor over time."
+                      },
+                      {
+                        "text": "Reflection",
+                        "correct": false,
+                        "feedback": "Reflection improves one answer; evaluation measures quality systematically."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing dispatches work; it doesn't measure quality."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-19::lab",
+              "type": "lab",
+              "title": "Build Lab",
+              "objective": "Design an evaluation rubric for a support-reply agent.",
+              "estimated_minutes": 5,
+              "xp_reward": 55,
+              "payload": {
+                "kind": "select",
+                "goal": "Design an evaluation rubric for a support-reply agent.",
+                "prompt": "Select the criteria a good rubric should score.",
+                "blocks": [
+                  {
+                    "id": "acc",
+                    "label": "Factual accuracy"
+                  },
+                  {
+                    "id": "fmt",
+                    "label": "Follows required format"
+                  },
+                  {
+                    "id": "safe",
+                    "label": "Safety / policy compliance"
+                  },
+                  {
+                    "id": "res",
+                    "label": "Resolves the user's intent"
+                  },
+                  {
+                    "id": "len",
+                    "label": "Uses the most words"
+                  }
+                ],
+                "required": [
+                  "acc",
+                  "fmt",
+                  "safe",
+                  "res"
+                ],
+                "success": "Accuracy, format, safety, and resolution — never raw word count."
+              }
+            },
+            {
+              "id": "adp-19::debug",
+              "type": "debug",
+              "title": "Broken Agent Fix",
+              "objective": "Diagnose the failure and choose the fix.",
+              "estimated_minutes": 3,
+              "xp_reward": 45,
+              "payload": {
+                "scenario": "An agent's evaluation passes everything because the rubric is just 'looks good'.",
+                "broken": "rubric = ['looks good to me']",
+                "options": [
+                  "Define objective criteria (accuracy, format, safety, resolution) and score each",
+                  "Measure response length",
+                  "Remove evaluation entirely",
+                  "Trust the model's self-rating"
+                ],
+                "answer": 0,
+                "failure_mode": "Evaluation rubric missing",
+                "explain": "Vibes aren't metrics — objective, multi-criterion rubrics catch real problems."
+              }
+            },
+            {
+              "id": "adp-19::boss",
+              "type": "boss",
+              "title": "Boss: Evaluation & Monitoring",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "A good eval scores…",
+                    "options": [
+                      "accuracy, format, safety, and task resolution",
+                      "response speed only",
+                      "vibes",
+                      "word count"
+                    ],
+                    "answer": 0,
+                    "explain": "Measure what matters, never vanity metrics."
+                  },
+                  {
+                    "q": "When an output fails the rubric, produce…",
+                    "options": [
+                      "a longer answer",
+                      "nothing",
+                      "a louder error",
+                      "a concrete improvement suggestion"
+                    ],
+                    "answer": 3,
+                    "explain": "Evaluation should drive improvement, not just judge."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Define a clear rubric",
+                  "Score outputs objectively",
+                  "Turn failures into improvement suggestions"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Evaluation solve?",
+              "answer": "Measuring agent quality against rubrics so you can improve and catch regressions."
+            },
+            {
+              "prompt": "When to evaluate?",
+              "answer": "Before and after shipping, and continuously in production."
+            },
+            {
+              "prompt": "Evaluation failure mode?",
+              "answer": "No rubric, or scoring vanity metrics like length."
+            },
+            {
+              "prompt": "What should a rubric score?",
+              "answer": "Accuracy, format compliance, safety, and task resolution."
+            },
+            {
+              "prompt": "What should a failed eval produce?",
+              "answer": "A concrete improvement suggestion."
+            },
+            {
+              "prompt": "Real-world Evaluation example?",
+              "answer": "Scoring support replies on accuracy/format/safety/resolution."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-19",
+            "title": "Evaluation & Monitoring Adept",
+            "description": "Cleared the Evaluation & Monitoring chapter."
+          }
+        },
+        {
+          "id": "adp-20",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 20,
+          "group": "advanced",
+          "pattern": "Prioritization",
+          "title": "20. Prioritization",
+          "tagline": "Prioritization = A triage nurse",
+          "type": "Pattern",
+          "icon": "list-ordered",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Too many tasks, limited capacity — rank by impact, urgency, and confidence to work the right things first."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-20::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Prioritization = A triage nurse",
+                "why_it_matters": "Too many tasks, limited capacity — rank by impact, urgency, and confidence to work the right things first.",
+                "objectives": [
+                  "Use when: Many competing tasks/goals; Limited time or resources",
+                  "Avoid when: A single task; All tasks are equal and independent",
+                  "Example: Rank incoming issues by severity × urgency and handle the highest-value first."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-20::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A triage nurse",
+                "icon": "list-ordered",
+                "pattern": "Prioritization",
+                "points": [
+                  "Score tasks by impact/urgency/confidence",
+                  "Order the queue",
+                  "Re-rank as conditions change"
+                ],
+                "mistake": "Treating all tasks as equal, so low-value work blocks critical work."
+              }
+            },
+            {
+              "id": "adp-20::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "An agent has 50 queued tasks and limited time before a deadline.",
+                    "options": [
+                      {
+                        "text": "Prioritization",
+                        "correct": true,
+                        "feedback": "Right — rank by impact/urgency/confidence and work the top first."
+                      },
+                      {
+                        "text": "Parallelization",
+                        "correct": false,
+                        "feedback": "Even in parallel you have limits — you still must choose what matters most."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing picks a handler, not which task is most important."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-20::boss",
+              "type": "boss",
+              "title": "Boss: Prioritization",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Prioritization ranks tasks by…",
+                    "options": [
+                      "alphabetical order",
+                      "random",
+                      "impact, urgency, and confidence",
+                      "creation time only"
+                    ],
+                    "answer": 2,
+                    "explain": "Value-based ranking focuses effort."
+                  },
+                  {
+                    "q": "Priorities should be…",
+                    "options": [
+                      "fixed forever",
+                      "re-ranked as conditions change",
+                      "ignored",
+                      "secret"
+                    ],
+                    "answer": 1,
+                    "explain": "Dynamic re-ranking keeps focus on what matters now."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Score tasks by impact/urgency/confidence",
+                  "Order the queue",
+                  "Re-rank as conditions change"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Prioritization solve?",
+              "answer": "Choosing the highest-value work first under limited capacity."
+            },
+            {
+              "prompt": "When NOT to prioritize?",
+              "answer": "A single task, or all tasks equal and independent."
+            },
+            {
+              "prompt": "Prioritization failure mode?",
+              "answer": "Treating all tasks equally so low-value work blocks critical work."
+            },
+            {
+              "prompt": "Rank tasks by what?",
+              "answer": "Impact, urgency, and confidence."
+            },
+            {
+              "prompt": "Keep priorities fresh how?",
+              "answer": "Re-rank as conditions change."
+            },
+            {
+              "prompt": "Real-world example?",
+              "answer": "Triaging issues by severity × urgency."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-20",
+            "title": "Prioritization Adept",
+            "description": "Cleared the Prioritization chapter."
+          }
+        },
+        {
+          "id": "adp-21",
+          "is_academy": true,
+          "path_id": "agentic-patterns",
+          "world_id": -1,
+          "number": 21,
+          "group": "advanced",
+          "pattern": "Exploration & Discovery",
+          "title": "21. Exploration & Discovery",
+          "tagline": "Exploration & Discovery = A scout mapping unknown territory",
+          "type": "Pattern",
+          "icon": "compass",
+          "estimated_minutes": 11,
+          "objectives": [
+            "Open-ended problems need active investigation — generate hypotheses, test them, keep what works."
+          ],
+          "source_path": "Agentic Design Patterns (A. Gulli) — transformed",
+          "missions": [
+            {
+              "id": "adp-21::briefing",
+              "type": "briefing",
+              "title": "Mission Brief",
+              "objective": "Get the pattern in 60 seconds before you build.",
+              "estimated_minutes": 2,
+              "xp_reward": 20,
+              "payload": {
+                "tagline": "Exploration & Discovery = A scout mapping unknown territory",
+                "why_it_matters": "Open-ended problems need active investigation — generate hypotheses, test them, keep what works.",
+                "objectives": [
+                  "Use when: Open-ended research/discovery; The path isn't known in advance",
+                  "Avoid when: The procedure is well-defined; Exploration cost is unjustified",
+                  "Example: An agent generates several research leads, tests each, and discards weak ones."
+                ],
+                "languages": "Agentic Design Patterns · A. Gulli"
+              }
+            },
+            {
+              "id": "adp-21::mentalmodel",
+              "type": "mentalmodel",
+              "title": "Mental Model",
+              "objective": "Lock in the visual metaphor.",
+              "estimated_minutes": 2,
+              "xp_reward": 25,
+              "payload": {
+                "metaphor": "A scout mapping unknown territory",
+                "icon": "compass",
+                "pattern": "Exploration & Discovery",
+                "points": [
+                  "Generate hypotheses/leads",
+                  "Test and gather evidence",
+                  "Prune weak leads, keep discoveries"
+                ],
+                "mistake": "Chasing every lead without pruning, wasting resources on dead ends."
+              }
+            },
+            {
+              "id": "adp-21::drill",
+              "type": "drill",
+              "title": "Pattern Selection Drill",
+              "objective": "Pick the right pattern — and learn why the others fall short.",
+              "estimated_minutes": 3,
+              "xp_reward": 40,
+              "payload": {
+                "rounds": [
+                  {
+                    "scenario": "A research agent must investigate an open question with no fixed procedure.",
+                    "options": [
+                      {
+                        "text": "Exploration & Discovery",
+                        "correct": true,
+                        "feedback": "Right — generate hypotheses, test them, and prune weak leads."
+                      },
+                      {
+                        "text": "Prompt Chaining",
+                        "correct": false,
+                        "feedback": "Chaining follows fixed steps; discovery needs adaptive investigation."
+                      },
+                      {
+                        "text": "Routing",
+                        "correct": false,
+                        "feedback": "Routing dispatches known intents; this is open-ended search."
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "id": "adp-21::boss",
+              "type": "boss",
+              "title": "Boss: Exploration & Discovery",
+              "objective": "Combine the ideas to clear the chapter.",
+              "estimated_minutes": 4,
+              "xp_reward": 80,
+              "payload": {
+                "questions": [
+                  {
+                    "q": "Exploration must include…",
+                    "options": [
+                      "pruning weak leads",
+                      "no testing",
+                      "fixed steps only",
+                      "chasing every lead"
+                    ],
+                    "answer": 0,
+                    "explain": "Pruning prevents wasting effort on dead ends."
+                  },
+                  {
+                    "q": "Discovery tracks…",
+                    "options": [
+                      "temperature",
+                      "nothing",
+                      "evidence for and against each hypothesis",
+                      "only successes"
+                    ],
+                    "answer": 2,
+                    "explain": "Tracking evidence guides what to keep or drop."
+                  }
+                ],
+                "pass_threshold": 1,
+                "recap": [
+                  "Generate hypotheses/leads",
+                  "Test and gather evidence",
+                  "Prune weak leads, keep discoveries"
+                ]
+              }
+            }
+          ],
+          "review_cards": [
+            {
+              "prompt": "What problem does Exploration solve?",
+              "answer": "Investigating open-ended problems by generating and testing hypotheses."
+            },
+            {
+              "prompt": "When NOT to explore?",
+              "answer": "When the procedure is well-defined or exploration cost isn't justified."
+            },
+            {
+              "prompt": "Exploration failure mode?",
+              "answer": "Chasing every lead without pruning, wasting resources."
+            },
+            {
+              "prompt": "Core loop?",
+              "answer": "Generate hypotheses → test → prune weak leads, keep discoveries."
+            },
+            {
+              "prompt": "What to track?",
+              "answer": "Evidence for and against each hypothesis."
+            },
+            {
+              "prompt": "Real-world example?",
+              "answer": "A research agent testing leads and discarding dead ends."
+            }
+          ],
+          "badge": {
+            "id": "badge-adp-21",
+            "title": "Exploration & Discovery Adept",
+            "description": "Cleared the Exploration & Discovery chapter."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -16,12 +16,18 @@ import Skills from "./pages/Skills";
 import BrainDump from "./pages/BrainDump";
 import Badges from "./pages/Badges";
 import You from "./pages/You";
+import Paths from "./pages/Paths";
+import AcademyHome from "./pages/AcademyHome";
+import Dojo from "./pages/Dojo";
+import Clinic from "./pages/Clinic";
+import Capstone from "./pages/Capstone";
 
 function Shell() {
   const { ready, profile } = useApp();
   const loc = useLocation();
   const hideNav =
     loc.pathname.startsWith("/play/") ||
+    /\/dojo$|\/clinic$/.test(loc.pathname) ||
     /^\/arena\/[^/]+$/.test(loc.pathname) ||
     (profile?.focus_mode_enabled && (loc.pathname.startsWith("/lab") || loc.pathname.startsWith("/review")));
 
@@ -53,6 +59,11 @@ function Shell() {
         <Route path="/braindump" element={<BrainDump />} />
         <Route path="/badges" element={<Badges />} />
         <Route path="/you" element={<You />} />
+        <Route path="/paths" element={<Paths />} />
+        <Route path="/academy/capstone" element={<Capstone />} />
+        <Route path="/academy/:pathId" element={<AcademyHome />} />
+        <Route path="/academy/:pathId/dojo" element={<Dojo />} />
+        <Route path="/academy/:pathId/clinic" element={<Clinic />} />
       </Routes>
       {!hideNav && <BottomNav />}
       <RewardOverlay />

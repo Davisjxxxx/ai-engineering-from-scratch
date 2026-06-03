@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { api } from "../api";
 import { useApp } from "../context/AppContext";
 import TopHud from "../components/TopHud";
-import { Focus, Eye, Volume2, Bell, GitBranch, Award, Brain, Download, ChevronRight, Flame, Zap, Trophy } from "lucide-react";
+import { Focus, Eye, Volume2, Bell, GitBranch, Award, Brain, Download, ChevronRight, Flame, Zap, Trophy, GraduationCap } from "lucide-react";
 
 export default function You() {
   const { profile, updateSettings } = useApp();
@@ -57,6 +57,9 @@ export default function You() {
               <Toggle icon={Bell} label="Daily 5-min mission" checked={prefs.daily_mission_enabled} onChange={(v) => savePrefs({ daily_mission_enabled: v })} testid="rem-daily" />
               <Toggle icon={Flame} label="Streak rescue" checked={prefs.streak_reminder_enabled} onChange={(v) => savePrefs({ streak_reminder_enabled: v })} testid="rem-streak" />
               <Toggle icon={Brain} label="Review reminder" checked={prefs.review_reminder_enabled} onChange={(v) => savePrefs({ review_reminder_enabled: v })} testid="rem-review" />
+              <Toggle icon={GitBranch} label="Daily pattern drill" checked={prefs.daily_pattern_drill_enabled} onChange={(v) => savePrefs({ daily_pattern_drill_enabled: v })} testid="rem-drill" />
+              <Toggle icon={Brain} label="Resume paused lab" checked={prefs.resume_lab_enabled} onChange={(v) => savePrefs({ resume_lab_enabled: v })} testid="rem-lab" />
+              <Toggle icon={Award} label="Capstone progress" checked={prefs.capstone_progress_enabled} onChange={(v) => savePrefs({ capstone_progress_enabled: v })} testid="rem-capstone" />
               <div className="flex items-center justify-between px-1 py-2">
                 <span className="text-sm text-sub">Preferred time</span>
                 <input type="time" value={prefs.preferred_time} onChange={(e) => savePrefs({ preferred_time: e.target.value })}
@@ -68,6 +71,7 @@ export default function You() {
 
         {/* Navigate */}
         <Section title="Your forge">
+          <LinkRow to="/paths" icon={GraduationCap} label="Learning Paths" />
           <LinkRow to="/skills" icon={GitBranch} label="Skill Tree" />
           <LinkRow to="/badges" icon={Award} label="Badges" />
           <LinkRow to="/review" icon={Brain} label="Review Deck" />

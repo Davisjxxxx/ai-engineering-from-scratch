@@ -1,0 +1,48 @@
+{
+  "summary": "Iteration 3 — Tested the NEW Agentic Design Patterns Academy + Dojo/Clinic/Capstone modes end-to-end on both backend and frontend, plus regression of campaign + MIT fork. Added /app/backend/tests/test_academy.py (16 new pytest cases). Full backend suite now 49 collected → 48 PASS, 1 SKIP (locked-level test, by design under UNLOCK_ALL=true). Frontend Academy flows verified via Playwright on mobile viewport (390x844): academy-banner on Home navigates to /academy/agentic-patterns; Academy home renders 21 pattern-node-adp-XX rows grouped into 4 groups with mode-dojo/mode-clinic/mode-capstone tiles and an overall mastery ring (no overall-mastery testid, see minor below); Chapter adp-01 driven through Mission Brief → Mental Model → Pattern Selection Drill → Build Lab (ORDER: lab-step-sum/ext/fmt → lab-validate → lab-success → lab-claim) → Debug → 5/6 missions show 'Done' (boss UI requires correct quiz answer; verified separately via /api/missions/.../complete bonus + level_just_completed=true in pytest); reward overlay (+XP) appears between missions. Pattern Dojo at /academy/agentic-patterns/dojo completes 10 rounds with +50 XP reward overlay. Broken Agent Clinic at /academy/agentic-patterns/clinic completes 5 rounds with +30 XP reward overlay. Capstone Simulator at /academy/capstone: pick 'capstone-support-workflow', wrong subset → 'Design score 40%' with explicit missing-block feedback (Guardrail/Human Approval Gate/Evaluator); full correct set (router+rag+guardrail+human-gate+evaluator) → 'Production-shaped!' (capstone-result). /paths page shows both 'path-campaign' (96 levels) and 'path-agentic-patterns' (21 patterns). You page has rem-drill / rem-lab / rem-capstone toggles that persist across reload. REGRESSION: /map (10 worlds), /lab, /arena (9 challenges), /review, /level/01-01-linear-algebra-intuition (fork-banner-mit-1806 present) all load OK.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Academy home (/academy/agentic-patterns)", "issues": ["The overall-mastery ring is visually rendered (0%) but does not expose a data-testid='overall-mastery' attribute — review_request listed it as expected. Minor; UI still works."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_academy.py",
+    "/app/backend/tests/test_agentforge.py",
+    "/app/backend/tests/test_forks.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Optional) Add data-testid='overall-mastery' to the mastery ring on /academy/agentic-patterns to match the review_request contract.",
+    "(Optional) Consider exposing a deterministic 'easy' question first in adp-01 Boss so end-to-end UI tests can deterministically complete the 6th mission without QuizEngine heuristics.",
+    "(Optional) ForkPath progress bar still shows 0/35 even after some lectures completed — already noted in iter 2; carry-over."
+  ],
+  "critical_code_review_comments": [
+    "Backend: /api/academy/agentic-patterns home, /dojo, /clinic, /capstones, /capstones/{id}/validate all return clean JSON with correct counts (21 nodes / 4 groups / 14 blocks / 5 capstones). validate_capstone() correctly returns passed=true,score=100,xp=120 for the spec'd selection and structured 'missing' feedback otherwise.",
+    "Backend: completion of an academy chapter awards level bonus + seeds review cards (verified via /api/review/due rising after adp-01 completion).",
+    "Backend: mission completion for adp-01::lab returns +55 XP (per spec) — chained completion produced expected aggregate XP and level_just_completed flag on the final mission.",
+    "Frontend: MissionPlayer correctly auto-advances to /play/<level>/<next-mission> after each completion; data-testids mission-mentalmodel/mission-drill/mission-lab/mission-debug/mission-boss all present.",
+    "Frontend: LabMission ORDER variant works with lab-step-* clicks in correct order → lab-validate enables → lab-success → lab-claim awards XP via /api/missions/...::lab/complete.",
+    "Frontend: Capstone validate echoes structured missing-block feedback to UI and renders 'Production-shaped!' on success — good integration of backend feedback strings.",
+    "Frontend: You page persists rem-drill/rem-lab/rem-capstone via /api/notifications/preferences (verified via reload).",
+    "Code quality: MissionPlayer.jsx (586 lines) is approaching the 700-line guideline ceiling; consider splitting per-mission components into separate files for maintainability before adding more mission types."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_academy.py"
+  ],
+  "success_rate": {
+    "backend": "100% (48/48 passed, 1 skipped by UNLOCK_ALL design)",
+    "frontend": "~95% (academy banner, 21 nodes, 3 mode tiles, full chapter flow except boss quiz heuristic, dojo +50 XP, clinic +30 XP, capstone pass/fail, /paths, You toggles persisted, full regression — only gap is overall-mastery testid)"
+  },
+  "test_credentials": "No auth. X-Device-Id auto-generated TEST_<uuid>.",
+  "seed_data_creation": "test_academy.py creates a fresh device profile per module-scoped session, completes all 6 missions of adp-01 to verify level bonus + review-card seeding. Capstone validate tests are pure (no state). Frontend tests used the existing public preview URL with the device id stored in localStorage by the app.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend regression: run `pytest /app/backend/tests/ -v` from /app. conftest.py loads frontend/.env (REACT_APP_BACKEND_URL) + backend/.env (UNLOCK_ALL). 3 test modules: test_agentforge.py (campaign + general), test_forks.py (MIT 18.06), test_academy.py (Agentic Patterns + Dojo/Clinic/Capstone). 49 collected, 48 pass, 1 skipped. Frontend: Academy lives under /academy/agentic-patterns; modes at /academy/agentic-patterns/dojo, /academy/agentic-patterns/clinic, /academy/capstone. Chapter pages at /level/adp-XX; missions auto-advance via /play/<lvl>/<missionId>. Boss missions use QuizEngine (quiz-option-<idx> + quiz-next, then boss-claim). Use waits up to 25s on first request (cold ingress).",
+  "rca of the issue": "No production bugs found. Only minor finding: data-testid='overall-mastery' missing on the mastery ring in /academy/agentic-patterns (visual ring renders fine; the value just isn't reachable by that selector). Recommended fix: add data-testid='overall-mastery' to the ring element in AcademyHome.jsx."
+}

@@ -7,6 +7,10 @@ import { ArrowLeft, Check, Play, Lock, BookOpen, Layers, HelpCircle, Hammer, Cro
 const TYPE_META = {
   briefing: { icon: BookOpen, label: "Learn", color: "plasma" },
   watch: { icon: PlayCircle, label: "Watch", color: "arcane" },
+  mentalmodel: { icon: Layers, label: "Model", color: "plasma" },
+  drill: { icon: HelpCircle, label: "Drill", color: "arcane" },
+  lab: { icon: Hammer, label: "Build Lab", color: "plasma" },
+  debug: { icon: Wand2, label: "Debug", color: "arcane" },
   concept: { icon: Layers, label: "Cards", color: "plasma" },
   quiz: { icon: HelpCircle, label: "Decode", color: "arcane" },
   mythbuster: { icon: Wand2, label: "Myth Buster", color: "arcane" },

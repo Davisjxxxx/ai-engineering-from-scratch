@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { api } from "../api";
 import { useApp } from "../context/AppContext";
 import TopHud from "../components/TopHud";
-import { Play, Brain, Layers, Swords, Target, ChevronRight, Sparkles } from "lucide-react";
+import { Play, Brain, Layers, Swords, Target, ChevronRight, Sparkles, GraduationCap } from "lucide-react";
 
 export default function Home() {
   const { profile } = useApp();
@@ -52,6 +52,21 @@ export default function Home() {
             </>
           )}
         </motion.div>
+
+        {/* Learning paths — Academy highlight */}
+        <Link to="/academy/agentic-patterns" data-testid="academy-banner"
+          className="card p-4 block active:scale-[0.99] transition-transform border-arcane/30 bg-gradient-to-br from-arcane/10 to-surface">
+          <div className="flex items-center gap-3">
+            <div className="h-11 w-11 rounded-xl bg-arcane/15 text-arcane flex items-center justify-center shrink-0">
+              <GraduationCap size={20} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="label text-arcane">New path · 21 patterns</div>
+              <div className="font-head font-bold">Agentic Design Patterns Academy</div>
+            </div>
+            <ChevronRight className="text-muted shrink-0" />
+          </div>
+        </Link>
 
         {/* Daily challenge */}
         {daily?.daily_challenge && (

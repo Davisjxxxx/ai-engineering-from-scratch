@@ -6,6 +6,9 @@ import { useApp } from "../context/AppContext";
 import QuizEngine from "../components/QuizEngine";
 import CodeBlock from "../components/CodeBlock";
 import { X, ArrowRight, RotateCw, Check, Lightbulb, ChevronRight } from "lucide-react";
+import * as Lucide from "lucide-react";
+
+function pascal(s) { return (s || "box").split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(""); }
 
 export default function MissionPlayer() {
   const { levelId, missionId } = useParams();
@@ -51,6 +54,10 @@ export default function MissionPlayer() {
           <motion.div key={mission.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
             {mission.type === "briefing" && <Briefing m={mission} onDone={finish} />}
             {mission.type === "watch" && <WatchMission m={mission} onDone={finish} />}
+            {mission.type === "mentalmodel" && <MentalModel m={mission} onDone={finish} />}
+            {mission.type === "drill" && <DrillMission m={mission} onDone={finish} />}
+            {mission.type === "lab" && <LabMission m={mission} onDone={finish} />}
+            {mission.type === "debug" && <DebugMission m={mission} onDone={finish} />}
             {mission.type === "concept" && <ConceptCards m={mission} onDone={finish} />}
             {(mission.type === "quiz") && <QuizMission m={mission} onDone={finish} />}
             {mission.type === "mythbuster" && <MythBuster m={mission} onDone={finish} />}
@@ -95,6 +102,253 @@ function WatchMission({ m, onDone }) {
       <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="watch-done">
         <Check size={18} /> I watched it — claim XP
       </button>
+    </div>
+  );
+}
+
+/* ---------------- Mental Model ---------------- */
+function MentalModel({ m, onDone }) {
+  const p = m.payload;
+  const Icon = Lucide[pascal(p.icon)] || Lucide.Boxes;
+  return (
+    <div data-testid="mission-mentalmodel">
+      <div className="label">Mental Model</div>
+      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+        className="card p-6 mt-2 text-center bg-gradient-to-br from-plasma/10 to-surface">
+        <div className="mx-auto h-20 w-20 rounded-2xl bg-plasma/15 text-plasma flex items-center justify-center mb-3 shadow-glowc">
+          <Icon size={38} />
+        </div>
+        <div className="label text-plasma">{p.pattern}</div>
+        <h2 className="font-display text-2xl mt-1">{p.metaphor}</h2>
+      </motion.div>
+      <ul className="mt-4 space-y-2">
+        {p.points.map((pt, i) => (
+          <motion.li key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }}
+            className="card p-3 flex gap-2 text-sm text-ink/85"><span className="text-plasma mt-0.5">▸</span>{pt}</motion.li>
+        ))}
+      </ul>
+      {p.mistake && (
+        <div className="mt-4 rounded-xl bg-bad/10 border border-bad/20 p-3">
+          <div className="text-xs font-head font-semibold text-bad flex items-center gap-1.5 mb-1">
+            <Lucide.AlertTriangle size={13} /> Common mistake
+          </div>
+          <p className="text-sm text-ink/80">{p.mistake}</p>
+        </div>
+      )}
+      <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="mentalmodel-done">
+        <Check size={18} /> Lock it in
+      </button>
+    </div>
+  );
+}
+
+/* ---------------- Pattern Selection Drill ---------------- */
+function DrillMission({ m, onDone }) {
+  const rounds = m.payload.rounds;
+  const [i, setI] = useState(0);
+  const [picked, setPicked] = useState(null);
+  const [score, setScore] = useState(0);
+  const r = rounds[i];
+  const last = i === rounds.length - 1;
+
+  const pick = (idx) => {
+    if (picked !== null) return;
+    setPicked(idx);
+    if (r.options[idx].correct) setScore((s) => s + 1);
+  };
+  const next = () => {
+    if (last) return onDone(Math.round((score / rounds.length) * 100));
+    setPicked(null); setI((x) => x + 1);
+  };
+
+  return (
+    <div data-testid="mission-drill">
+      <div className="label">Pattern Selection · {i + 1}/{rounds.length}</div>
+      <div className="card p-4 mt-2 mb-4">
+        <div className="label mb-1 text-arcane">Scenario</div>
+        <p className="text-ink/90 leading-snug">{r.scenario}</p>
+      </div>
+      <p className="text-sub text-sm mb-3">Which pattern fits best?</p>
+      <div className="space-y-3">
+        {r.options.map((opt, idx) => {
+          let cls = "border-white/10 bg-elevated";
+          if (picked !== null) {
+            if (opt.correct) cls = "border-ok/60 bg-ok/10";
+            else if (idx === picked) cls = "border-bad/60 bg-bad/10";
+          }
+          return (
+            <motion.button key={idx} whileTap={{ scale: 0.98 }} onClick={() => pick(idx)} data-testid={`drill-option-${idx}`}
+              className={`w-full text-left rounded-xl border p-4 text-[15px] leading-snug ${cls}`}>
+              {opt.text}
+            </motion.button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          className={`mt-4 rounded-xl p-4 text-sm ${r.options[picked].correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
+          <div className="font-head font-semibold mb-1">{r.options[picked].correct ? "Correct" : "Here's the trade-off"}</div>
+          <div className="text-ink/80">{r.options[picked].feedback}</div>
+          {!r.options[picked].correct && (
+            <div className="text-ok mt-2">✓ Best: {r.options.find((o) => o.correct).text}</div>
+          )}
+        </motion.div>
+      )}
+      <button className={`w-full mt-5 ${picked !== null ? "btn-primary" : "btn-ghost opacity-50 pointer-events-none"}`}
+        onClick={next} data-testid="drill-next">{last ? "Claim XP" : "Next"} <ArrowRight size={18} /></button>
+    </div>
+  );
+}
+
+/* ---------------- Build Lab (order / select) ---------------- */
+function LabMission({ m, onDone }) {
+  const p = m.payload;
+  return p.kind === "order" ? <OrderLab p={p} onDone={onDone} /> : <SelectLab p={p} onDone={onDone} />;
+}
+
+function OrderLab({ p, onDone }) {
+  const [pool] = useState(() => {
+    const arr = [...p.steps];
+    for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [arr[i], arr[j]] = [arr[j], arr[i]]; }
+    return arr;
+  });
+  const [seq, setSeq] = useState([]);
+  const [result, setResult] = useState(null);
+
+  const add = (s) => { if (!seq.find((x) => x.id === s.id)) setSeq([...seq, s]); };
+  const reset = () => { setSeq([]); setResult(null); };
+  const check = () => {
+    const ok = seq.length === p.correct_order.length && seq.every((s, i) => s.id === p.correct_order[i]);
+    setResult(ok);
+  };
+
+  return (
+    <div data-testid="mission-lab">
+      <div className="label">Build Lab · order the steps</div>
+      <p className="text-sub text-sm mt-1 mb-3">{p.prompt}</p>
+      <div className="card p-3 min-h-[80px] mb-3">
+        <div className="label mb-2">Your pipeline</div>
+        {seq.length === 0 ? <p className="text-muted text-sm">Tap steps below in order…</p> : (
+          <div className="space-y-2">
+            {seq.map((s, i) => (
+              <div key={s.id} className="flex items-center gap-2 bg-elevated rounded-lg p-2.5 text-sm">
+                <span className="h-6 w-6 rounded-full bg-arcane/15 text-arcane flex items-center justify-center text-xs font-bold">{i + 1}</span>
+                {s.label}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-2 mb-3">
+        {pool.map((s) => {
+          const used = seq.find((x) => x.id === s.id);
+          return (
+            <button key={s.id} onClick={() => add(s)} disabled={!!used} data-testid={`lab-step-${s.id}`}
+              className={`chip ${used ? "opacity-30" : "!bg-plasma/10 !text-plasma !border-plasma/30"}`}>{s.label}</button>
+          );
+        })}
+      </div>
+      {result === null ? (
+        <div className="flex gap-2">
+          <button className="btn-primary flex-1" onClick={check} disabled={seq.length !== pool.length} data-testid="lab-validate">Validate</button>
+          {seq.length > 0 && <button className="btn-ghost" onClick={reset}><RotateCw size={16} /></button>}
+        </div>
+      ) : result ? (
+        <div>
+          <div className="rounded-xl bg-ok/10 text-ok p-4 text-sm font-head" data-testid="lab-success">✓ {p.success}</div>
+          <button className="btn-plasma w-full mt-4" onClick={() => onDone(100)} data-testid="lab-claim">Claim XP <ArrowRight size={18} /></button>
+        </div>
+      ) : (
+        <div>
+          <div className="rounded-xl bg-bad/10 text-bad p-4 text-sm">Not quite — check the order. No penalty, try again.</div>
+          <button className="btn-primary w-full mt-3" onClick={reset} data-testid="lab-retry"><RotateCw size={16} /> Retry</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SelectLab({ p, onDone }) {
+  const [sel, setSel] = useState([]);
+  const [result, setResult] = useState(null);
+  const toggle = (id) => setSel((s) => s.includes(id) ? s.filter((x) => x !== id) : [...s, id]);
+  const check = () => setResult([...sel].sort().join() === [...p.required].sort().join());
+  return (
+    <div data-testid="mission-lab">
+      <div className="label">Build Lab · select components</div>
+      <p className="text-sub text-sm mt-1 mb-3">{p.prompt}</p>
+      <div className="space-y-2 mb-3">
+        {p.blocks.map((b) => {
+          const picked = sel.includes(b.id);
+          return (
+            <motion.button key={b.id} whileTap={{ scale: 0.98 }} onClick={() => toggle(b.id)} disabled={result !== null}
+              data-testid={`lab-block-${b.id}`}
+              className={`w-full text-left rounded-xl border p-3.5 text-[15px] flex items-center gap-3 ${picked ? "border-plasma bg-plasma/10" : "border-white/10 bg-elevated"}`}>
+              <span className={`h-5 w-5 rounded-md border flex items-center justify-center shrink-0 ${picked ? "border-plasma bg-plasma text-base" : "border-white/25"}`}>
+                {picked && <Check size={13} />}
+              </span>
+              {b.label}
+            </motion.button>
+          );
+        })}
+      </div>
+      {result === null ? (
+        <button className="btn-primary w-full" onClick={check} disabled={sel.length === 0} data-testid="lab-validate">Validate build</button>
+      ) : result ? (
+        <div>
+          <div className="rounded-xl bg-ok/10 text-ok p-4 text-sm font-head" data-testid="lab-success">✓ {p.success}</div>
+          <button className="btn-plasma w-full mt-4" onClick={() => onDone(100)} data-testid="lab-claim">Claim XP <ArrowRight size={18} /></button>
+        </div>
+      ) : (
+        <div>
+          <div className="rounded-xl bg-bad/10 text-bad p-4 text-sm">Not the right set — too many or too few. Retry, no penalty.</div>
+          <button className="btn-primary w-full mt-3" onClick={() => setResult(null)} data-testid="lab-retry"><RotateCw size={16} /> Retry</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- Debug Challenge ---------------- */
+function DebugMission({ m, onDone }) {
+  const p = m.payload;
+  const [picked, setPicked] = useState(null);
+  const correct = picked === p.answer;
+  return (
+    <div data-testid="mission-debug">
+      <div className="label">Broken Agent · {p.failure_mode}</div>
+      <div className="card p-4 mt-2 mb-3">
+        <p className="text-ink/90 leading-snug">{p.scenario}</p>
+        {p.broken && <pre className="mt-3 font-mono text-xs bg-black/50 rounded-lg p-3 text-bad/90 whitespace-pre-wrap">{p.broken}</pre>}
+      </div>
+      <p className="text-sub text-sm mb-3">Choose the fix:</p>
+      <div className="space-y-3">
+        {p.options.map((opt, idx) => {
+          let cls = "border-white/10 bg-elevated";
+          if (picked !== null) {
+            if (idx === p.answer) cls = "border-ok/60 bg-ok/10";
+            else if (idx === picked) cls = "border-bad/60 bg-bad/10";
+          }
+          return (
+            <motion.button key={idx} whileTap={{ scale: 0.98 }} onClick={() => picked === null && setPicked(idx)} data-testid={`debug-option-${idx}`}
+              className={`w-full text-left rounded-xl border p-4 text-[15px] leading-snug ${cls}`}>{opt}</motion.button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className={`mt-4 rounded-xl p-4 text-sm ${correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
+          <div className="font-head font-semibold mb-1">{correct ? "Fixed!" : "Not the best fix"}</div>
+          <div className="text-ink/80">{p.explain}</div>
+        </motion.div>
+      )}
+      {picked !== null && (
+        correct ? (
+          <button className="btn-primary w-full mt-5" onClick={() => onDone(100)} data-testid="debug-claim">Claim XP <ArrowRight size={18} /></button>
+        ) : (
+          <button className="btn-primary w-full mt-5" onClick={() => setPicked(null)} data-testid="debug-retry"><RotateCw size={16} /> Retry — no penalty</button>
+        )
+      )}
     </div>
   );
 }

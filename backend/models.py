@@ -84,5 +84,8 @@ class NotificationPrefsPayload(BaseModel):
     boss_reminder_enabled: bool = False
     braindump_reminder_enabled: bool = False
     weekly_recap_enabled: bool = False
+    daily_pattern_drill_enabled: bool = False
+    resume_lab_enabled: bool = False
+    capstone_progress_enabled: bool = False
     preferred_time: str = "19:00"
     push_enabled_future_flag: bool = False

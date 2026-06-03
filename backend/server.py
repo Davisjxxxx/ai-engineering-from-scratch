@@ -17,6 +17,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from challenges import (BADGES, BADGE_MAP, CHALLENGES, LAB_SCENARIOS,
                         public_challenge, simulate_agent, live_agent,
                         validate_challenge)
+from academy import BLOCKS, CAPSTONES, validate_capstone
 from content import LEVEL_COMPLETE_BONUS, SKILL_BRANCHES, engine
 from models import (AgentBuildPayload, BrainDumpCreate, ChallengeAttempt,
                     MissionCompletePayload, NotificationPrefsPayload,
@@ -91,7 +92,8 @@ async def completed_level_ids(did: str, done: Optional[set] = None) -> set:
         done = await completed_mission_ids(did)
     out = set()
     fork_level_ids = [lv["id"] for fk in engine.forks for lv in fk["levels"]]
-    for lid in list(engine.level_order) + fork_level_ids:
+    academy_ids = [ch["id"] for p in engine.academy_paths for ch in p["chapters"]]
+    for lid in list(engine.level_order) + fork_level_ids + academy_ids:
         mids = engine.mission_ids_for_level(lid)
         if mids and all(m in done for m in mids):
             out.add(lid)
@@ -112,7 +114,10 @@ def is_unlocked(level_id: str, completed_levels: set) -> bool:
         return True
     if level_id in engine.fork_first:
         return True
-    prev = engine.prev_in_world.get(level_id) or engine.fork_prev.get(level_id)
+    if level_id in engine.academy_first:
+        return True
+    prev = (engine.prev_in_world.get(level_id) or engine.fork_prev.get(level_id)
+            or engine.academy_prev.get(level_id))
     return prev is None or prev in completed_levels
 
 
@@ -366,6 +371,163 @@ async def fork_detail(fork_id: str, request: Request, x_device_id: Optional[str]
         lv["progress"] = round(100 * comp / len(mids)) if mids else 0
     detail["completed_levels"] = sum(1 for lv in detail["levels"] if lv["completed"])
     return detail
+
+
+# ----------------------------------------------------------------- learning paths / academy
+@api.get("/api/paths")
+async def learning_paths(request: Request, x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    done = await completed_mission_ids(did)
+    levels_done = await completed_level_ids(did, done)
+    paths = engine.learning_paths()
+    for p in paths:
+        if p["kind"] == "campaign":
+            p["completed"] = len(levels_done & set(engine.level_order))
+        else:
+            chs = engine.academy_chapters(p["id"])
+            p["completed"] = sum(1 for c in chs if c["id"] in levels_done)
+    return paths
+
+
+def _academy_next_action(path_id, done, levels_done):
+    for ch in engine.academy_chapters(path_id):
+        if not is_unlocked(ch["id"], levels_done):
+            continue
+        for m in ch["missions"]:
+            if m["id"] not in done:
+                return {"kind": "mission", "level_id": ch["id"], "level_title": ch["title"],
+                        "mission_id": m["id"], "mission_title": m["title"], "mission_type": m["type"],
+                        "estimated_minutes": m["estimated_minutes"], "label": f"Continue: {m['title']}"}
+    return {"kind": "dojo", "label": "Sharpen up in the Pattern Dojo"}
+
+
+def _chapter_mastery(ch, done):
+    types = [m["type"] for m in ch["missions"]]
+    completed = [m["type"] for m in ch["missions"] if m["id"] in done]
+    dims = {
+        "recognition": ("drill" in completed),
+        "build": ("lab" in completed) if "lab" in types else None,
+        "debug": ("debug" in completed) if "debug" in types else None,
+        "application": ("boss" in completed),
+        "model": ("mentalmodel" in completed),
+    }
+    score = round(100 * len(completed) / len(types)) if types else 0
+    return score, dims
+
+
+@api.get("/api/academy/{path_id}")
+async def academy_home(path_id: str, request: Request, x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    summary = engine.academy_summary(path_id)
+    if not summary:
+        raise HTTPException(404, "Learning path not found")
+    done = await completed_mission_ids(did)
+    levels_done = await completed_level_ids(did, done)
+    chapters = engine.academy_chapters(path_id)
+    nodes = []
+    for ch in chapters:
+        mids = engine.mission_ids_for_level(ch["id"])
+        comp = sum(1 for m in mids if m in done)
+        mastery, dims = _chapter_mastery(ch, done)
+        nodes.append({
+            "id": ch["id"], "number": ch["number"], "pattern": ch["pattern"],
+            "title": ch["title"], "tagline": ch["tagline"], "icon": ch.get("icon"),
+            "group": ch["group"], "estimated_minutes": ch["estimated_minutes"],
+            "mission_count": len(mids), "missions_completed": comp,
+            "progress": round(100 * comp / len(mids)) if mids else 0,
+            "completed": ch["id"] in levels_done,
+            "unlocked": is_unlocked(ch["id"], levels_done),
+            "mastery_score": mastery, "mastery_dims": dims,
+        })
+    return {
+        **summary,
+        "groups": [{**g, "nodes": [n for n in nodes if n["group"] == g["id"]]} for g in summary["groups"]],
+        "nodes": nodes,
+        "completed_chapters": sum(1 for n in nodes if n["completed"]),
+        "next_action": _academy_next_action(path_id, done, levels_done),
+        "overall_mastery": round(sum(n["mastery_score"] for n in nodes) / len(nodes)) if nodes else 0,
+    }
+
+
+@api.get("/api/academy/{path_id}/dojo")
+async def academy_dojo(path_id: str):
+    import random
+    bank = engine.dojo_bank(path_id)
+    random.shuffle(bank)
+    return {"rounds": bank[:10], "total": len(bank)}
+
+
+@api.post("/api/academy/{path_id}/dojo/result")
+async def academy_dojo_result(path_id: str, body: dict, request: Request,
+                              x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    profile = await get_profile(did)
+    correct = int(body.get("correct", 0))
+    await bump_streak(did, profile)
+    best = max(profile.get("dojo_best", 0), correct)
+    gained = max(0, correct * 5)
+    await db.profiles.update_one({"device_id": did},
+                                 {"$set": {"dojo_best": best}, "$inc": {"total_xp": gained}})
+    new_badges = await recompute_badges(did)
+    return {"ok": True, "xp_gained": gained, "best": best,
+            "new_badges": [BADGE_MAP[b] for b in new_badges],
+            "profile": profile_public(await get_profile(did))}
+
+
+@api.get("/api/academy/{path_id}/clinic")
+async def academy_clinic(path_id: str):
+    return {"cases": engine.clinic_bank(path_id), "total": len(engine.clinic_bank(path_id))}
+
+
+@api.post("/api/academy/{path_id}/clinic/result")
+async def academy_clinic_result(path_id: str, body: dict, request: Request,
+                                x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    profile = await get_profile(did)
+    correct = int(body.get("correct", 0))
+    await bump_streak(did, profile)
+    best = max(profile.get("clinic_best", 0), correct)
+    gained = max(0, correct * 6)
+    await db.profiles.update_one({"device_id": did},
+                                 {"$set": {"clinic_best": best}, "$inc": {"total_xp": gained}})
+    new_badges = await recompute_badges(did)
+    return {"ok": True, "xp_gained": gained, "best": best,
+            "new_badges": [BADGE_MAP[b] for b in new_badges],
+            "profile": profile_public(await get_profile(did))}
+
+
+@api.get("/api/academy/capstones/list")
+async def capstone_list():
+    return {"blocks": BLOCKS,
+            "capstones": [{"id": c["id"], "title": c["title"], "brief": c["brief"]} for c in CAPSTONES]}
+
+
+@api.post("/api/academy/capstones/{capstone_id}/validate")
+async def capstone_validate(capstone_id: str, body: dict, request: Request,
+                            x_device_id: Optional[str] = Header(None)):
+    did = device_id(x_device_id, request)
+    selected = body.get("selected", [])
+    result = validate_capstone(capstone_id, selected)
+    if result.get("passed"):
+        profile = await get_profile(did)
+        await bump_streak(did, profile)
+        capdone = set(profile.get("capstones_done", []))
+        first = capstone_id not in capdone
+        capdone.add(capstone_id)
+        await db.profiles.update_one({"device_id": did}, {"$set": {"capstones_done": list(capdone)}})
+        if first:
+            await award_xp(did, result.get("xp", 0))
+        await db.capstone_projects.update_one(
+            {"device_id": did, "capstone_id": capstone_id},
+            {"$set": {"device_id": did, "capstone_id": capstone_id, "selected": selected,
+                      "score": result["score"], "validation_status": "passed",
+                      "updated_at": now_utc().isoformat()}}, upsert=True)
+        new_badges = await recompute_badges(did)
+        result["new_badges"] = [BADGE_MAP[b] for b in new_badges]
+        result["profile"] = profile_public(await get_profile(did))
+        result["first"] = first
+    return result
+
 
 
 # ----------------------------------------------------------------- daily
