@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PYTHON_MIN_MAJOR=3
-PYTHON_MIN_MINOR=11
+PYTHON_MIN_MINOR=12
 VENV_DIR=".venv"
 CORE_PACKAGES="numpy matplotlib jupyter scikit-learn pandas"
 
@@ -52,9 +52,9 @@ if [ -z "$PYTHON_CMD" ]; then
     fail "Python ${PYTHON_MIN_MAJOR}.${PYTHON_MIN_MINOR}+ not found"
     echo ""
     echo "Install Python ${PYTHON_MIN_MAJOR}.${PYTHON_MIN_MINOR}+:"
-    echo "  uv:    uv python install 3.12"
-    echo "  macOS: brew install python@3.12"
-    echo "  Linux: sudo apt install python3.12 python3.12-venv"
+    echo "  uv:    uv python install 3.13"
+    echo "  macOS: brew install python@3.13"
+    echo "  Linux: sudo apt install python3.13 python3.13-venv"
     exit 1
 fi
 

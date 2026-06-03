@@ -54,7 +54,7 @@ graph TD
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-uv python install 3.12
+uv python install 3.13
 
 cd your-project
 uv venv
@@ -102,7 +102,7 @@ Conda manages non-Python dependencies like CUDA toolkits, cuDNN, and C libraries
 curl -LsSf https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o miniconda.sh
 bash miniconda.sh -b
 
-conda create -n myproject python=3.12
+conda create -n myproject python=3.13
 conda activate myproject
 
 conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia
@@ -140,7 +140,7 @@ Every Python project should have a `pyproject.toml`. It replaces `setup.py`, `se
 [project]
 name = "ai-engineering-from-scratch"
 version = "0.1.0"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "numpy>=1.26",
     "matplotlib>=3.8",
@@ -197,7 +197,7 @@ which pip           # should show .venv/bin/pip
 ### 2. Mixing pip and conda
 
 ```bash
-conda create -n myenv python=3.12
+conda create -n myenv python=3.13
 conda activate myenv
 conda install pytorch -c pytorch
 pip install some-other-package   # BAD: can break conda's dependency tracking

@@ -9,7 +9,7 @@
 
 ## Learning Objectives
 
-- Set up Python 3.11+, Node.js 20+, and Rust toolchains from scratch
+- Set up Python 3.12+, Node.js 22+, and Rust toolchains from scratch
 - Configure virtual environments and package managers for reproducible builds
 - Verify GPU access with CUDA/MPS and run a test tensor operation
 - Understand the four-layer stack: system, packages, runtimes, AI libraries
@@ -26,7 +26,7 @@ An AI engineering environment has four layers:
 
 ```mermaid
 graph TD
-    A["4. AI/ML Libraries\nPyTorch, JAX, transformers, etc."] --> B["3. Language Runtimes\nPython 3.11+, Node 20+, Rust, Julia"]
+    A["4. AI/ML Libraries\nPyTorch, JAX, transformers, etc."] --> B["3. Language Runtimes\nPython 3.12+, Node 22+, Rust, Julia"]
     B --> C["2. Package Managers\nuv, pnpm, cargo, juliaup"]
     C --> D["1. System Foundation\nOS, shell, git, editor, GPU drivers"]
 ```
@@ -58,7 +58,7 @@ We use `uv` — it's 10-100x faster than pip and handles virtual environments au
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-uv python install 3.12
+uv python install 3.13
 
 uv venv
 source .venv/bin/activate  # or .venv\Scripts\activate on Windows

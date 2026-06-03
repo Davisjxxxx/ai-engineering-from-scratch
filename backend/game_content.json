@@ -24,7 +24,7 @@
           "prerequisites": "None",
           "estimated_minutes": 4,
           "objectives": [
-            "Set up Python 3.11+, Node.js 20+, and Rust toolchains from scratch",
+            "Set up Python 3.12+, Node.js 22+, and Rust toolchains from scratch",
             "Configure virtual environments and package managers for reproducible builds",
             "Verify GPU access with CUDA/MPS and run a test tensor operation",
             "Understand the four-layer stack: system, packages, runtimes, AI libraries"
@@ -267,7 +267,7 @@
           "concept": "",
           "code": {
             "lang": "bash",
-            "code": "curl -LsSf https://astral.sh/uv/install.sh | sh\n\nuv python install 3.12\n\ncd your-project\nuv venv\nsource .venv/bin/activate"
+            "code": "curl -LsSf https://astral.sh/uv/install.sh | sh\n\nuv python install 3.13\n\ncd your-project\nuv venv\nsource .venv/bin/activate"
           },
           "exercises": [
             "Run env_setup.sh and verify all checks pass",
