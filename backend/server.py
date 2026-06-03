@@ -3,6 +3,7 @@ Anonymous device-based profiles. Content is generated/static; only player
 progress lives in MongoDB. Works fully without any API key."""
 from __future__ import annotations
 
+import logging
 import math
 import os
 from datetime import datetime, timedelta, timezone
@@ -12,8 +13,11 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo.errors import OperationFailure
+
+logger = logging.getLogger("agentforge")
 
 from challenges import (BADGES, BADGE_MAP, CHALLENGES, LAB_SCENARIOS,
                         public_challenge, simulate_agent, live_agent,
@@ -29,6 +33,30 @@ load_dotenv(Path(__file__).resolve().parent / ".env")
 
 client = None
 db = None
+
+# Indexes that are optional — the app works without them.
+# Failure to create these (e.g. OutOfDiskSpace) must not crash startup.
+def _is_optional_index(collection_name: str, spec) -> bool:
+    """Check whether an index spec is in the optional allowlist."""
+    if collection_name == "test_outs":
+        return True
+    if collection_name == "feedback":
+        return True
+    return False
+
+
+async def _safe_index(collection_name: str, spec, unique: bool = False, name: str = ""):
+    """Create an index, logging a warning if creation fails.
+    Only catches OperationFailure to avoid hiding real programming errors."""
+    collection = db[collection_name]
+    try:
+        await collection.create_index(spec, unique=unique)
+    except OperationFailure as e:
+        label = name or str(spec)
+        if _is_optional_index(collection_name, spec):
+            logger.warning("Optional index %s.%s skipped: %s", collection_name, label, e)
+        else:
+            raise
 
 
 def _init_db():
@@ -968,16 +996,22 @@ async def test_out_status(request: Request, x_device_id: Optional[str] = Header(
 
 @app.on_event("startup")
 async def startup():
+    # Critical indexes — the app cannot function without these
     await db.mission_progress.create_index([("device_id", 1), ("mission_id", 1)], unique=True)
     await db.review_state.create_index([("device_id", 1), ("card_id", 1)], unique=True)
     await db.profiles.create_index("device_id", unique=True)
-    await db.test_outs.create_index([("device_id", 1), ("level_id", 1)], unique=True)
-    await db.feedback.create_index("kind")
-    await db.feedback.create_index("created_at")
+    # Optional indexes — warn and continue if creation fails (e.g. low disk)
+    await _safe_index("test_outs", [("device_id", 1), ("level_id", 1)], unique=True, name="test_outs_device_level")
+    await _safe_index("feedback", "kind", name="feedback_kind")
+    await _safe_index("feedback", "created_at", name="feedback_created_at")
 
 
 # ----------------------------------------------------------------- feedback
 ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "").strip()
+
+
+def _feedback_unavailable(detail: str = "Feedback storage temporarily unavailable") -> JSONResponse:
+    return JSONResponse(status_code=503, content={"error": "feedback_unavailable", "detail": detail})
 
 
 @api.post("/api/feedback")
@@ -1002,7 +1036,11 @@ async def submit_feedback(payload: FeedbackPayload, request: Request,
         "app_version": payload.app_version,
         "created_at": now_utc().isoformat(),
     }
-    await db.feedback.insert_one(doc)
+    try:
+        await db.feedback.insert_one(doc)
+    except OperationFailure as e:
+        logger.warning("Feedback insert failed: %s", e)
+        return _feedback_unavailable("Cannot store feedback right now — storage issue. Try again later.")
     return {"ok": True}
 
 
@@ -1012,32 +1050,34 @@ async def feedback_summary(request: Request):
     token = request.headers.get("X-Admin-Token", "")
     if ADMIN_TOKEN and token != ADMIN_TOKEN:
         raise HTTPException(403, "Admin access required")
-    pipeline = [
-        {"$group": {
-            "_id": "$kind",
-            "count": {"$sum": 1},
-            "avg_rating": {"$avg": "$rating"},
-        }},
-        {"$sort": {"count": -1}},
-    ]
-    by_kind = {d["_id"]: {"count": d["count"], "avg_rating": round(d["avg_rating"], 2) if d["avg_rating"] else None}
-               async for d in db.feedback.aggregate(pipeline)}
-    total = sum(v["count"] for v in by_kind.values())
-    # Most reported levels
-    level_pipeline = [
-        {"$match": {"level_id": {"$ne": None}}},
-        {"$group": {"_id": "$level_id", "count": {"$sum": 1}}},
-        {"$sort": {"count": -1}},
-        {"$limit": 10},
-    ]
-    top_levels = [{"level_id": d["_id"], "count": d["count"]}
-                  async for d in db.feedback.aggregate(level_pipeline)]
-    # Recent bug reports
-    bugs = []
-    async for d in db.feedback.find({"kind": "bug"}).sort("created_at", -1).limit(10):
-        bugs.append({"note": d.get("note", ""), "level_id": d.get("level_id"),
-                      "route": d.get("route"), "created_at": d["created_at"]})
-    return {"total": total, "by_kind": by_kind, "top_levels": top_levels, "recent_bugs": bugs}
+    try:
+        pipeline = [
+            {"$group": {
+                "_id": "$kind",
+                "count": {"$sum": 1},
+                "avg_rating": {"$avg": "$rating"},
+            }},
+            {"$sort": {"count": -1}},
+        ]
+        by_kind = {d["_id"]: {"count": d["count"], "avg_rating": round(d["avg_rating"], 2) if d["avg_rating"] else None}
+                   async for d in db.feedback.aggregate(pipeline)}
+        total = sum(v["count"] for v in by_kind.values())
+        level_pipeline = [
+            {"$match": {"level_id": {"$ne": None}}},
+            {"$group": {"_id": "$level_id", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": 10},
+        ]
+        top_levels = [{"level_id": d["_id"], "count": d["count"]}
+                      async for d in db.feedback.aggregate(level_pipeline)]
+        bugs = []
+        async for d in db.feedback.find({"kind": "bug"}).sort("created_at", -1).limit(10):
+            bugs.append({"note": d.get("note", ""), "level_id": d.get("level_id"),
+                          "route": d.get("route"), "created_at": d["created_at"]})
+        return {"total": total, "by_kind": by_kind, "top_levels": top_levels, "recent_bugs": bugs}
+    except OperationFailure as e:
+        logger.warning("Feedback summary query failed: %s", e)
+        return _feedback_unavailable("Cannot retrieve feedback summary — storage issue.")
 
 
 @api.get("/api/feedback/recent")
@@ -1046,11 +1086,15 @@ async def feedback_recent(request: Request, limit: int = 20):
     token = request.headers.get("X-Admin-Token", "")
     if ADMIN_TOKEN and token != ADMIN_TOKEN:
         raise HTTPException(403, "Admin access required")
-    entries = []
-    async for d in db.feedback.find().sort("created_at", -1).limit(limit):
-        d.pop("_id", None)
-        entries.append(d)
-    return {"entries": entries}
+    try:
+        entries = []
+        async for d in db.feedback.find().sort("created_at", -1).limit(limit):
+            d.pop("_id", None)
+            entries.append(d)
+        return {"entries": entries}
+    except OperationFailure as e:
+        logger.warning("Feedback recent query failed: %s", e)
+        return _feedback_unavailable("Cannot retrieve recent feedback — storage issue.")
 
 
 # Serve the React SPA from the static/ directory (populated by Docker build).
