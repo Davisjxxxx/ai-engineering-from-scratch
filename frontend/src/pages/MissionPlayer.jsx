@@ -246,7 +246,9 @@ function DrillMission({ m, onDone }) {
 /* ---------------- Build Lab (order / select) ---------------- */
 function LabMission({ m, onDone }) {
   const p = m.payload;
-  return p.kind === "order" ? <OrderLab p={p} onDone={onDone} /> : <SelectLab p={p} onDone={onDone} />;
+  if (p.kind === "order") return <OrderLab p={p} onDone={onDone} />;
+  if (p.kind === "repair") return <RepairLab p={p} onDone={onDone} />;
+  return <SelectLab p={p} onDone={onDone} />;
 }
 
 function OrderLab({ p, onDone }) {
@@ -347,6 +349,92 @@ function SelectLab({ p, onDone }) {
           <div className="rounded-xl bg-bad/10 text-bad p-4 text-sm">Not the right set — too many or too few. Retry, no penalty.</div>
           <button className="btn-primary w-full mt-3" onClick={() => setResult(null)} data-testid="lab-retry"><RotateCw size={16} /> Retry</button>
         </div>
+      )}
+    </div>
+  );
+}
+
+/* ---------------- Repair Lab (fix a broken pipeline) ---------------- */
+function RepairLab({ p, onDone }) {
+  const [picked, setPicked] = useState(null);
+  const [showHint, setShowHint] = useState(false);
+  const correct = picked === p.answer;
+
+  return (
+    <div data-testid="mission-lab">
+      <div className="label">Repair Lab · fix the pipeline</div>
+      <p className="text-sub text-sm mt-1 mb-3">{p.prompt}</p>
+
+      {/* Broken pipeline display */}
+      <div className="card p-4 mb-4">
+        <div className="label mb-2 text-bad">Broken pipeline</div>
+        <div className="space-y-2">
+          {p.steps.map((s, i) => {
+            const isBroken = i === p.broken_index;
+            return (
+              <div key={i} className={`flex items-center gap-2 rounded-lg p-2.5 text-sm ${
+                isBroken ? "bg-bad/10 border border-bad/30" : "bg-elevated"}`}>
+                <span className={`h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                  isBroken ? "bg-bad/20 text-bad" : "bg-white/10 text-muted"}`}>{i + 1}</span>
+                <span className={isBroken ? "text-bad" : "text-ink/80"}>{s}</span>
+                {isBroken && <span className="chip !text-bad !bg-bad/10 !border-bad/30 ml-auto">broken</span>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <p className="text-sub text-sm mb-3">Pick the correct replacement for the broken step:</p>
+      <div className="space-y-3">
+        {p.options.map((opt, idx) => {
+          let cls = "border-white/10 bg-elevated";
+          if (picked !== null && idx === p.answer) cls = "border-ok/60 bg-ok/10";
+          else if (picked === idx && !correct) cls = "border-bad/60 bg-bad/10";
+          return (
+            <motion.button key={idx} whileTap={{ scale: 0.98 }}
+              onClick={() => picked === null && setPicked(idx)}
+              disabled={picked !== null}
+              data-testid={`repair-option-${idx}`}
+              className={`w-full text-left rounded-xl border p-4 text-[15px] leading-snug ${cls} ${picked !== null && idx !== p.answer ? "opacity-50" : ""}`}>
+              {opt}
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* Hint */}
+      {!showHint && picked === null && p.hint1 && (
+        <button className="btn-ghost w-full mt-3 text-sm" onClick={() => setShowHint(true)}>
+          <Lightbulb size={14} /> Show hint
+        </button>
+      )}
+      {showHint && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className="mt-3 rounded-xl p-3 bg-arcane/10 border border-arcane/25 text-sm text-ink/80">
+          {p.hint1}
+        </motion.div>
+      )}
+
+      {/* Result */}
+      {picked !== null && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className={`mt-4 rounded-xl p-4 text-sm ${correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
+          <div className="font-head font-semibold mb-1">{correct ? "Fixed!" : "Not the right fix"}</div>
+          <div className="text-ink/80">{p.explain}</div>
+        </motion.div>
+      )}
+
+      {picked !== null && (
+        correct ? (
+          <button className="btn-plasma w-full mt-5" onClick={() => onDone(100)} data-testid="repair-claim">
+            Claim XP <ArrowRight size={18} />
+          </button>
+        ) : (
+          <button className="btn-primary w-full mt-5" onClick={() => { setPicked(null); setShowHint(false); }}
+            data-testid="repair-retry">
+            <RotateCw size={16} /> Retry — no penalty
+          </button>
+        )
       )}
     </div>
   );
@@ -561,6 +649,11 @@ function MythBuster({ m, onDone }) {
 /* ---------------- Build / Lab ---------------- */
 function BuildMission({ m, onDone }) {
   const p = m.payload;
+  // Interactive mode: fill-in-the-blank code challenge
+  if (p.interactive && p.fill_in) {
+    return <FillInBlank p={p} onDone={onDone} />;
+  }
+  // Passive mode: code trace + exercises
   const [showEx, setShowEx] = useState(false);
   return (
     <div data-testid="mission-build">
@@ -585,6 +678,60 @@ function BuildMission({ m, onDone }) {
       <button className="btn-primary w-full mt-6" onClick={() => onDone(100)} data-testid="build-done">
         <Check size={18} /> Locked in — claim XP
       </button>
+    </div>
+  );
+}
+
+/* Fill-in-the-blank: code with a missing line — pick the correct one */
+function FillInBlank({ p, onDone }) {
+  const [picked, setPicked] = useState(null);
+  const correct = picked === p.fill_in.answer;
+
+  return (
+    <div data-testid="mission-build">
+      <div className="label">Build It · fill in the blank</div>
+      <p className="text-sub text-sm mt-1 mb-3">{p.fill_in.prompt}</p>
+      {/* Show code with blank */}
+      <div className="card p-4 mb-4 bg-black/40">
+        <pre className="font-mono text-xs text-ink/80 whitespace-pre-wrap leading-relaxed">
+          {p.fill_in.before}<span className="text-arcane border-b-2 border-arcane border-dashed px-2">______</span>{p.fill_in.after}
+        </pre>
+      </div>
+      <p className="text-sub text-sm mb-3">Pick the correct line to fill the blank:</p>
+      <div className="space-y-3">
+        {p.fill_in.options.map((opt, idx) => {
+          let cls = "border-white/10 bg-elevated";
+          if (picked !== null && idx === p.fill_in.answer) cls = "border-ok/60 bg-ok/10 font-mono";
+          else if (picked === idx && !correct) cls = "border-bad/60 bg-bad/10 font-mono";
+          return (
+            <motion.button key={idx} whileTap={{ scale: 0.98 }}
+              onClick={() => picked === null && setPicked(idx)}
+              disabled={picked !== null}
+              data-testid={`fill-option-${idx}`}
+              className={`w-full text-left rounded-xl border p-3.5 text-sm leading-snug font-mono ${cls} ${picked !== null && idx !== p.fill_in.answer ? "opacity-50" : ""}`}>
+              {opt}
+            </motion.button>
+          );
+        })}
+      </div>
+      {picked !== null && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          className={`mt-4 rounded-xl p-4 text-sm ${correct ? "bg-ok/10 text-ok" : "bg-white/5 text-sub"}`}>
+          <div className="font-head font-semibold mb-1">{correct ? "Correct!" : "Not quite"}</div>
+          <div className="text-ink/80">{p.fill_in.explain}</div>
+        </motion.div>
+      )}
+      {picked !== null && (
+        correct ? (
+          <button className="btn-plasma w-full mt-5" onClick={() => onDone(100)} data-testid="fill-claim">
+            Claim XP <ArrowRight size={18} />
+          </button>
+        ) : (
+          <button className="btn-primary w-full mt-5" onClick={() => setPicked(null)} data-testid="fill-retry">
+            <RotateCw size={16} /> Retry — no penalty
+          </button>
+        )
+      )}
     </div>
   );
 }

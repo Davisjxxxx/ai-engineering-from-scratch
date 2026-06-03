@@ -245,6 +245,17 @@
               "term": "Remote",
               "myth": "The cloud",
               "reality": "A copy of your repo hosted somewhere else (GitHub, GitLab)"
+            },
+            {
+              "term": "Version control (Git)",
+              "reality": "A system that tracks every change to your code, lets you undo mistakes, experiment in branches without breaking the main code, and collaborate with others without stepping on each other's work.",
+              "myth": "Just save copies of files with different names — no need for Git.",
+              "analogy": "Like Google Docs version history, but for code. You can see who changed what, when, and why. You can rewind to any point in time. You can make a copy (branch), experiment freely, and merge back only the good parts.",
+              "example": "You're training a model and accidentally delete a critical data preprocessing function. Without Git: panic. With Git: `git checkout -- preprocess.py` — restored in 2 seconds from the last committed version.",
+              "why_matters": "Git is the universal language of software engineering. Every AI research lab, every company, every open-source project uses it. Not knowing Git is like being a writer who can't use a word processor.",
+              "common_trap": "Committing large model files (.pt, .pth, .bin) to Git. Git is for code, not model weights. Use .gitignore to exclude checkpoints and data files — they bloat the repo and slow everything down.",
+              "scenario": "You accidentally commit an API key to your public repo. What's the immediate remediation, and why does deleting the file and recommitting NOT fix the exposure?",
+              "when_to_use": "Every time you write code. Initialize a repo before you write the first line."
             }
           ],
           "source_path": "phases/00-setup-and-tooling/02-git-and-collaboration/docs/en.md"
@@ -296,6 +307,18 @@
               "term": "Tensor Core",
               "myth": "Fast matrix hardware",
               "reality": "Specialized GPU cores for matrix multiplication, 4-8x faster than regular cores"
+            },
+            {
+              "term": "GPU acceleration",
+              "reality": "GPUs have thousands of cores designed for parallel math — exactly what neural networks need. Training on GPU is typically 50-100x faster than CPU. Without GPU access, deep learning is impractically slow.",
+              "myth": "Any computer with a graphics card can train LLMs.",
+              "analogy": "A CPU is a small team of geniuses (8-16 cores, each very fast at sequential work). A GPU is an army of clerks (thousands of cores, each simple but working simultaneously). For matrix multiplication — the core operation in deep learning — an army of clerks beats a small team of geniuses every time.",
+              "example": "Training ResNet-50 on ImageNet: CPU = 8 hours. NVIDIA A100 GPU = 10 minutes. Same code, 48x speedup. The only change is `model.to('cuda')`.",
+              "why_matters": "Without GPU acceleration, you can't iterate on models. What takes 10 minutes on GPU takes all day on CPU. You can't learn deep learning if every experiment takes 8 hours.",
+              "common_trap": "Buying the most expensive GPU without checking VRAM requirements. For inference, 8GB is often enough. For training 7B-parameter models, you need 24GB+. Match the GPU to your actual workload.",
+              "scenario": "You rent a cloud GPU but `torch.cuda.is_available()` returns False. The GPU is online and visible in the dashboard. What's most likely wrong?",
+              "when_to_use": "Any model training beyond trivial examples. Also for inference of models larger than ~1B parameters.",
+              "mini_challenge": "Run `nvidia-smi` (or check Google Colab's free GPU). How much VRAM is available? Could it fit a 7B parameter model in FP16 (14GB)?"
             }
           ],
           "source_path": "phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/en.md"
@@ -330,8 +353,14 @@
           "key_terms": [
             {
               "term": "API key",
-              "myth": "Password for the API",
-              "reality": "A unique string that identifies your account and authorizes requests"
+              "reality": "A secret string that authenticates you to a service (like OpenAI or Anthropic). It's like a password — anyone with your key can use the service as you and bill your account. Never commit API keys to Git.",
+              "myth": "Hardcoding the key in my script is fine — nobody else sees my code.",
+              "analogy": "Your house key. You wouldn't tape it to your front door. An API key in your public GitHub repo is the digital equivalent — anyone can find it with a 5-second search and use your account.",
+              "example": "BAD: `openai.api_key = 'sk-abc123...'` in committed code. GOOD: `openai.api_key = os.environ['OPENAI_API_KEY']` — key stays in a .env file that's in .gitignore.",
+              "why_matters": "Leaked API keys are the #1 security incident for AI developers. Attackers scan GitHub continuously for exposed keys. A leaked OpenAI key can rack up thousands of dollars in charges in hours.",
+              "common_trap": "Putting the key in a config file, then commenting it out before committing — the key is still in Git history! Once committed, you must revoke the key and rotate to a new one.",
+              "scenario": "You find your OpenAI API key on GitHub. What two actions must you take, and in what order?",
+              "mini_challenge": "Check your own GitHub repos. Search for 'api_key', 'sk-', 'OPENAI_API_KEY'. Did you find anything that shouldn't be public?"
             },
             {
               "term": "Rate limit",
@@ -398,6 +427,16 @@
               "term": ".ipynb",
               "myth": "Notebook file",
               "reality": "A JSON file containing cells, outputs, and metadata. Stands for IPython Notebook"
+            },
+            {
+              "term": "Jupyter notebook",
+              "reality": "An interactive document that mixes code, text, and visualizations in one place. You write code in cells, run them one at a time, and see results immediately — ideal for exploration, data analysis, and prototyping.",
+              "myth": "Jupyter is only for beginners — real engineers use .py files.",
+              "analogy": "A lab notebook for code. Scientists don't write their final paper directly — they experiment in a lab notebook first, then formalize. Jupyter is your AI lab notebook: try things, see results, iterate fast.",
+              "example": "Loading a dataset → viewing the first 10 rows → plotting a histogram → training a quick model → seeing that the learning rate is wrong — all in one document, with outputs visible. In a .py script, you'd have to re-run the whole file each time.",
+              "why_matters": "Jupyter is the lingua franca of AI research. Every major paper publishes notebooks. Every tutorial uses them. Every data scientist lives in them. Knowing when to use notebooks vs .py files is a core skill.",
+              "common_trap": "Using notebooks for production code. Notebooks are for exploration. Once you've found the right approach, extract the logic into .py modules with tests. Notebooks running in production are fragile and hard to debug.",
+              "when_to_use": "Data exploration, prototyping, visualization, tutorials, and research. Not for production serving or reusable libraries."
             }
           ],
           "source_path": "phases/00-setup-and-tooling/05-jupyter-notebooks/docs/en.md"
@@ -422,7 +461,21 @@
           "concept": "",
           "code": {
             "lang": "bash",
-            "code": "curl -LsSf https://astral.sh/uv/install.sh | sh\n\nuv python install 3.13\n\ncd your-project\nuv venv\nsource .venv/bin/activate"
+            "code": "# Create an isolated environment and install a package\nuv venv\nsource .venv/bin/activate\nuv pip install numpy pandas",
+            "interactive": true,
+            "fill_in": {
+              "prompt": "You need to create a new Python environment and install packages. What's the missing line?",
+              "before": "# Set up a new project\nmkdir my-ai-project && cd my-ai-project\n",
+              "after": "\n# Now install what you need\nuv pip install torch numpy matplotlib\n# Verify it worked\npython -c 'import torch; print(torch.__version__)'",
+              "options": [
+                "uv venv",
+                "pip install virtualenv",
+                "python -m venv .",
+                "conda create -n myproject python=3.13"
+              ],
+              "answer": 0,
+              "explain": "`uv venv` creates a virtual environment in the current directory. It's 10-100x faster than `python -m venv` or `virtualenv`. After creating it, activate with `source .venv/bin/activate` and then install packages — they'll be isolated to this project only."
+            }
           },
           "exercises": [
             "Run env_setup.sh and verify all checks pass",
@@ -635,6 +688,18 @@
               "term": "Base image",
               "myth": "Starting point",
               "reality": "The FROM image your Dockerfile builds on top of. Determines what is pre-installed."
+            },
+            {
+              "term": "Docker container",
+              "reality": "A lightweight, isolated environment that packages an application and all its dependencies into a single portable unit. It runs identically on any machine — your laptop, a cloud server, or a teammate's computer.",
+              "myth": "Docker is just a virtual machine with extra steps.",
+              "analogy": "A shipping container for code. Just like a shipping container fits on a truck, train, or ship, a Docker container runs on your laptop, a cloud server, or a Raspberry Pi — same contents, same behavior, everywhere.",
+              "example": "You build a model server with Python 3.13, PyTorch 2.4, and CUDA 12.4. Package it in a Docker container. Your teammate pulls the image and runs it — works first try, even though their laptop has Python 3.10 and no CUDA at all.",
+              "why_matters": "Docker eliminates 'works on my machine.' Every AI project with dependencies on CUDA, PyTorch versions, and system libraries MUST be containerized to be reproducible.",
+              "common_trap": "Building containers that are 10GB+ because they include the full CUDA toolkit, training data, and unused models. Use multi-stage builds and .dockerignore to keep images lean.",
+              "scenario": "Your model works on your laptop but crashes on the deployment server with 'CUDA error: no kernel image available.' Your Dockerfile installs PyTorch without specifying a CUDA version. What's the fix?",
+              "when_to_use": "Every time you need to share an AI project with someone else or deploy to a server. Always.",
+              "mini_challenge": "Run `docker run --rm python:3.13-slim python -c 'import sys; print(sys.version)'`. Notice it works even if you don't have Python 3.13 installed."
             }
           ],
           "source_path": "phases/00-setup-and-tooling/07-docker-for-ai/docs/en.md"
@@ -6755,6 +6820,29 @@
               ],
               "success": "Content-aware chunking is the #1 lever for RAG quality. FAQs, code, legal, and tutorials all need different strategies.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Broken RAG Pipeline",
+              "prompt": "This RAG pipeline is returning irrelevant results. One step is broken. Find the fix.",
+              "steps": [
+                "1. Chunk documents into 256-token segments",
+                "2. Embed chunks using text-embedding-3-small",
+                "3. Store vectors in Pinecone",
+                "4. User asks question → search for 'return policy' using the SAME embedding model",
+                "5. Retrieve top 3 chunks → paste into prompt → answer"
+              ],
+              "broken_index": 3,
+              "options": [
+                "Step 4: Embed the user query with the SAME model used for documents (text-embedding-3-small)",
+                "Step 4: Use a DIFFERENT embedding model for queries than for documents",
+                "Step 4: Skip embedding — just keyword-search the raw text",
+                "Step 4: Embed the query, but use cosine similarity with a threshold of 0.99"
+              ],
+              "answer": 0,
+              "explain": "Queries and documents MUST use the same embedding model. If documents were embedded with text-embedding-3-small (1536-dim) but queries use a different model (768-dim), the vector spaces don't match and retrieval returns garbage. Always use the same model for both sides of the RAG equation.",
+              "hint1": "The retrieval step is failing. Are the query vectors and document vectors in the same space?",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -7493,6 +7581,29 @@
               ],
               "success": "Defense in depth! No single layer catches everything. Input + prompt + model + output + human = real production safety.",
               "xp_reward": 50
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Missing Guardrail",
+              "prompt": "This LLM app has a security hole. User input goes straight to the model with no filtering. One guardrail is missing — identify it and add the fix.",
+              "steps": [
+                "1. User submits question via chat UI",
+                "2. System prompt: 'You are a helpful banking assistant'",
+                "3. User input goes directly to the model",
+                "4. Model generates response",
+                "5. Response sent directly to user"
+              ],
+              "broken_index": 2,
+              "options": [
+                "Add input filtering between steps 2 and 3: scan for PII, prompt injection, and profanity BEFORE reaching the model",
+                "Add more instructions to the system prompt to 'ignore harmful requests'",
+                "Add output filtering between steps 4 and 5 only — input filtering isn't needed",
+                "Switch to a bigger model — larger models are inherently safer"
+              ],
+              "answer": 0,
+              "explain": "Defense in depth means filtering on the way IN and the way OUT. Input filtering catches prompt injections (like 'IGNORE ALL PREVIOUS INSTRUCTIONS') before they reach the model. A stronger system prompt alone isn't enough — attackers can override it. Filter inputs first, then outputs.",
+              "hint1": "Think about WHERE in the pipeline you can catch 'IGNORE ALL PREVIOUS INSTRUCTIONS' before the model sees it.",
+              "xp_reward": 50
             }
           ],
           "debugs": [
@@ -7687,8 +7798,22 @@
           "problem": "You built a single agent in Phase 14. It works. It can read files, run commands, call APIs, and reason about results. Then you point it at a real codebase: 200 files, three languages, tests that depend on infrastructure, and a requirement to research external APIs before writing code.\n\nThe agent chokes. Not because the LLM is dumb, but because the task exceeds what one agent loop can handle. The context window fills up with file contents. The agent forgets what it read 40 tool calls ago. It tries to be a researcher, a coder, and a reviewer all at once, and does all three poorly.",
           "concept": "A single agent is one loop, one context window, one system prompt. Picture it:\n\nThree things break:",
           "code": {
-            "lang": "typescript",
-            "code": "type AgentResult = {\n  content: string;\n  tokensUsed: number;\n  toolCalls: number;\n};\n\nasync function singleAgentApproach(task: string): Promise<AgentResult> {\n  const systemPrompt = `You are a full-stack developer. You must:\n1. Research the requirements\n2. Write the code\n3. Review the code for bugs\n4. Write tests\nDo ALL of these in a single conversation.`;\n\n  const contextWindow: string[] = [];\n  let totalTokens = 0;\n  let totalToolCalls = 0;\n\n  const research = await fakeLLMCall(systemPrompt, `Research: ${task}`);\n  contextWindow.push(research.output);\n  totalTokens += research.tokens;\n  totalToolCalls += research.calls;\n\n  const code = await fakeLLMCall(\n    systemPrompt,\n    `Given this research:\\n${contextWindow.join(\"\\n\")}\\n\\nNow write code for: ${task}`\n# ..."
+            "lang": "python",
+            "code": "# Multi-agent orchestrator pattern\nimport asyncio\n\nasync def orchestrator(task):\n    plan = await planner_agent(task)\n    results = []\n    for subtask in plan:\n        worker = pick_specialist(subtask)\n        results.append(await worker.run(subtask))\n    return await synthesizer_agent(results)",
+            "interactive": true,
+            "fill_in": {
+              "prompt": "The orchestrator delegates work but never does the work itself. What's the correct line to dispatch each subtask?",
+              "before": "async def orchestrator(task):\n    plan = await planner_agent(task)\n    results = []\n    for subtask in plan:\n        worker = pick_specialist(subtask)\n        ",
+              "after": "\n    return await synthesizer_agent(results)",
+              "options": [
+                "results.append(await worker.run(subtask))",
+                "results.append(await orchestrator.run(subtask))",
+                "results.append(await planner_agent(subtask))",
+                "await worker.run(subtask)  # fire and forget"
+              ],
+              "answer": 0,
+              "explain": "The orchestrator picks a specialist for each subtask, delegates execution to that specialist, and collects the result. The orchestrator never does the work itself — that's the worker's job. Fire-and-forget (option 4) would lose the result. Re-running the planner (option 3) defeats the purpose."
+            }
           },
           "exercises": [
             "Add a fourth specialist: a \"tester\" agent that receives code from the coder and review feedback from the reviewer, then writes tests",
@@ -7804,6 +7929,29 @@
               ],
               "success": "Multi-agent shines when sub-tasks need different tools, prompts, or expertise. For simple tasks, one agent is faster and cheaper.",
               "xp_reward": 40
+            },
+            {
+              "kind": "repair",
+              "title": "Fix the Overworked Agent",
+              "prompt": "This single agent is trying to do security review, style checking, AND logic review simultaneously. It keeps missing vulnerabilities. Fix the architecture.",
+              "steps": [
+                "1. Single agent receives PR diff",
+                "2. Agent prompt: 'Review for security, style, AND logic'",
+                "3. Agent scans code with all three criteria at once",
+                "4. Agent produces review with mixed-up findings",
+                "5. SQL injection vulnerability missed — agent was focused on style"
+              ],
+              "broken_index": 0,
+              "options": [
+                "Split into 3 specialized agents (Security, Style, Logic) + 1 Orchestrator — each agent has ONE job",
+                "Add more detail to the single agent's prompt so it covers all three areas better",
+                "Run the same agent three times with different temperature settings",
+                "Use a bigger model that can handle multiple concerns simultaneously"
+              ],
+              "answer": 0,
+              "explain": "A single agent can't effectively switch between security auditing (needs static analysis tools), style review (needs linter rules), and logic review (needs test cases). Each requires different tools and a focused system prompt. Specialized agents + an orchestrator is the multi-agent pattern.",
+              "hint1": "The problem isn't prompt wording — it's that one agent is trying to wear three different hats simultaneously.",
+              "xp_reward": 50
             }
           ],
           "debugs": [
